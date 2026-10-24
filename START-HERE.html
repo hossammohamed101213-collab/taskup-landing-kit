@@ -1,0 +1,223 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ابدأ من هنا: مولّد برومبت الموقع</title>
+<style>
+:root{color-scheme:dark;--bg:#07080c;--panel:#0e1016;--line:#ffffff1a;--ink:#f3f4f7;--muted:#9aa0ae;--c1:#22c8ff;--c2:#a470ff;--c3:#ff5fa2;--ok:#2fe3a1;--warn:#ffc857;--bad:#ff7a59}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:radial-gradient(60% 40% at 90% -5%,#a470ff2e,transparent 60%),radial-gradient(50% 40% at 0% 100%,#22c8ff22,transparent 60%),var(--bg);color:var(--ink);font:16px/1.75 "Segoe UI",Tahoma,"Noto Naskh Arabic",system-ui,sans-serif;padding:max(16px,env(safe-area-inset-top)) max(16px,env(safe-area-inset-right)) 64px max(16px,env(safe-area-inset-left))}
+main{max-width:56rem;margin:0 auto}
+h1,h2{margin:0;font-weight:600;line-height:1.3}
+h1{font-size:clamp(1.7rem,4.6vw,2.6rem);background:linear-gradient(100deg,#ffbea2,#ff5fa2,#a470ff,#22c8ff);-webkit-background-clip:text;background-clip:text;color:transparent;padding-block:.5rem .2rem}
+h2{font-size:1.15rem}
+p{margin:.3rem 0}
+.sub{color:var(--muted)}
+.steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.7rem;list-style:none;padding:0;margin:1.4rem 0 1.8rem;counter-reset:s}
+@media(max-width:700px){.steps{grid-template-columns:minmax(0,1fr)}}
+.steps li{counter-increment:s;display:flex;gap:.7rem;align-items:flex-start;border:1px solid var(--line);border-radius:16px;background:#ffffff06;padding:.8rem .9rem;font-size:.9rem;color:var(--muted)}
+.steps li::before{content:counter(s);flex:none;width:1.7rem;height:1.7rem;border-radius:50%;display:flex;align-items:center;justify-content:center;font-weight:700;color:#0b0c12;background:linear-gradient(120deg,var(--c1),var(--c2))}
+.steps b{color:var(--ink);font-weight:600}
+.steps code{white-space:nowrap;direction:ltr;unicode-bidi:isolate;background:#ffffff14;padding:.05rem .4rem;border-radius:6px;color:#fff;font-size:.8rem}
+.card{border:1px solid var(--line);border-radius:22px;background:linear-gradient(180deg,#ffffff0b,#ffffff03),var(--panel);padding:clamp(1rem,3vw,1.6rem);margin-top:1rem}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:.9rem;margin-top:1rem}
+@media(max-width:700px){.grid{grid-template-columns:minmax(0,1fr)}}
+.f{display:flex;flex-direction:column;gap:.3rem;min-width:0}
+.f.w{grid-column:1/-1}
+label,legend{font-size:.84rem;color:var(--muted)}
+label b{color:var(--bad)}
+.hint{font-size:.76rem;color:#767c8a;margin:0}
+input,textarea,select{width:100%;font:inherit;font-size:.95rem;color:var(--ink);background:#ffffff08;border:1px solid var(--line);border-radius:12px;padding:.6rem .8rem;outline:none;transition:border-color .2s,box-shadow .2s}
+textarea{resize:vertical;min-height:4.2rem}
+input:focus-visible,textarea:focus-visible,select:focus-visible{border-color:var(--c2);box-shadow:0 0 0 3px #a470ff33}
+.ltr{direction:ltr;text-align:left}
+.f.bad input,.f.bad textarea{border-color:var(--bad);box-shadow:0 0 0 3px #ff7a5933;animation:sh .5s}
+@keyframes sh{20%,60%{transform:translateX(-6px)}40%,80%{transform:translateX(6px)}}
+fieldset{border:0;padding:0;margin:0;min-width:0}
+.radios{display:flex;flex-wrap:wrap;gap:.6rem}
+.radios label{display:flex;gap:.5rem;align-items:center;border:1px solid var(--line);border-radius:999px;padding:.4rem .9rem;color:var(--ink);cursor:pointer;font-size:.88rem}
+.radios input{width:auto;accent-color:var(--c2)}
+details{margin-top:1rem}
+summary{cursor:pointer;color:var(--c1);font-size:.92rem;padding:.3rem 0}
+.btn{font:inherit;font-weight:600;border:0;border-radius:999px;padding:.95rem 1.8rem;cursor:pointer;color:#0b0c12;background:linear-gradient(110deg,var(--c1),var(--c2),var(--c3));background-size:200% 100%;box-shadow:0 16px 40px -18px var(--c2);transition:transform .2s}
+.btn:hover{transform:translateY(-2px);animation:pan 1.6s linear infinite}
+@keyframes pan{to{background-position:200% 0}}
+.btn.ghost{background:#ffffff0c;color:var(--ink);border:1px solid var(--line);box-shadow:none}
+.bar{display:flex;flex-wrap:wrap;gap:.7rem;align-items:center;margin-top:1rem}
+.msg{font-size:.88rem;min-height:1.4em}
+.msg.ok{color:var(--ok)}.msg.bad{color:var(--bad)}
+.attach{display:flex;gap:.7rem;align-items:flex-start;border:1px dashed #ffc85766;background:#ffc8570d;color:#ffe3a3;border-radius:16px;padding:.8rem 1rem;margin-top:1rem;font-size:.9rem}
+.attach code{direction:ltr;unicode-bidi:isolate;background:#ffffff14;padding:.1rem .45rem;border-radius:6px;color:#fff}
+#out{min-height:22rem;font-size:.82rem;line-height:1.7;direction:rtl;white-space:pre-wrap}
+.count{font-size:.78rem;color:var(--muted)}
+</style>
+</head>
+<body>
+<main>
+  <h1>مولّد برومبت الموقع السينمائي</h1>
+  <p class="sub">املا بيانات موقعك الجديد، وانسخ البرومبت الجاهز، والصقه في النموذج. من غير أوامر ولا برمجة.</p>
+
+  <ol class="steps">
+    <li><span><b>املا الخانات تحت</b> (الاسم ونوع الخدمة بس هم الإجباريين).</span></li>
+    <li><span><b>دوس «انسخ البرومبت»</b> وافتح نموذجك (مثلاً Claude Code) والصق.</span></li>
+    <li><span><b>ارفق ملف الحزمة</b> <code>taskup-project-backup.zip</code> في نفس الرسالة. النموذج هو اللي يفكّه ويشغّل كل الأوامر.</span></li>
+  </ol>
+
+  <form class="card" id="form" autocomplete="off" novalidate>
+    <h2>1) بيانات الموقع الجديد</h2>
+    <div class="grid">
+      <div class="f" data-req><label for="brand">اسم الموقع كما يظهر <b>*</b></label><input id="brand" placeholder="مثال: نوفا هب  أو  Nova Hub"><p class="hint">ممكن عربي أو إنجليزي.</p></div>
+      <div class="f" data-req><label for="logo">اسم الشعار بالإنجليزي <b>*</b></label><input id="logo" class="ltr" placeholder="Nova Hub"><p class="hint">الشعار والكود بيستخدموا حروف إنجليزية. لو اسمك إنجليزي بيتملى لوحده.</p></div>
+      <div class="f"><label for="wa">نص الشعار الأول (تدرّج بارد)</label><input id="wa" class="ltr" placeholder="nova"></div>
+      <div class="f"><label for="wb">نص الشعار التاني (تدرّج دافئ)</label><input id="wb" class="ltr" placeholder="hub"></div>
+      <div class="f"><label for="slug">معرّف الكود (حروف وأرقام صغيرة)</label><input id="slug" class="ltr" placeholder="novahub"></div>
+      <div class="f"><label for="domain">الدومين (للإيميلات)</label><input id="domain" class="ltr" placeholder="novahub.com"></div>
+      <div class="f"><label for="pre">بادئة رقم الطلب (حرفين لـ 4 كبار)</label><input id="pre" class="ltr" placeholder="NH" maxlength="4"></div>
+      <div class="f"><label for="cpre">بادئة رقم الشكوى</label><input id="cpre" class="ltr" placeholder="CM" maxlength="4"></div>
+      <div class="f"><label for="wapp">رقم واتساب (أرقام بكود الدولة)</label><input id="wapp" class="ltr" inputmode="numeric" placeholder="201112223334"></div>
+      <div class="f"><label for="phone">الرقم كما يظهر في الفوتر</label><input id="phone" class="ltr" placeholder="+20 11 1222 3334"></div>
+    </div>
+
+    <h2 style="margin-top:1.6rem">2) نوع الخدمة</h2>
+    <div class="grid">
+      <div class="f w" data-req><label for="service">إيه الخدمة اللي الموقع بيقدّمها؟ <b>*</b></label><textarea id="service" placeholder="مثال: منصة لحجز وإدارة مواعيد العيادات وتذكير المرضى ومتابعة المدفوعات"></textarea></div>
+      <div class="f"><label for="aud">الجمهور المستهدف</label><input id="aud" placeholder="مثال: أصحاب العيادات والمراكز الطبية"></div>
+      <div class="f"><label for="portal">إيه اللي العميل بيتابعه في بوابته؟</label><input id="portal" placeholder="مثال: مواعيده، فواتيره، نتايج تحاليله"></div>
+    </div>
+
+    <details>
+      <summary>اختياري: تحدد بنفسك المحتوى (لو سبته فاضي النموذج هيقترح)</summary>
+      <div class="grid">
+        <div class="f"><label for="feat">8 مميزات (سطر لكل ميزة)</label><textarea id="feat" placeholder="حجز المواعيد&#10;تذكير بالواتساب&#10;..."></textarea></div>
+        <div class="f"><label for="sect">8 قطاعات أو فئات عملاء (سطر لكل واحد)</label><textarea id="sect" placeholder="عيادات أسنان&#10;مراكز أشعة&#10;..."></textarea></div>
+        <div class="f"><label for="tools">8 أدوات/قدرات مدمجة (سطر لكل واحدة)</label><textarea id="tools" placeholder="تقويم ذكي&#10;فواتير&#10;..."></textarea></div>
+        <div class="f"><label for="plans">أسماء الباقات الثلاث ومزاياها</label><textarea id="plans" placeholder="برونزية: ...&#10;فضية: ...&#10;ذهبية VIP: ..."></textarea></div>
+        <div class="f w"><label for="extra">أي طلبات إضافية أو ألوان أو أفكار</label><textarea id="extra" placeholder="مثال: عايز اللون الأخضر مسيطر، وبدون قسم الشكاوى"></textarea></div>
+      </div>
+    </details>
+
+    <h2 style="margin-top:1.6rem">3) إزاي هتستخدمه؟</h2>
+    <fieldset class="f" style="margin-top:.6rem"><legend class="hint">ده بيغيّر تعليمات البداية في البرومبت</legend>
+      <div class="radios">
+        <label><input type="radio" name="mode" value="zip" checked> هرفق ملف الحزمة (الأسرع والأدق)</label>
+        <label><input type="radio" name="mode" value="scratch"> مش هرفق حاجة (يبني من الصفر)</label>
+      </div>
+    </fieldset>
+
+    <div class="attach" id="attach"><span>لا تنسى ترفق الملف <code>taskup-project-backup.zip</code> مع البرومبت في نفس الرسالة.</span></div>
+
+    <div class="bar">
+      <button type="button" class="btn" id="copy">انسخ البرومبت</button>
+      <button type="button" class="btn ghost" id="save">نزّله كملف نصي</button>
+      <span class="msg" id="msg" role="status"></span>
+    </div>
+  </form>
+
+  <details class="card" id="prev">
+    <summary>معاينة البرومبت قبل النسخ <span class="count" id="count"></span></summary>
+    <textarea id="out" readonly aria-label="البرومبت الجاهز"></textarea>
+  </details>
+</main>
+
+<script>
+(function(){
+"use strict";
+var TPL = "أنت مطوّر واجهات أول. ابنِ موقع هبوط تفاعلي سينمائي لخدمة **{SERVICE_TYPE}** باسم **{BRAND_NAME}**، موجّه لـ **{AUDIENCE}**، بنفس البنية والنظام البصري والسلوكيات الموصوفة تحت بدقة. لو وُجد مجلد مرجعي `site/` فهو **مصدر الحقيقة**: اقرأه أولاً وابدأ منه بدل ما تخترع بديل. المطلوب إعادة تسمية وتغيير المحتوى مش إعادة تصميم.\n\n### 2.1 القواعد العامة\n\n- موقع ثابت بالكامل: HTML + CSS + JavaScript عادي (من غير React/Next أو بناء). مكتبة واحدة فقط: Three.js **r180** كوحدات ES (محلياً في `robot/vendor/` أو من `https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.module.js`).\n- عربي RTL هو الأساسي، وإنجليزي LTR كامل بزرار تبديل. كل نص ظاهر يتغيّر بين اللغتين، والاختيار يتحفظ في `localStorage`.\n- عربي الصفحة الرئيسية بسيط وودود. **عربي بوابة العميل والطلب والشكاوى بالعامية المصرية** («وصلنا لفين؟»، «ريّح بالك»)، والإنجليزي إنجليزي طبيعي مش ترجمة حرفية.\n- ممنوع تخترع أرقام وادعاءات حقيقية. كل رقم/إحصائية/ميزة باقة/وقت رد اللي مش من العميل يتعلّم في ملف `PLACEHOLDERS.md` كمؤقت. بيانات البوابة تجريبية ومكتوب فيها صراحة «حساب تجريبي».\n- مفيش خادم. اللي محتاج حفظ بيتحفظ في `localStorage` داخل `try/catch`، واللي محتاج إرسال بيتحوّل لرسالة واتساب جاهزة (الزائر هو اللي يضغط إرسال). ما تدّعيش إن شيء اتبعت أو إن حالة اتحدّثت من فريق.\n- الأداء مهم: ما فيش رسم ثقيل لو التبويب مخفي أو العنصر خارج الشاشة أو نافذة مفتوحة، واحترم `prefers-reduced-motion`.\n\n### 2.2 النظام البصري (ثابت، متغيّرش)\n\nداكن سينمائي، اتاخد من موقع GetLayers.ai. على `:root`:\n\n```css\n--background:#060606; --surface-1:#0d0d0d; --surface-2:#141414;\n--text-primary:#f5f5f5; --text-secondary:#a6a6a6; --text-muted:#868686;\n--border-soft:#ffffff14; --border-hover:#ffffff29;\n--accent-grad:linear-gradient(90deg,#bcc0ca -1%,#feeae1 42%,#c0cef2 102%);\n--accent-warm:#ffa582; --good:#86e3b5;\n--title-grad:linear-gradient(238deg,#f5f5f5 0%,#f5f5f5 18%,#a6a6a6 100%);\n--tw-card-bg:#ffffff07; --tw-well:#ffffff0d; --tw-rim:inset 0 1px 0 0 #ffffff0f;\n--glass-blur:18px; --r-card:12px; --r-pill:999px; --r-stage:24px; --r-tw:16px;\n--font-ar:\"IBM Plex Sans Arabic\"; --font-latin:\"Onest\" (من Google Fonts، مع fallback)\n```\n\n- ألوان تمييز (للرسومات والشارات): coral `#ff7a59`، amber `#ffc857`، mint `#2fe3a1`، cyan `#22c8ff`، violet `#a470ff`، pink `#ff5fa2`، peach `#ffbea2`، periwinkle `#a2b7f5`.\n- العناوين الكبيرة: خفيفة (وزن 300)، `letter-spacing:-.03em`، بتدرّج نص `title-gradient`. فئة `rainbow` للعنوان الرئيسي ولعناوين الحوارات: تدرّج `#ffbea2,#ff5fa2,#a470ff,#22c8ff,#2fe3a1,#ffc857` بحجم 200% ومتحرك (`pan` 9 ثواني).\n- الشعار (wordmark): `<b>{LOGO_WORD_A}<\/b><span>{LOGO_WORD_B}<\/span>` بحجم `clamp(2rem,3.4vw,2.9rem)`، النص الأول تدرّج `#22c8ff→#a470ff→#ff5fa2`، التاني `#ffc857→#ff7a59→#ff5fa2`، متحرّكين.\n- الكروت: زجاجية خفيفة، حدود `--border-soft`، `--tw-aurora` كخلفية، شبكات 4 أعمدة (2 على التابلت، 1 على الموبايل).\n- الحوارات: خلفية `#0d0d12` بإضاءتين شعاعيتين (violet أعلى اليمين، cyan أسفل اليسار)، زوايا 24px، `backdrop-filter:blur(10px)` على الستارة.\n- الجانب الفيزيائي: الهيدر والهيرو بيستخدموا `direction:ltr` على الحاوية و`rtl` على المحتوى علشان الشعار يفضل **يمين** والروبوت **شمال** في اللغتين.\n\n### 2.3 ترتيب الصفحة (بالظبط)\n\n1. شريط عرض علوي (شارة «عرض الإطلاق» + نص + عدّاد تنازلي لنهاية الشهر).\n2. هيدر ثابت زجاجي: شمال (ثابت في اللغتين): زرار اللغة `EN/عربي`، أيقونة «تتبّع طلبك» (تعرض الرقم المحفوظ بلون باقته)، «دخول» (من 1180px)، زرار **«قدّم طلب فتح حساب»** (نص قصير «قدّم طلب» تحت 1180px)، زرار القائمة (ثلاث سطور وفوقها كلمة «القائمة»، تحت 1180px). وسط (من 1180px): قائمة روابط: القطاعات، المميزات، أرقامنا، كيف نعمل، بوابة العميل، الشكاوى، الأسئلة. يمين: الشعار.\n3. هيرو: ستيج بحدود ولمعان شعاعي. عمودين (`direction:ltr`): **شمال** الروبوت ثلاثي الأبعاد، **يمين** النص: شارة ثقة صغيرة، عنوان متغيّر بين **5 هوكات قوية** (ينزلق للأسفل ويختفي ويظهر كل 4.2 ثانية)، سطرين وصف، زرارين («ابدأ مجاناً الآن» يفتح الطلب، «كيف نعمل؟»). على الموبايل الروبوت فوق والنص تحت.\n4. **القطاعات** (8 بطاقات مصوّرة) ← **بطاقة متحركة تشير لأسفل** (حدود متدرجة بتلف، سهم ثلاثي متتالي، بتنزل للمميزات) ← **المميزات** (8 بطاقات مصوّرة).\n5. «أرقامنا»: شبكة 6 بطاقات (Bento): نسبة نجاح كبيرة بالتدرّج + 3 عدّادات، قائمة ضمانات كشرائح، 3 واجهات (مدير/فريق/عميل)، شجرة لوحة التحكم، تكاملات كشرائح، بطاقة «جرّب بنفسك» (تفتح البوابة التجريبية).\n6. الأدوات: شريط متحرك لا نهائي (marquee) من 8 بطاقات مصوّرة، يقف عند المرور بالماوس.\n7. «كيف نعمل»: 4 خطوات مرقّمة فعلاً (ترقيم له معنى).\n8. قسم مقسوم: على اليمين نص + قائمة مميزات + زرار، على اليسار «نافذة» محاكاة بصفوف حيّة (نسخة المراقبة/الأداء الخاصة بالخدمة).\n9. قسم مقسوم تاني: **بوابة العميل** (نص + شرائح + زرار «جرّب البوابة» + نافذة محاكاة بمؤشرات وصفوف).\n10. **شكاوى العملاء** (انظر 2.9).\n11. «قسم تفصيلي» مخفي افتراضياً `#detail` (انظر 2.5).\n12. بطاقة دعوة للتحرك (CTA) بخلفية متوهّجة.\n13. أسئلة شائعة: 6 أسئلة بـ `<details>`.\n14. فوتر: لوحة كبيرة بزوايا مدوّرة: الشعار + سطر + اشتراك في النشرة (نموذج تجريبي) + 4 أعمدة روابط + سطر سفلي + **كلمة الشعار عملاقة باهتة** بتتلاشى لأسفل.\n15. عناصر ثابتة: شريط تقدّم علوي (يلمع ويغيّر لونه بـ `hue-rotate` مع السكرول)، شريط تقدّم جانبي رأسي (يلمع أثناء السكرول)، زرار واتساب عائم «خدمة العملاء» (نبض أخضر) تحته الزرار ده **زرار صعود سريع** دائري فوقه، (يتعتّم وأنت فوق).\n\n### 2.4 البطاقات المصوّرة (24 بطاقة)\n\n- كل بطاقة: `aspect-ratio:4/3`، خلفية `g-pink|g-violet|g-mint|g-cyan|g-amber|g-coral` (تدرّجين شعاعيين + لون قاعدة داكن)، شارة (chip) صغيرة في الركن العلوي، **رسم SVG** بـ `viewBox=\"0 0 160 120\"` و`preserveAspectRatio=\"xMidYMid slice\"`، المحتوى تحت `y≈18` علشان الشارة ما تغطيهوش.\n- الرسم بيمثّل الخدمة فعلاً (واجهة مصغّرة، مش أيقونة): مثلاً ملف عميل، لوحة كانبان أو جدول زمني، فاتورة، رسم بياني، نموذج، لوحة تقارير، إشعارات، أرشيف… استخدم ألوان التمييز أعلاه.\n- عناصر عائمة: كلاس `fl`/`fl2` بأنيميشن `artfloat` (±3px). **لو العنصر ليه `transform` في الـ SVG لف حواليه `<g>` تاني** (الـ CSS transform بيلغي attribute).\n- hover: `transform:scale(1.06)` على الـ SVG. كل الـ attributes بين علامات اقتباس (`opacity=\"0.5\"`).\n- الضغط على أي بطاقة (غير بطاقات البوابة) يفتح **قسم تفصيلي فاضي** (2.5).\n\n### 2.5 القسم التفصيلي الفاضي\n\n`#detail` بيظهر عند الضغط على بطاقة (`data-sec=\"مفتاح\"`): عنوان البطاقة، «قسم قيد البناء — هنبنيه مع بعض»، وأزرار: «قدّم طلب فتح حساب» (primary)، «تتبّع طلبك»، «رجوع». الرابط `#مفتاح` بيحفظ الحالة. بطاقة «بوابة العميل» وزرار «حساب تجريبي» بيفتحوا البوابة بدل القسم.\n\n### 2.6 الروبوت (الميزة المميّزة)\n\n- استخدم ملفات الـ kit الأصلية (`robot-scene.js`, `ambient-cloud.js`, Three.js r180) من غير تغيير في الشكل: خامات `MeshPhysicalMaterial` (أسود لاكيه `#151719`، فضي `#93979e`، فيزور `#020607`، عيون `#b4e6dc` emissive 2.4)، بيئة PMREM من 5 softboxes، إضاءة `DirectionalLight` مفتاح (3.5) وحافة (3)، `ACESFilmicToneMapping` بتعريض 1.25، كاميرا FOV 37، شفافية كاملة للـ canvas، سحابة جسيمات (orb ← galaxy ← brain في دورة 21 ثانية).\n- تعديلات مسموحة على الـ kit (وبس): كشف مفاصل الذراع في `model.rig`، وضع حركة الذراع الخاملة بـ `rotation.set(x,0,z)` (حتى وقت الإيقاف)، الكاميرا ×1.12 مع `max(…,4.7/aspect)` للشاشات الضيقة.\n- `hero-robot.js`: canvas خاص، سحب للتدوير (`dragX` بلا حد، `dragY` ±0.65)، أسهم الكيبورد (`Home` يرجّع)، **ما يمنعش سكرول الصفحة** (`touch-action:pan-y`)، زرار «إيقاف/تشغيل الحركة»، `IntersectionObserver` + `document.hidden` + `html.modal-open` يوقفوا الرسم، `devicePixelRatio` سقفه 1.3 (1 على الموبايل)، دالة `destroy()`.\n- **الإمساك بالمؤشر** (`robot-reach.js`): لما الماوس يدخل منطقة الروبوت، الذراع الأقرب ترتفع وتتبع المؤشر (كوع بقانون جيب التمام: `UPPER=.96`, `FORE=1.2`, `REACH=2.05`, مستوى الهدف `z=1.15`، والكتف يوجَّه بسدّ الخطأ بين راحة اليد والهدف). لو اليد فضلت قريبة (`<0.075` من ارتفاع الكانفاس) لمدة 0.3 ثانية الأصابع تقفل والمؤشر الحقيقي يختفي وتظهر كرة مضيئة في الكف (`.is-held`)، ويسيبه لو المؤشر ابتعد (`>0.22`) أو خرج.\n- **النوم والصحيان** (`robot-sleep.js`): بعد 12 ثانية بدون أي نشاط (ماوس، مفتاح، سكرول، لمس؛ تتغيّر بـ `data-sleep-after` بالمللي ثانية) الروبوت يرقد على جنبه (`pivot.rotation.z = e·π/2·.97`، `y=-.3e`، إزاحة `-1.15e`، مقياس `1-.18e`)، عيونه تقفل (`eyes.scale.y`) وتخفت، تنفّس بطيء، رأسه يميل، ساقيه تتثنّى، توهّج أرضي، و «Z z z» عائمة. عند أول نشاط يقوم، ينط 2-3 نطّات (`sin(8.2t)·e^(-1.5t)·.9`) ويلوّح بإيديه. أثناء النوم الرسم ≈14 إطار/ث.\n\n### 2.7 الطلب والباقات والتتبّع\n\n- زرار «قدّم طلب فتح حساب» (هيدر، قائمة، قسم تفصيلي، بوابة، CTA) يفتح حوار (`#rqModal`) بنموذج: الاسم*، النشاط، الموبايل*، الإيميل* (صيغة صحيحة)، نوع النشاط* (قائمة + «حاجة تانية» **تفتح خانة** لكتابة النوع وتبقى إجبارية)، عدد العملاء، **اختيار باقة** (3 كروت: برونزية/فضية/ذهبية VIP بألوانها)، ملاحظات.\n- **التحقق:** الخانة الناقصة تهتز (`rq-shake` 0.55s) وتحمرّ (حد `#ff5a3c` + توهج + أيقونة «!» + رسالة تحتها) ويظهر تنبيه عام فوق الزرار، والمؤشر ينتقل لأول خانة ناقصة، واهتزاز موبايل لو متاح. العلامة الحمراء `*` على الإجباري.\n- **بعد الإرسال:** رسالة «شكراً يا {الاسم}! أهلاً بيك في عيلة {BRAND_NAME}»، **رقم طلب** على شكل `{REQUEST_PREFIX}-{B|S|G}-NNNNN` (5 أرقام عشوائية) في «تذكرة» بلون الباقة ومعاه اسم الباقة بجنبه، **ذهبي بلمعان ونجوم وسطر «أولوية VIP» لو ذهبية**، فضي، برونزي. تحتها 5 خطوات مرقّمة «إيه اللي تعمله بالرقم ده؟». أزرار: واتساب (رسالة جاهزة فيها الرقم والباقة وكل البيانات)، نسخ الرقم، تتبّع، رجوع. مع احتفال confetti بألوان الباقة.\n- ألوان الباقات: برونزية `#f0b07a→#b9693a`، فضية `#eef3fb→#9fb1cc`، ذهبية `#ffe08a→#ff9f1c`، بدون باقة (شكاوى فقط) `#a9ecff→#22a8e0`.\n- الحفظ: `localStorage[\"{SLUG}-requests\"]` (آخر 5: `kind,no,plan,name,ts,sent,lang,cat?,link?`). أيقونة التتبّع في الهيدر تعرض آخر رقم بلون باقته.\n- **التتبّع** (`#trModal`) متاح من الهيدر والقائمة وكل قسم وشاشة دخول البوابة: يدخّل الرقم (حساس لـ `REQUEST_PREFIX`/`COMPLAINT_PREFIX`، ويقبل أرقام بس) ← تذكرة + خط زمني من 5 خطوات (اتسجّل ✓، اتبعت لفريقنا ✓ لو ضغط واتساب، فريقنا بيراجع، بنفتحلك حسابك، بوابتك جاهزة). لو الرقم مش في المتصفح: رسالة + زرار واتساب جاهز. **ما تحاكيش تقدّم لم يحصل.**\n\n### 2.8 بوابة العميل (تجريبية)\n\nشاشة كاملة (`#portalApp`) بخلفية أورورا (3 blobs ضبابية + شبكة)، تتبني عند أول فتح فقط:\n\n- **دخول:** كارت بحدود متدرجة بتلف، كود المشروع + رمز؛ الكود التجريبي `{REQUEST_PREFIX}-2481` (أي رمز)، زرار «جرّب بحساب تجريبي» يكتب لوحده بتأثير طباعة. كود غلط → رسالة. رقم طلب/شكوى مكتوب مكان الكود → يفتح التتبّع. 4 كروت عائمة تزيينية.\n- **ترحيب:** حلقة بتترسم + اسم العميل + confetti (1.9 ثانية).\n- **اللوحة:** تحية حسب الوقت وسطر ملخّص ودود؛ شريط «حساب تجريبي»؛ **حلقة تقدّم** كبيرة (72%) بتدرّج وتعدّاد متصاعد ونقطة مدارية؛ حقائق (المرحلة الحالية، التسليم المتوقع، المتبقي، الفريق)؛ **خريطة الرحلة** (طريق SVG متعرّج بـ5 محطات + صاروخ متحرك لحد النسبة، **معكوسة أفقياً في العربي**) + كروت المراحل بتفتح مهامها؛ **«محتاجين منك»** (موافقتين، «موافق» يرفع التقدّم +2% مع confetti، «عايز أعدّل» يسجّل ملاحظة)؛ **الدفعات** (شريط + 4 دفعات + زرار دفع تجريبي)؛ **الإعلانات/الأداء** (3 مؤشرات متصاعدة + رسم بياني بيترسم)؛ **آخر الأخبار** (5)؛ **شات مع الفريق** (ردود سريعة، رد آلي صريح إنه تجريبي).\n- حركات: كروت بميلان 3D عند المرور، ظهور متتابع عند السكرول، عدّادات، confetti. كلها تتوقف لما البوابة تتقفل.\n\n### 2.9 الشكاوى\n\nقسم `#complaints` (6 بطاقات أنواع، كارت جانبي بوقت الرد حسب الباقة، 3 خطوات، زرارين). الضغط على نوع يفتح حوار شكوى (`#cpModal`) بنفس سلوك التحقق: الاسم*، الموبايل*، الإيميل (اختياري لكن لو مكتوب يتحقق)، النوع* (+ «حاجة تانية» بخانة)، الباقة (تتربط تلقائياً بآخر طلب محفوظ مع زرار «مش طلبي»، أو قائمة اختيار)، الاستعجال (3 شرائح بألوان)، التفاصيل* (10 حروف+). النتيجة: `{COMPLAINT_PREFIX}-{B|S|G|N}-NNNNN` بلون الباقة + «شكوى VIP: بتتراجع قبل أي شكوى تانية» للذهبية + رسالة اعتذار وشكر + 5 خطوات + واتساب + تتبّع (خط زمني خاص بالشكاوى).\n\n### 2.10 أنماط الكود (التزم بيها)\n\n- **i18n:** `data-i18n=\"key\"` على العنصر (النص العربي الافتراضي داخل الـ HTML، والإنجليزي في قاموس `EN`)، `data-i18n-aria`, `data-i18n-ph`. `setLang(l)` يغيّر `dir/lang` على `html` و`#pageRoot`، ويرسل الحدث `{SLUG}:lang`. نصوص `portal.js` في قواميس `PT` (البوابة) و`RT` (الطلب/التتبّع/الشكاوى) بـ `ar` و`en`. دوال عامة: `window.{SLUG}Lang()` و`window.{SLUG}I18n(key)`.\n- **حوارات:** `data-open-request`, `data-open-track`, `data-open-complaint`, `data-open-portal[=\"demo\"]` على أي عنصر (event delegation). Esc يقفل الأعلى. `html.modal-open` يقفل السكرول ويوقف رسم الروبوت. حبس Tab داخل الحوار. إرجاع التركيز عند الإغلاق.\n- **CSS:** متغيّرات في `:root`، **خصائص منطقية** (`margin-inline`, `inset-inline`, `text-align:start`) إلا في الأماكن المقصود فيها اتجاه فيزيائي ثابت (الشعار يمين، الروبوت شمال). `[hidden]{display:none!important}` عام.\n- **حركة:** `transform`/`opacity` فقط. `@media (prefers-reduced-motion:reduce)` يوقف كل الحركات المستمرة.\n\n---\n\n## 3) محتوى الخدمة الجديدة (اكتبه بنفسك من المتغيّرات)\n\nاللي لازم يتكتب من جديد (الجرد الكامل بالمفاتيح في `content/CONTENT-INVENTORY.md`):\n\n- 5 هوكات للعنوان الرئيسي (عربي + إنجليزي) بتبدأ بالألم وتخلّص بالوعد.\n- 8 مميزات + 8 قطاعات + 8 أدوات: اسم، تصنيف، شارة، **ورسم SVG جديد لكل واحدة** يمثّل الخدمة.\n- كروت «أرقامنا» الستة، وخطوات «كيف نعمل» الأربع، ونافذة المحاكاة في القسمين المقسومين، و6 أسئلة شائعة، وفوتر.\n- بيانات البوابة التجريبية: اسم العميل، المشروع، **5 مراحل** وتفاصيل كل واحدة (3-4 مهام)، 4 دفعات، مؤشرات الأداء، 5 أخبار، موافقتين (بصورة مصغّرة SVG لكل واحدة).\n- نصوص الباقات (3 أسماء + شعار + ميزة + وقت رد) وأنواع الشكاوى.\n- تعليمات «إيه اللي تعمله بالرقم ده؟» تتعدّل لو الخدمة مش بتفتح حساب بنفس الشكل.\n\nبعد الكتابة راجع أي جملة لسه فيها كلام الخدمة القديمة (`grep -n` على كلمات زي «إعلانات»، «Meta»، «مشاريع»، «فاتورة»).";
+var $ = function(id){ return document.getElementById(id); };
+var ids = ["brand","logo","wa","wb","slug","domain","pre","cpre","wapp","phone","service","aud","portal","feat","sect","tools","plans","extra"];
+var dirty = {};
+function clean(s){ return String(s||"").replace(/["'\\<>&`$]/g,"").trim(); }
+function latin(s){ return /^[\x20-\x7e]+$/.test(s) && /[A-Za-z]/.test(s); }
+function derive(){
+  var b = clean($("brand").value);
+  if (!dirty.logo && !$("logo").value && latin(b)) $("logo").value = b;
+  var lg = clean($("logo").value), words = lg.split(/\s+/).filter(Boolean), a="", c="";
+  if (!dirty.wa && !dirty.wb) {
+    if (words.length > 1) { a = words[0]; c = words.slice(1).join(""); }
+    else if (lg.length > 1) { var h = Math.ceil(lg.length/2); a = lg.slice(0,h); c = lg.slice(h); }
+    if (lg) { $("wa").value = a.toLowerCase(); $("wb").value = c.toLowerCase(); }
+  }
+  var slug = lg.toLowerCase().replace(/[^a-z0-9]/g,"");
+  if (!dirty.slug && slug) $("slug").value = slug;
+  if (!dirty.domain && slug) $("domain").value = slug + ".com";
+  var pre = words.length > 1 ? (words[0][0] + words[1][0]).replace(/[^A-Za-z]/g,"").toUpperCase() : lg.replace(/[^A-Za-z]/g,"").slice(0,2).toUpperCase();
+  if (!dirty.pre && pre.length === 2) $("pre").value = pre;
+  if (!dirty.cpre) $("cpre").value = ($("pre").value === "CP") ? "CM" : "CP";
+}
+function v(id, fb){ var x = clean($(id).value); return x || fb; }
+function lines(id){ return $(id).value.split(/\n/).map(function(s){ return s.trim(); }).filter(Boolean); }
+function build(){
+  var name = v("brand","(الاسم لم يتحدد)"), a = v("wa","task"), c = v("wb","up"), slug = (v("slug","mysite")).toLowerCase().replace(/[^a-z0-9]/g,"") || "mysite";
+  var domain = v("domain", slug + ".com"), pre = (v("pre","TU")).toUpperCase().replace(/[^A-Z]/g,"").slice(0,4) || "TU", cpre = (v("cpre","CP")).toUpperCase().replace(/[^A-Z]/g,"").slice(0,4) || "CP";
+  if (cpre === pre) cpre = pre === "CP" ? "CM" : "CP";
+  var wapp = v("wapp","201000000000").replace(/\D/g,"") || "201000000000", phone = v("phone","+20 10 0000 0000");
+  var service = v("service","(لم تتحدد: اسألني أو اقترح)"), aud = v("aud","(اقترح الجمهور المناسب للخدمة)"), portal = v("portal","(اقترح ما يتابعه العميل)");
+  var zip = document.querySelector('input[name="mode"]:checked').value === "zip";
+  var map = {BRAND_NAME:name,LOGO_WORD_A:a,LOGO_WORD_B:c,SLUG:slug,DOMAIN:domain,REQUEST_PREFIX:pre,COMPLAINT_PREFIX:cpre,WHATSAPP:wapp,PHONE_DISPLAY:phone,SERVICE_TYPE:service,AUDIENCE:aud,CLIENT_PORTAL:portal};
+  var spec = TPL; Object.keys(map).forEach(function(k){ spec = spec.split("{"+k+"}").join(map[k]); });
+
+  var cmd = 'python3 taskup-project-backup/rebrand.py --src taskup-project-backup/site --out my-site --name "'+name+'" --word-a "'+a+'" --word-b "'+c+'" --slug '+slug+' --domain '+domain+' --prefix '+pre+' --cprefix '+cpre+' --whatsapp '+wapp+' --phone "'+phone+'"';
+  var out = [];
+  out.push("# المهمة\n\nابنِ موقع **"+name+"** الجديد. الخدمة: "+service+". الجمهور: "+aud+". اللي العميل بيتابعه في بوابته: "+portal+".\n\nنفّذ كل حاجة بنفسك من غير ما تطلب مني أشغّل أي أمر. أنا مش مبرمج، فاشتغل وسلّمني النتيجة جاهزة.");
+  out.push("## بياناتي\n\n- اسم الموقع: "+name+"\n- نصفا الشعار: "+a+" / "+c+"\n- معرّف الكود: "+slug+"\n- الدومين: "+domain+"\n- بادئة رقم الطلب: "+pre+"\n- بادئة رقم الشكوى: "+cpre+"\n- واتساب: "+wapp+"\n- الرقم في الفوتر: "+phone);
+  if (zip) {
+    out.push("## الخطوة 1: ابدأ من الحزمة المرفقة\n\nمرفق ملف **taskup-project-backup.zip** وفيه موقع مرجعي كامل (مجلد `site/`) وسكربت تغيير الاسم وكل التفاصيل.\n\n1. فكّ الضغط، واقرأ `README.md` و`PROMPT.md` و`PLACEHOLDERS.md`.\n2. شغّل الأمر ده لتغيير الاسم والبادئات والدومين والواتساب في كل الملفات:\n\n```\n"+cmd+"\n```\n\n3. لو مقدرتش تشغّل أوامر، طبّق نفس الاستبدالات بالبحث والاستبدال في كل ملفات `site/` ما عدا `robot/vendor/`:\n   - `taskup.app` ← `"+domain+"`\n   - `<b>task</b><span>up</span>` ← `<b>"+a+"</b><span>"+c+"</span>`\n   - `TaskUp` ← `"+name+"` ، و`taskup` ← `"+slug+"`\n   - `TU-` ← `"+pre+"-` ، و`CP-` ← `"+cpre+"-` (في النصوص والتعابير النمطية، وليس المتغير `CP` في الكود)\n   - `201000000000` ← `"+wapp+"` ، و`+20 10 0000 0000` ← `"+phone+"`\n4. بعد كده **اكتب محتوى الخدمة الجديدة بالكامل** (البطاقات الـ24 ورسوماتها، الهوكات، الأرقام، الأسئلة، بيانات البوابة التجريبية، الباقات، أنواع الشكاوى)، واستبدل أي كلام عن الخدمة القديمة. استخدم `content/CONTENT-INVENTORY.md` كقائمة بكل نص لازم يتغيّر.\n5. افتح الموقع في متصفح وجرّبه (القسم 4 في `PROMPT.md`)، وصلّح أي مشكلة.");
+  } else {
+    out.push("## الخطوة 1: ابنِ من الصفر\n\nمفيش ملفات مرفقة. ابنِ الموقع بالكامل من المواصفات تحت، ومعاه الروبوت ثلاثي الأبعاد (Three.js r180) بنفس السلوك الموصوف. لو معاك أدوات تنزيل، نزّل `three.module.js` و`three.core.js` للإصدار 0.180.0 داخل `site/robot/vendor/`.");
+  }
+  var user = [];
+  if (lines("feat").length) user.push("### المميزات اللي اخترتها\n"+lines("feat").map(function(x,i){return (i+1)+". "+x;}).join("\n"));
+  if (lines("sect").length) user.push("### القطاعات/الفئات اللي اخترتها\n"+lines("sect").map(function(x,i){return (i+1)+". "+x;}).join("\n"));
+  if (lines("tools").length) user.push("### الأدوات/القدرات اللي اخترتها\n"+lines("tools").map(function(x,i){return (i+1)+". "+x;}).join("\n"));
+  if (clean($("plans").value)) user.push("### الباقات\n"+$("plans").value.trim());
+  if (clean($("extra").value)) user.push("### طلبات إضافية مني\n"+$("extra").value.trim());
+  if (user.length) out.push("## المحتوى اللي حدّدته أنا (استخدمه كما هو)\n\nأي حاجة مش مذكورة هنا اقترحها أنت واكتبها في `PLACEHOLDERS.md` كمؤقتة.\n\n"+user.join("\n\n"));
+  else out.push("## المحتوى\n\nأنا ما حدّدتش مميزات أو قطاعات أو أدوات: اقترحها أنت بما يناسب الخدمة، وسجّلها في `PLACEHOLDERS.md` كمؤقتة علشان أراجعها.");
+  out.push("# المواصفات الكاملة\n\n"+spec);
+  out.push("# التسليم\n\n- اشتغل فوراً. اسأل بس لو في معلومة أساسية ناقصة فعلاً.\n- جرّب الموقع بنفسك في متصفح (ديسكتوب وموبايل، عربي وإنجليزي) وصلّح اللي يتكسر قبل ما تقول خلصت.\n- في الآخر سلّمني: (1) مكان الموقع وإزاي أفتحه، (2) ملف مضغوط جاهز للتحميل، (3) ملخّص قصير بما اتختبر وما لم يُختبر، (4) قايمة `PLACEHOLDERS.md` بالحاجات المؤقتة.\n- ما تدّعيش إن شيء حقيقي لو هو تجريبي، وما تخترعش أرقام أو تقييمات كأنها حقيقية.");
+  return out.join("\n\n");
+}
+function refresh(){
+  derive();
+  var t = build(); $("out").value = t;
+  $("count").textContent = "(" + t.length.toLocaleString("en-US") + " حرف)";
+  $("attach").hidden = document.querySelector('input[name="mode"]:checked').value !== "zip";
+  try { var s = {}; ids.forEach(function(i){ s[i] = $(i).value; }); s.dirty = dirty; s.mode = document.querySelector('input[name="mode"]:checked').value; localStorage.setItem("startHere", JSON.stringify(s)); } catch(e){}
+}
+function say(t, cls){ var m = $("msg"); m.textContent = t; m.className = "msg " + (cls||""); }
+function check(){
+  var ok = true;
+  document.querySelectorAll("[data-req]").forEach(function(f){
+    var x = f.querySelector("input,textarea"), bad = !x.value.trim();
+    f.classList.remove("bad"); if (bad) { void f.offsetWidth; f.classList.add("bad"); ok = false; }
+  });
+  if (!ok) { say("كمّل الخانات اللي عليها علامة *" + ($("brand").value.trim() && !latin($("brand").value.trim()) ? " (واكتب اسم الشعار بالإنجليزي)" : "") + ".", "bad"); var f = document.querySelector(".f.bad input,.f.bad textarea"); if (f) f.focus(); }
+  return ok;
+}
+function copyText(text){
+  if (navigator.clipboard && navigator.clipboard.writeText) return navigator.clipboard.writeText(text);
+  return new Promise(function(res, rej){ var t = $("out"); t.focus(); t.select(); try { document.execCommand("copy") ? res() : rej(); } catch(e){ rej(e); } });
+}
+ids.forEach(function(i){
+  $(i).addEventListener("input", function(){ if (["logo","wa","wb","slug","domain","pre","cpre"].indexOf(i) > -1) dirty[i] = true; if (i === "wa" || i === "wb") { dirty.wa = dirty.wb = true; } refresh(); });
+});
+document.querySelectorAll('input[name="mode"]').forEach(function(r){ r.addEventListener("change", refresh); });
+$("copy").addEventListener("click", function(){
+  if (!check()) return; refresh();
+  copyText($("out").value).then(function(){ say("اتنسخ ✓ الصقه في النموذج " + ($("attach").hidden ? "" : "وارفق ملف الحزمة معاه."), "ok"); },
+    function(){ $("prev").open = true; $("out").focus(); $("out").select(); say("المتصفح منع النسخ التلقائي. النص اتحدد، دوس Ctrl+C.", "bad"); });
+});
+$("save").addEventListener("click", function(){
+  if (!check()) return; refresh();
+  var a = document.createElement("a"), b = new Blob(["\ufeff" + $("out").value], {type:"text/plain;charset=utf-8"});
+  a.href = URL.createObjectURL(b); a.download = "prompt-" + (v("slug","site")) + ".txt"; document.body.appendChild(a); a.click(); a.remove();
+  setTimeout(function(){ URL.revokeObjectURL(a.href); }, 2000); say("اتحفظ ✓", "ok");
+});
+try { var s = JSON.parse(localStorage.getItem("startHere") || "null"); if (s) { ids.forEach(function(i){ if (s[i] != null) $(i).value = s[i]; }); dirty = s.dirty || {}; if (s.mode) document.querySelector('input[name="mode"][value="'+s.mode+'"]').checked = true; } } catch(e){}
+refresh();
+})();
+</script>
+</body>
+</html>

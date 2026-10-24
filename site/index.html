@@ -1,0 +1,1431 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>TaskUp</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="منصة واحدة لإدارة بيانات عملائك ومشاريعهم ودفعاتهم ومراقبة حملاتهم الإعلانية — كل شغلك منظم في مكان واحد.">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&family=Onest:wght@300;400;500;600&display=swap">
+<style>
+/* Layout concept: cinematic dark one-pager — glass fixed header, glowing hero stage,
+   card “shelves”, bento trust grid, marquee tools, step rail, split panels, FAQ,
+   footer with a giant fading wordmark. RTL Arabic. */
+:root{
+  color-scheme: dark;
+  --background:#060606;
+  --surface-1:#0d0d0d;
+  --surface-2:#141414;
+  --text-primary:#f5f5f5;
+  --text-secondary:#a6a6a6;
+  --text-muted:#868686;
+  --border-soft:#ffffff14;
+  --border-hover:#ffffff29;
+  --accent-1:#e8eaef;
+  --accent-2:#bcc0ca;
+  --accent-grad:linear-gradient(90deg,#bcc0ca -1%,#feeae1 42%,#c0cef2 102%);
+  --accent-warm:#ffa582;
+  --glyph-peach:#ffbea2;
+  --glyph-peri:#a2b7f5;
+  --good:#86e3b5;
+  --title-grad:linear-gradient(238deg,var(--text-primary) 0%,var(--text-primary) 18%,var(--text-secondary) 100%);
+  --tw-card-bg:#ffffff07;
+  --tw-well:#ffffff0d;
+  --tw-well-hover:#ffffff13;
+  --tw-rim:inset 0 1px 0 0 #ffffff0f;
+  --tw-aurora:radial-gradient(120% 90% at 100% 0%,#feeae10b,transparent 55%),radial-gradient(120% 90% at 0% 100%,#c0cef20a,transparent 60%);
+  --tw-aurora-strong:radial-gradient(120% 90% at 100% 0%,#feeae111,transparent 55%),radial-gradient(120% 90% at 0% 100%,#c0cef20f,transparent 60%);
+  --glass-blur:18px;
+  --r-card:12px; --r-panel:9px; --r-pill:999px; --r-stage:24px; --r-tw:16px;
+  --font-ar:"IBM Plex Sans Arabic",system-ui,sans-serif;
+  --font-latin:"Onest","IBM Plex Sans Arabic",system-ui,sans-serif;
+  --page-gutter:max(16px,env(safe-area-inset-left,0px));
+  --section-gap:7rem;
+  --header-h:4.75rem;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+body{
+  margin:0;
+  background:var(--background);
+  color:var(--text-primary);
+  font-family:var(--font-ar);
+  -webkit-font-smoothing:antialiased;
+  font-size:1rem;line-height:1.7;
+  overflow-x:hidden;
+}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:60;background:#060606e6}
+img{max-width:100%}
+a{color:inherit}
+h1,h2,h3,h4{text-wrap:balance;font-weight:300;margin:0}
+.num{font-family:var(--font-latin);font-variant-numeric:tabular-nums}
+.ltr{direction:ltr;unicode-bidi:isolate}
+
+/* ---------- progress + promo ---------- */
+.nav-progress{position:fixed;inset-inline:0;top:env(safe-area-inset-top,0px);height:2px;z-index:70;pointer-events:none}
+.nav-progress-fill{height:100%;width:0;background:var(--accent-grad);transition:width .1s linear}
+.promo-banner{
+  display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:.6rem;
+  padding:.55rem var(--page-gutter);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  background:linear-gradient(90deg,#1a120d,#101017 60%,#0d1118);
+  border-bottom:1px solid var(--border-soft);
+  font-size:.82rem;color:var(--text-secondary);text-align:center;
+}
+.promo-banner .tag{border:1px solid #ffa58244;color:var(--accent-warm);border-radius:var(--r-pill);padding:.05rem .6rem;font-size:.72rem}
+.promo-banner strong{color:var(--text-primary);font-weight:500}
+.promo-banner .count{color:var(--accent-warm)}
+
+/* ---------- header ---------- */
+.site-header{
+  position:fixed;inset-inline:0;top:calc(env(safe-area-inset-top,0px) + var(--promo-h,0px));z-index:50;
+  display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:1rem;
+  padding:.875rem;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));
+  pointer-events:none;
+}
+.site-header::before{
+  content:"";position:absolute;inset:0 0 -1.3rem;pointer-events:none;z-index:-1;
+  background:linear-gradient(to bottom,rgba(6,6,6,var(--hdr,.12)) 0%,rgba(6,6,6,calc(var(--hdr,.12)*.6)) 55%,transparent 100%);
+}
+.site-header>*{pointer-events:auto}
+.wordmark{display:inline-flex;align-items:baseline;gap:.1rem;text-decoration:none;font-family:var(--font-latin);font-size:1.3rem;letter-spacing:-.02em;direction:ltr}
+.wordmark b{font-weight:600;color:var(--text-primary)}
+.wordmark span{font-weight:300;color:var(--text-muted)}
+.glass{
+  background:rgba(30,30,30,.55);
+  -webkit-backdrop-filter:blur(var(--glass-blur)) saturate(140%);
+  backdrop-filter:blur(var(--glass-blur)) saturate(140%);
+  box-shadow:inset 0 0 0 1px #ffffff12,0 8px 24px -18px #000c;
+  border-radius:var(--r-pill);
+}
+.header-nav{display:flex;align-items:center;gap:.15rem;padding:.3rem}
+.header-nav a{
+  text-decoration:none;color:var(--text-secondary);font-size:.86rem;
+  padding:.45rem .85rem;border-radius:var(--r-pill);white-space:nowrap;transition:color .2s,background .2s;
+}
+.header-nav a:hover{color:var(--text-primary);background:#ffffff10}
+.header-nav .badge-new{font-size:.62rem;color:var(--accent-warm);border:1px solid #ffa58240;border-radius:var(--r-pill);padding:0 .4rem;margin-inline-start:.35rem;vertical-align:.12em}
+.header-center{display:none;align-items:stretch;gap:.5rem;justify-self:center}
+.header-right{display:none;justify-self:end;align-items:center;gap:.5rem}
+.header-right .signin{text-decoration:none;color:var(--text-secondary);font-size:.86rem;padding:.55rem .9rem;border-radius:var(--r-pill)}
+.header-right .signin:hover{color:var(--text-primary)}
+.menu-btn{display:inline-flex;justify-self:end;align-items:center;gap:.5rem;background:rgba(30,30,30,.55);border:1px solid var(--border-soft);color:var(--text-primary);border-radius:var(--r-pill);padding:.5rem .95rem;font:inherit;font-size:.86rem;cursor:pointer}
+@media (min-width:1024px){
+  .header-center{display:flex}
+  .header-right{display:flex}
+  .menu-btn{display:none}
+}
+.mobile-nav{position:fixed;inset-inline:0;top:calc(env(safe-area-inset-top,0px) + var(--promo-h,0px) + var(--header-h));z-index:49;margin:0 var(--page-gutter);border:1px solid var(--border-soft);border-radius:var(--r-tw);background:#0d0d0df2;-webkit-backdrop-filter:blur(20px);backdrop-filter:blur(20px);padding:.5rem;display:flex;flex-direction:column}
+.mobile-nav a{text-decoration:none;color:var(--text-secondary);padding:.7rem .9rem;border-radius:10px;font-size:.95rem}
+.mobile-nav a:hover{background:var(--tw-well);color:var(--text-primary)}
+.mobile-nav[hidden]{display:none!important}
+
+/* ---------- buttons ---------- */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:.6rem;
+  border-radius:var(--r-pill);padding:.85rem 1.6rem;font:inherit;font-size:.98rem;
+  text-decoration:none;cursor:pointer;border:0;white-space:nowrap;letter-spacing:-.01em;
+  transition:transform .2s,box-shadow .2s,background .2s;
+}
+.btn-primary{background:var(--accent-grad);color:#101014;font-weight:500;box-shadow:0 10px 30px -14px #c0cef266}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 14px 36px -14px #feeae166}
+.btn-ghost{background:var(--tw-well);color:var(--text-primary);box-shadow:inset 0 0 0 1px var(--border-soft)}
+.btn-ghost:hover{background:var(--tw-well-hover);box-shadow:inset 0 0 0 1px var(--border-hover)}
+.btn-sm{padding:.55rem 1.1rem;font-size:.86rem}
+.btn .arr{display:inline-block;transition:transform .2s}
+.btn:hover .arr{transform:translateX(-3px)}
+
+/* ---------- hero ---------- */
+.hero-region{position:relative;min-height:34rem;height:62vh;padding:calc(env(safe-area-inset-top,0px) + var(--promo-h,0px) + var(--header-h) + .25rem) var(--page-gutter) 1rem;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.hero-stage{
+  position:relative;isolation:isolate;height:100%;display:flex;align-items:center;justify-content:center;
+  border-radius:var(--r-stage);border:1px solid var(--border-soft);overflow:hidden;
+  background:
+    radial-gradient(72% 86% at 92% 16%,#d8d8db42 0%,#a8a8ac14 42%,transparent 72%),
+    radial-gradient(78% 96% at 6% 92%,#ffbea23d 0%,#9a9a9c17 44%,transparent 76%),
+    radial-gradient(46% 62% at 98% 54%,#a2b7f522 0%,transparent 66%),
+    #090909;
+}
+.hero-stage::before{content:"";position:absolute;inset:0;z-index:1;border-radius:inherit;pointer-events:none;background:radial-gradient(60% 62% at 50% 50%,#060606b8 0%,#06060660 46%,transparent 78%)}
+.hero-stage::after{content:"";position:absolute;inset:auto -10% -55% -10%;height:80%;z-index:0;background:radial-gradient(50% 60% at 50% 100%,#feeae122,transparent 70%)}
+.hero-content{position:relative;z-index:2;text-align:center;padding:1.5rem;max-width:52rem}
+.hero-eyebrow{
+  display:inline-flex;align-items:center;gap:.5rem;font-size:.8rem;color:var(--text-secondary);
+  border:1px solid var(--border-soft);border-radius:var(--r-pill);padding:.3rem .9rem;background:#ffffff08;margin-bottom:1.5rem;
+}
+.hero-eyebrow .dot{width:.45rem;height:.45rem;border-radius:50%;background:var(--good);box-shadow:0 0 10px #86e3b5aa}
+.hero-title{
+  font-size:clamp(2rem,5.4vw,3.9rem);line-height:1.12;letter-spacing:-.02em;font-weight:300;
+}
+.title-gradient{
+  display:inline-block;background-image:var(--title-grad);
+  -webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;
+  padding-bottom:.16em;margin-bottom:-.16em;
+}
+.hero-sub{color:var(--text-secondary);font-size:clamp(1rem,1.4vw,1.18rem);line-height:1.8;max-width:38rem;margin:1.2rem auto 0}
+.hero-cta{margin-top:2.2rem;display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap}
+
+/* ---------- shared section bits ---------- */
+.home-stack{position:relative;width:100%;padding:0;max-width:80rem;margin:0 auto}
+.section{margin-top:var(--section-gap);padding-inline:var(--page-gutter);padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.hp-rule{margin:calc(var(--section-gap)/2) 0 0;border:0;border-top:1px solid var(--border-soft)}
+.sec-head{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:flex-end;gap:1.5rem;margin-bottom:1.5rem}
+.sec-head>div{display:flex;flex-direction:column;align-items:flex-start;gap:.6rem}
+.eyebrow{font-size:.78rem;color:var(--text-muted);letter-spacing:.08em;border:1px solid var(--border-soft);border-radius:var(--r-pill);padding:.2rem .8rem;background:#ffffff06}
+.section-title{font-size:clamp(1.5rem,3.6vw,2.6rem);line-height:1.15;letter-spacing:-.02em}
+.sec-link{font-size:.88rem;color:var(--text-secondary);text-decoration:none;border:1px solid var(--border-soft);border-radius:var(--r-pill);padding:.5rem 1.1rem;transition:color .2s,border-color .2s}
+.sec-link:hover{color:var(--text-primary);border-color:var(--border-hover)}
+.reveal{transition:opacity .7s ease,transform .7s ease}
+.reveal.pre{opacity:.001;transform:translateY(18px)}
+@media (prefers-reduced-motion:reduce){.reveal,.reveal.pre{opacity:1!important;transform:none!important;transition:none}}
+
+/* ---------- service / coverage cards ---------- */
+.card-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1rem}
+@media (max-width:1023px){.card-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.card-grid{grid-template-columns:minmax(0,1fr)}}
+.svc-card{display:flex;flex-direction:column;gap:.65rem;text-decoration:none;min-width:0}
+.svc-thumb{
+  position:relative;aspect-ratio:4/3;max-width:100%;border-radius:var(--r-card);overflow:hidden;
+  border:1px solid var(--border-soft);box-shadow:var(--tw-rim);
+  display:flex;align-items:center;justify-content:center;
+  transition:transform .35s ease,border-color .35s ease;
+}
+.svc-card:hover .svc-thumb{transform:translateY(-4px);border-color:var(--border-hover)}
+.svc-thumb svg{width:3.2rem;height:3.2rem;opacity:.9;position:relative;z-index:1;filter:drop-shadow(0 6px 18px #0009)}
+.svc-thumb .chip{
+  position:absolute;top:.6rem;inset-inline-start:.6rem;z-index:2;font-size:.68rem;color:#e9e9ee;
+  background:#0a0a0ab0;border:1px solid #ffffff1c;border-radius:var(--r-pill);padding:.1rem .55rem;
+  -webkit-backdrop-filter:blur(8px);backdrop-filter:blur(8px);
+}
+.t-a{background:radial-gradient(90% 110% at 85% 10%,#ffbea245,transparent 60%),radial-gradient(90% 120% at 10% 100%,#3a2d2566,transparent 70%),#121010}
+.t-b{background:radial-gradient(90% 110% at 15% 10%,#a2b7f540,transparent 60%),radial-gradient(90% 120% at 90% 100%,#232a3f66,transparent 70%),#0f1016}
+.t-c{background:radial-gradient(90% 110% at 85% 90%,#86e3b52e,transparent 60%),radial-gradient(80% 110% at 10% 0%,#1e2b2466,transparent 70%),#0e1310}
+.t-d{background:radial-gradient(100% 120% at 50% 0%,#feeae133,transparent 62%),radial-gradient(90% 120% at 90% 100%,#2e241d66,transparent 70%),#131110}
+.svc-meta{display:flex;align-items:baseline;justify-content:space-between;gap:.75rem;min-width:0}
+.card-title{font-size:.95rem;font-weight:500;color:var(--text-primary);letter-spacing:-.01em}
+.card-cat{font-size:.78rem;color:var(--text-muted);white-space:nowrap}
+.shelf-foot{display:flex;justify-content:center;margin-top:2rem}
+
+/* ---------- bento trust grid ---------- */
+.tp-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));grid-auto-rows:1fr;gap:.75rem;margin-top:2rem}
+@media (max-width:860px){.tp-grid{grid-template-columns:minmax(0,1fr);grid-auto-rows:auto}}
+.glyph-card{
+  position:relative;isolation:isolate;display:flex;flex-direction:column;gap:1rem;min-width:0;
+  border:1px solid var(--border-soft);border-radius:calc(var(--r-tw) + .25rem);
+  background:var(--tw-aurora),var(--tw-card-bg);box-shadow:var(--tw-rim);
+  padding:1.6rem;
+}
+.glyph-card:hover{background:var(--tw-aurora-strong),var(--tw-well)}
+.glyph-title{font-size:1.15rem;font-weight:500;letter-spacing:-.01em}
+.glyph-sub{color:var(--text-secondary);font-size:.9rem;margin:0}
+.glyph-sub b{color:var(--text-primary);font-weight:500}
+.bignum{font-family:var(--font-latin);font-size:clamp(3rem,6vw,4.6rem);font-weight:300;line-height:1;background-image:var(--accent-grad);-webkit-background-clip:text;background-clip:text;color:transparent}
+.meters{display:flex;flex-direction:column;gap:.7rem;margin-top:auto}
+.meter{display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:.8rem;font-size:.84rem;color:var(--text-secondary)}
+.meter .bar{height:4px;border-radius:var(--r-pill);background:#ffffff12;overflow:hidden}
+.meter .bar i{display:block;height:100%;border-radius:inherit;background:var(--accent-grad)}
+.meter .val{font-family:var(--font-latin);color:var(--text-primary)}
+.chips{display:flex;flex-wrap:wrap;gap:.45rem;margin-top:auto}
+.chips span{font-size:.78rem;color:var(--text-secondary);border:1px solid var(--border-soft);background:#ffffff06;border-radius:var(--r-pill);padding:.25rem .7rem;display:inline-flex;align-items:center;gap:.35rem}
+.chips .ok{color:var(--good)}
+.apps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:.6rem;margin-top:auto}
+@media (max-width:460px){.apps{grid-template-columns:minmax(0,1fr)}}
+.app-tile{border:1px solid var(--border-soft);border-radius:var(--r-card);background:#ffffff05;padding:.9rem;display:flex;flex-direction:column;gap:.25rem;min-width:0}
+.app-tile b{font-weight:500;font-size:.88rem}
+.app-tile small{color:var(--text-muted);font-size:.74rem}
+.tree{font-size:.82rem;color:var(--text-secondary);background:#0a0a0a;border:1px solid var(--border-soft);border-radius:var(--r-card);padding:1rem 1.1rem;line-height:2;margin-top:auto;overflow-x:auto}
+.tree b{color:var(--text-primary);font-weight:500}
+.tree .cnt{color:var(--text-muted);font-size:.72rem;border:1px solid var(--border-soft);border-radius:var(--r-pill);padding:0 .45rem;margin-inline-start:.4rem}
+.tree .lvl{padding-inline-start:1.2rem;border-inline-start:1px solid #ffffff10;margin-inline-start:.35rem;display:block}
+
+/* ---------- tools marquee ---------- */
+.marquee{position:relative;overflow:hidden;margin-top:2rem;
+  -webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);
+  mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);}
+.marquee-track{display:flex;gap:1rem;width:max-content;animation:scroll 42s linear infinite}
+.marquee:hover .marquee-track{animation-play-state:paused}
+@keyframes scroll{from{transform:translateX(0)}to{transform:translateX(50%)}}
+@media (prefers-reduced-motion:reduce){.marquee-track{animation:none}.marquee{overflow-x:auto;-webkit-mask-image:none;mask-image:none}}
+.tool-card{width:15.5rem;flex:none;display:flex;flex-direction:column;gap:.6rem}
+.tool-thumb{position:relative;aspect-ratio:16/10;border-radius:var(--r-card);border:1px solid var(--border-soft);box-shadow:var(--tw-rim);display:flex;align-items:center;justify-content:center}
+.tool-thumb svg{width:2.4rem;height:2.4rem;opacity:.85}
+.tool-meta{display:flex;justify-content:space-between;align-items:baseline;gap:.5rem}
+
+/* ---------- how it works rail ---------- */
+.hiw-rail{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:.75rem;margin-top:2.5rem}
+@media (max-width:1023px){.hiw-rail{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:560px){.hiw-rail{grid-template-columns:minmax(0,1fr)}}
+.hiw-step{display:flex;flex-direction:column;gap:.8rem;border:1px solid var(--border-soft);border-radius:calc(var(--r-tw) + .25rem);background:var(--tw-aurora),var(--tw-card-bg);box-shadow:var(--tw-rim);padding:1.5rem;min-width:0}
+.hiw-no{font-family:var(--font-latin);font-size:.8rem;color:var(--accent-warm);border:1px solid #ffa58233;width:1.9rem;height:1.9rem;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.hiw-step h3{font-size:1.05rem;font-weight:500}
+.hiw-step p{margin:0;color:var(--text-secondary);font-size:.88rem}
+.hiw-step p b{color:var(--text-primary);font-weight:500}
+.hiw-step .chips{margin-top:auto}
+
+/* ---------- split panels (integration / portal) ---------- */
+.split{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,8fr);gap:3rem;align-items:center;
+  border:1px solid var(--border-soft);border-radius:var(--r-stage);padding:clamp(1.5rem,4vw,3rem);
+  background:linear-gradient(180deg,#ffffff09 0%,transparent 45%),radial-gradient(60% 70% at 100% 0%,#feeae10e,transparent 62%),radial-gradient(55% 80% at 0% 100%,#c0cef212,transparent 66%),var(--surface-1);
+  box-shadow:var(--tw-rim),0 30px 80px -40px #000e;overflow:hidden;position:relative}
+@media (max-width:900px){.split{grid-template-columns:minmax(0,1fr);gap:2rem}}
+.split-copy{display:flex;flex-direction:column;align-items:flex-start;gap:1rem;min-width:0}
+.split-copy p{color:var(--text-secondary);margin:0;font-size:.96rem}
+.split-copy p b{color:var(--text-primary);font-weight:500}
+.feature-list{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:.6rem;width:100%}
+.feature-list li{display:flex;gap:.6rem;align-items:flex-start;color:var(--text-secondary);font-size:.9rem}
+.feature-list .tick{color:var(--good);flex:none;margin-top:.2rem}
+.mock{min-width:0;border:1px solid var(--border-soft);border-radius:var(--r-tw);background:#0a0a0a;box-shadow:0 24px 60px -30px #000;overflow:hidden}
+.mock-bar{display:flex;align-items:center;gap:.4rem;padding:.6rem .9rem;border-bottom:1px solid var(--border-soft);background:#101010}
+.mock-bar i{width:.6rem;height:.6rem;border-radius:50%;background:#ffffff1c}
+.mock-bar span{font-size:.72rem;color:var(--text-muted);margin-inline-start:.5rem}
+.mock-body{padding:1rem;display:flex;flex-direction:column;gap:.55rem}
+.mock-row{display:grid;grid-template-columns:auto 1fr auto auto;gap:.8rem;align-items:center;border:1px solid var(--border-soft);background:#ffffff05;border-radius:10px;padding:.6rem .8rem;font-size:.8rem;min-width:0}
+.mock-row .id{font-family:var(--font-latin);color:var(--text-muted);direction:ltr}
+.mock-row .who{color:var(--text-secondary);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pill{font-size:.7rem;border-radius:var(--r-pill);padding:.12rem .6rem;white-space:nowrap}
+.p-good{color:var(--good);background:#86e3b51a;border:1px solid #86e3b530}
+.p-warm{color:var(--accent-warm);background:#ffa5821a;border:1px solid #ffa58230}
+.p-peri{color:var(--glyph-peri);background:#a2b7f51a;border:1px solid #a2b7f530}
+.mock-amount{font-family:var(--font-latin);color:var(--text-primary)}
+
+/* ---------- CTA ---------- */
+.home-cta-stage{
+  position:relative;isolation:isolate;display:flex;align-items:center;justify-content:center;min-height:22rem;
+  border:1px solid var(--border-soft);border-radius:var(--r-stage);background:#0c0c0c;overflow:hidden;padding:4.5rem 1.5rem;
+}
+.home-cta-stage::before{content:"";position:absolute;inset:0;border-radius:inherit;background:radial-gradient(70% 90% at 50% 115%,#feeae126 0%,#c0cef215 40%,transparent 72%)}
+.home-cta-content{position:relative;text-align:center;display:flex;flex-direction:column;align-items:center;gap:1rem;max-width:40rem}
+.home-cta-content p{color:var(--text-secondary);margin:0}
+
+/* ---------- FAQ ---------- */
+.faq-head{text-align:center;display:flex;flex-direction:column;align-items:center;gap:.6rem;margin-bottom:2rem}
+.faq-panel{border:1px solid var(--border-soft);border-radius:calc(var(--r-tw) + .5rem);background:var(--surface-1);display:flex;flex-direction:column;gap:.5rem;padding:.5rem;max-width:52rem;margin:0 auto}
+.faq-item{border-radius:var(--r-tw);background:var(--tw-aurora),var(--tw-card-bg);box-shadow:var(--tw-rim)}
+.faq-item:hover{background:var(--tw-aurora-strong),var(--tw-well)}
+.faq-item summary{
+  list-style:none;cursor:pointer;display:flex;justify-content:space-between;align-items:center;gap:1rem;
+  padding:1.1rem 1.3rem;font-size:1rem;font-weight:500;color:var(--text-primary);
+}
+.faq-item summary::-webkit-details-marker{display:none}
+.faq-item summary .plus{flex:none;color:var(--text-muted);transition:transform .25s;font-family:var(--font-latin)}
+.faq-item[open] summary .plus{transform:rotate(45deg)}
+.faq-item .body{padding:0 1.3rem 1.2rem;color:var(--text-secondary);font-size:.92rem;max-width:65ch}
+
+/* ---------- footer ---------- */
+.site-footer{padding:var(--section-gap) var(--page-gutter) 1rem;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px));max-width:80rem;margin:0 auto;width:100%}
+.sf-panel{
+  position:relative;isolation:isolate;overflow:hidden;
+  border:1px solid var(--border-soft);border-radius:calc(var(--r-tw) + .5rem);
+  background:linear-gradient(180deg,#ffffff09 0%,transparent 45%),radial-gradient(60% 70% at 100% 0%,#feeae10e,transparent 62%),radial-gradient(55% 80% at 0% 100%,#c0cef212,transparent 66%),var(--surface-1);
+  box-shadow:var(--tw-rim),0 30px 80px -40px #000e;
+  padding:clamp(1.5rem,3.5vw,2.75rem);
+}
+.sf-top{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,7fr);gap:3rem}
+@media (max-width:900px){.sf-top{grid-template-columns:minmax(0,1fr)}}
+.sf-brand{display:flex;flex-direction:column;gap:1rem;align-items:flex-start;min-width:0}
+.sf-brand .tagline{color:var(--text-secondary);font-size:.92rem;margin:0}
+.subscribe-title{font-size:1.05rem;font-weight:500}
+.subscribe{display:flex;gap:.5rem;width:100%;max-width:24rem;flex-wrap:wrap}
+.subscribe input{
+  flex:1;min-width:10rem;background:#ffffff08;border:1px solid var(--border-soft);border-radius:var(--r-pill);
+  color:var(--text-primary);font:inherit;font-size:.88rem;padding:.6rem 1.1rem;outline:none;
+}
+.subscribe input:focus-visible{border-color:var(--border-hover);box-shadow:0 0 0 2px #e8eaef33}
+.subscribe-note{font-size:.72rem;color:var(--text-muted);margin:0}
+.sf-links{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1.5rem}
+@media (max-width:700px){.sf-links{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.sf-col{display:flex;flex-direction:column;gap:.5rem;font-size:.86rem;min-width:0}
+.sf-col h4{font-size:.78rem;color:var(--text-muted);font-weight:500;letter-spacing:.06em;margin-bottom:.3rem}
+.sf-col a{color:var(--text-secondary);text-decoration:none}
+.sf-col a:hover{color:var(--text-primary)}
+.sf-base{display:flex;flex-wrap:wrap;justify-content:space-between;gap:.8rem;color:var(--text-muted);font-size:.78rem;margin-top:2.5rem;padding-top:1.25rem;border-top:1px solid var(--border-soft)}
+.sf-wordmark{
+  margin-top:1.5rem;text-align:center;font-family:var(--font-latin);font-weight:600;letter-spacing:-.04em;direction:ltr;
+  font-size:clamp(3.4rem,14vw,12rem);line-height:.9;user-select:none;pointer-events:none;
+  background-image:linear-gradient(180deg,#f5f5f52e 0%,#f5f5f508 70%,transparent 100%);
+  -webkit-background-clip:text;background-clip:text;color:transparent;
+  margin-bottom:-.28em;white-space:nowrap;
+}
+:focus-visible{outline:1px solid #e8eaef9e;outline-offset:3px;border-radius:4px}
+
+/* ===== v3: logo cycle, side rail, hamburger, FAB, hooks, detail, lang ===== */
+@keyframes logo-cycle{
+  0%,34%{transform:none;opacity:1;filter:none}
+  38%{transform:translateX(6vw) translateY(-8px) rotate(8deg);opacity:1}
+  45%{transform:translateX(55vw) translateY(-46px) rotate(26deg);opacity:0}
+  51%{transform:translateX(55vw) translateY(-46px) rotate(26deg);opacity:0}
+  57%{transform:translateX(-8px) translateY(2px) rotate(-7deg);opacity:1}
+  60%{transform:none}
+  63%{transform:rotate(8deg) scale(1.07)}
+  66%{transform:rotate(-8deg) scale(1.1)}
+  69%{transform:rotate(6deg) scale(1.05)}
+  72%{transform:rotate(-4deg)}
+  75%{transform:none;filter:none}
+  80%{filter:drop-shadow(0 0 14px #feeae1cc) brightness(1.65)}
+  85%{filter:drop-shadow(0 0 5px #c0cef299) brightness(1.15)}
+  90%{filter:drop-shadow(0 0 16px #ffbea2cc) brightness(1.7)}
+  100%{transform:none;opacity:1;filter:none}
+}
+.site-header .wordmark{animation:logo-cycle 11s ease-in-out infinite;transform-origin:center;will-change:transform,opacity,filter;cursor:pointer}
+@media (prefers-reduced-motion:reduce){.site-header .wordmark{animation:none}}
+.nav-progress-fill{box-shadow:0 0 10px 1px #feeae188}
+.side-progress{position:fixed;inset-inline-end:calc(6px + env(safe-area-inset-right,0px));top:50%;transform:translateY(-50%);height:46vh;width:4px;border-radius:999px;background:#ffffff10;z-index:45;overflow:hidden;pointer-events:none}
+.side-progress i{display:block;width:100%;height:0%;border-radius:inherit;background:linear-gradient(180deg,#bcc0ca,#feeae1,#c0cef2);transition:height .1s linear,box-shadow .3s,filter .3s}
+.side-progress.glow i{box-shadow:0 0 16px 3px #feeae1aa;filter:brightness(1.5)}
+@media (max-width:700px){.side-progress{display:none}}
+.menu-btn{flex-direction:column;gap:.3rem;padding:.4rem 1rem;line-height:1;align-items:center}
+.menu-btn .menu-label{font-size:.66rem;color:var(--text-secondary)}
+.menu-btn .bars{display:flex;flex-direction:column;gap:.26rem;width:1.3rem}
+.menu-btn .bars i{height:2px;background:var(--text-primary);border-radius:2px;transition:transform .25s,opacity .25s}
+.menu-btn.open .bars i:nth-child(1){transform:translateY(.38rem) rotate(45deg)}
+.menu-btn.open .bars i:nth-child(2){opacity:0}
+.menu-btn.open .bars i:nth-child(3){transform:translateY(-.38rem) rotate(-45deg)}
+.header-mob{display:flex;justify-self:end;align-items:center;gap:.5rem}
+@media (min-width:1024px){.header-mob .menu-btn{display:none}}
+.lang-btn{background:rgba(30,30,30,.55);border:1px solid var(--border-soft);color:var(--text-secondary);border-radius:var(--r-pill);padding:.5rem .9rem;font:inherit;font-size:.82rem;font-family:var(--font-latin);cursor:pointer;transition:color .2s,border-color .2s}
+.lang-btn:hover{color:var(--text-primary);border-color:var(--border-hover)}
+.cs-fab{position:fixed;bottom:calc(16px + env(safe-area-inset-bottom,0px));inset-inline-start:max(16px,env(safe-area-inset-left,0px));z-index:48;display:inline-flex;align-items:center;gap:.6rem;text-decoration:none;background:#0f241b;color:#d9ffe9;border:1px solid #86e3b544;border-radius:var(--r-pill);padding:.5rem 1.1rem .5rem .55rem;font-size:.84rem;box-shadow:0 10px 30px -10px #000c}
+[dir="ltr"] .cs-fab{padding:.5rem .55rem .5rem 1.1rem}
+.cs-fab .ic{width:2.2rem;height:2.2rem;border-radius:50%;background:#25d366;display:flex;align-items:center;justify-content:center;flex:none;animation:fab-pulse 2.4s infinite}
+.cs-fab .ic svg{width:1.25rem;height:1.25rem}
+.cs-fab:hover{border-color:#86e3b588}
+@keyframes fab-pulse{0%{box-shadow:0 0 0 0 #25d36655}70%{box-shadow:0 0 0 14px transparent}100%{box-shadow:0 0 0 0 transparent}}
+@media (prefers-reduced-motion:reduce){.cs-fab .ic{animation:none}}
+.hero-title{min-height:2.35em}
+#hook{transition:opacity .45s ease,transform .45s ease}
+#hook.out{opacity:0;transform:translateY(16px) scale(.985)}
+[data-sec]{cursor:pointer}
+.detail-view .home-cta-stage{min-height:18rem}
+
+/* ===== v4: robot hero, big colourful logo, illustrated cards, back-to-top ===== */
+:root{--header-h:5.4rem}
+@keyframes pan{to{background-position:200% 0}}
+.site-header{direction:ltr;grid-template-columns:1fr auto 1fr}
+.hd-left{display:flex;align-items:center;gap:.5rem;justify-self:start;grid-column:1;direction:rtl}
+.header-center{grid-column:2}
+.header-nav{direction:rtl}
+#pageRoot[dir="ltr"] .hd-left,#pageRoot[dir="ltr"] .header-nav{direction:ltr}
+.hd-left .signin{display:none;text-decoration:none;color:var(--text-secondary);font-size:.86rem;padding:.55rem .9rem;border-radius:var(--r-pill)}
+.hd-left .signin:hover{color:var(--text-primary)}
+.hd-start{display:none}
+@media (min-width:1024px){.hd-left .signin{display:inline-block}.hd-start{display:inline-flex}}
+.site-header .wordmark{grid-column:3;justify-self:end;font-size:clamp(2rem,3.4vw,2.9rem);letter-spacing:-.035em;line-height:1;gap:.02em}
+.wordmark b,.wordmark span{display:inline-block;-webkit-background-clip:text;background-clip:text;color:transparent;-webkit-text-fill-color:transparent;background-size:200% 100%;animation:pan 6s linear infinite;padding-bottom:.08em}
+.wordmark b{font-weight:700;background-image:linear-gradient(100deg,#22c8ff,#a470ff,#ff5fa2,#22c8ff)}
+.wordmark span{font-weight:600;background-image:linear-gradient(100deg,#ffc857,#ff7a59,#ff5fa2,#ffc857)}
+@keyframes logo-cycle{
+  0%,34%{transform:none;opacity:1;filter:none}
+  38%{transform:translateX(3vw) translateY(-8px) rotate(8deg);opacity:1}
+  45%{transform:translateX(40vw) translateY(-46px) rotate(26deg);opacity:0}
+  51%{transform:translateX(-70vw) translateY(-30px) rotate(-20deg);opacity:0}
+  57%{transform:translateX(-8px) translateY(2px) rotate(-7deg);opacity:1}
+  60%{transform:none}
+  63%{transform:rotate(8deg) scale(1.07)}
+  66%{transform:rotate(-8deg) scale(1.1)}
+  69%{transform:rotate(6deg) scale(1.05)}
+  72%{transform:rotate(-4deg)}
+  75%{transform:none;filter:none}
+  80%{filter:drop-shadow(0 0 14px #feeae1cc) brightness(1.65)}
+  85%{filter:drop-shadow(0 0 5px #c0cef299) brightness(1.15)}
+  90%{filter:drop-shadow(0 0 16px #ffbea2cc) brightness(1.7)}
+  100%{transform:none;opacity:1;filter:none}
+}
+@media (prefers-reduced-motion:reduce){.wordmark b,.wordmark span{animation:none}}
+
+/* hero: text on the right, robot on the left */
+.hero-region{height:auto;min-height:0}
+.hero-stage{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);direction:ltr;align-items:stretch;justify-content:stretch;height:auto;min-height:36rem}
+.hero-stage::before{background:radial-gradient(55% 70% at 75% 50%,#060606b0 0%,#06060655 55%,transparent 80%)}
+.hero-content{grid-column:2;grid-row:1;direction:rtl;text-align:start;align-self:center;max-width:none;padding:2rem clamp(1rem,3.4vw,3.2rem)}
+#pageRoot[dir="ltr"] .hero-content{direction:ltr}
+.hero-title{font-size:clamp(1.9rem,3.5vw,3.3rem);min-height:3.5em;line-height:1.14}
+.hero-sub{margin:1.1rem 0 0;max-width:34rem}
+.hero-cta{justify-content:flex-start}
+.title-gradient.rainbow{background-image:linear-gradient(100deg,#ffbea2,#ff5fa2,#a470ff,#22c8ff,#2fe3a1,#ffc857,#ffbea2);background-size:200% 100%;animation:pan 9s linear infinite}
+@media (prefers-reduced-motion:reduce){.title-gradient.rainbow{animation:none}}
+.robot-wrap{position:relative;z-index:2;grid-column:1;grid-row:1;min-height:34rem;direction:ltr}
+.robot-canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:pan-y;outline-offset:-6px;cursor:grab}
+.robot-canvas:active{cursor:grabbing}
+.robot-wrap.is-held,.robot-wrap.is-held .robot-canvas{cursor:none}
+.robot-fallback{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;pointer-events:none;transition:opacity .6s}
+.robot-fallback::before{content:"";width:min(60%,18rem);aspect-ratio:1;border-radius:50%;background:radial-gradient(circle at 35% 30%,#9ce8c7aa,#b899e755 45%,transparent 70%);filter:blur(6px);animation:fab-pulse 3s infinite}
+.robot-wrap.is-live .robot-fallback{opacity:0}
+.robot-ui{position:absolute;left:1rem;bottom:1rem;z-index:3;display:flex;flex-direction:column;align-items:flex-start;gap:.5rem;pointer-events:none;max-width:calc(100% - 2rem)}
+.robot-pause{pointer-events:auto;font:inherit;font-size:.78rem;color:var(--text-primary);background:#181a1e;border:1px solid #62666c;border-radius:999px;padding:.4rem 1rem;cursor:pointer}
+.robot-pause:hover{border-color:#9aa0a8}
+.robot-pause .ln{display:none}
+.robot-pause[aria-pressed="true"] .lp{display:none}
+.robot-pause[aria-pressed="true"] .ln{display:inline}
+@media (max-width:900px){
+    .hero-stage{grid-template-columns:minmax(0,1fr);min-height:0}
+  .robot-wrap{grid-column:1;grid-row:1;min-height:25rem}
+  .hero-content{grid-column:1;grid-row:2;padding:1rem 1.2rem 2rem}
+  .hero-title{min-height:4.6em}
+}
+
+/* illustrated cards */
+.svc-thumb svg.art,.tool-thumb svg.art{position:absolute;inset:0;width:100%;height:100%;opacity:1;filter:none;z-index:1}
+.svc-thumb,.tool-thumb{overflow:hidden}
+.tool-thumb{aspect-ratio:4/3}
+.art{transition:transform .5s ease}
+.svc-card:hover .art,.tool-card:hover .art{transform:scale(1.06)}
+.fl{animation:artfloat 3.6s ease-in-out infinite;transform-box:fill-box;transform-origin:center}
+.fl2{animation:artfloat 4.4s ease-in-out infinite reverse;transform-box:fill-box;transform-origin:center}
+@keyframes artfloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+@media (prefers-reduced-motion:reduce){.fl,.fl2{animation:none}.art{transition:none}}
+.g-pink{background:radial-gradient(90% 100% at 85% 0%,#ff5fa238,transparent 60%),radial-gradient(80% 100% at 0% 100%,#a470ff30,transparent 65%),#120d12}
+.g-violet{background:radial-gradient(90% 100% at 15% 0%,#a470ff40,transparent 60%),radial-gradient(80% 100% at 100% 100%,#22c8ff26,transparent 65%),#0e0d17}
+.g-mint{background:radial-gradient(90% 100% at 85% 0%,#2fe3a135,transparent 60%),radial-gradient(80% 100% at 0% 100%,#22c8ff2a,transparent 65%),#0b1210}
+.g-cyan{background:radial-gradient(90% 100% at 15% 0%,#22c8ff38,transparent 60%),radial-gradient(80% 100% at 100% 100%,#a470ff2e,transparent 65%),#0b1016}
+.g-amber{background:radial-gradient(90% 100% at 85% 0%,#ffc85738,transparent 60%),radial-gradient(80% 100% at 0% 100%,#ff7a5930,transparent 65%),#131009}
+.g-coral{background:radial-gradient(90% 100% at 15% 0%,#ff7a5938,transparent 60%),radial-gradient(80% 100% at 100% 100%,#ff5fa230,transparent 65%),#140d0c}
+
+/* back to top */
+.to-top{position:fixed;inset-inline-start:calc(max(16px,env(safe-area-inset-left,0px)) + .1rem);bottom:calc(16px + env(safe-area-inset-bottom,0px) + 3.9rem);z-index:48;width:3rem;height:3rem;border-radius:50%;border:1px solid #ffffff2e;background:linear-gradient(140deg,#a470ff,#22c8ff);color:#0c0d14;display:flex;align-items:center;justify-content:center;cursor:pointer;box-shadow:0 10px 26px -10px #000c,0 0 18px -4px #a470ff88;transition:transform .2s,opacity .3s}
+.to-top:hover{transform:translateY(-3px)}
+.to-top.dim{opacity:.5}
+.to-top svg{width:1.3rem;height:1.3rem}
+</style>
+<link rel="stylesheet" href="portal.css">
+</head>
+<body id="pageRoot">
+<div class="nav-progress" aria-hidden="true"><div class="nav-progress-fill" id="progress"></div></div>
+<div class="side-progress" id="sideRail" aria-hidden="true"><i id="sideFill"></i></div>
+
+<div class="promo-banner" id="promo">
+  <span class="tag" data-i18n="promo.tag">عرض الإطلاق</span>
+  <span data-i18n="promo.text"><strong>أول 30 يوم مجاناً</strong> على كل الباقات</span>
+  <span class="count num ltr" id="countdown"></span>
+</div>
+
+<header class="site-header" id="header">
+  <div class="hd-left">
+    <button class="lang-btn" type="button">EN</button>
+    <button class="trk-btn" id="hdTrack" type="button" data-open-track aria-label="تتبّع طلبك" data-i18n-aria="tr.btn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v1.5a1.5 1.5 0 0 0 0 3V15a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-1.5a1.5 1.5 0 0 0 0-3z"/><path d="M14 8v8" stroke-dasharray="1.5 2.5"/></svg><span class="trk-no" hidden></span></button>
+    <button class="signin" type="button" data-open-portal data-i18n="nav.login">دخول</button>
+    <button class="btn btn-primary btn-sm hd-req" type="button" data-open-request="header"><span class="rq-long" data-i18n="rq.long">قدّم طلب فتح حساب</span><span class="rq-short" data-i18n="rq.short">قدّم طلب</span></button>
+    <button class="menu-btn" id="menuBtn" aria-expanded="false" aria-controls="mobileNav">
+      <span class="menu-label" data-i18n="menu.label">القائمة</span>
+      <span class="bars" aria-hidden="true"><i></i><i></i><i></i></span>
+    </button>
+  </div>
+
+  <div class="header-center">
+    <nav class="glass header-nav" aria-label="التنقل الرئيسي">
+      <a href="#coverage" data-i18n="nav.sectors">القطاعات</a>
+      <a href="#services" data-i18n="nav.features">المميزات</a>
+      <a href="#numbers" data-i18n="nav.numbers">أرقامنا</a>
+      <a href="#how-it-works" data-i18n="nav.how">كيف نعمل</a>
+      <a href="#portal" data-i18n="nav.portal">بوابة العميل</a>
+      <a href="#complaints" data-i18n="nav.complaints">الشكاوى</a>
+      <a href="#faq" data-i18n="nav.faq">الأسئلة</a>
+    </nav>
+  </div>
+
+  <a class="wordmark" href="#" id="logo" aria-label="TaskUp"><b>task</b><span>up</span></a>
+</header>
+
+<nav class="mobile-nav" id="mobileNav" hidden aria-label="قائمة الجوال">
+  <a href="#coverage" data-i18n="nav.sectors">القطاعات</a>
+  <a href="#services" data-i18n="nav.features">المميزات</a>
+  <a href="#numbers" data-i18n="nav.numbers">أرقامنا</a>
+  <a href="#how-it-works" data-i18n="nav.how">كيف نعمل</a>
+  <a href="#portal" data-i18n="nav.portal">بوابة العميل</a>
+  <a href="#faq" data-i18n="nav.faq2">الأسئلة الشائعة</a>
+  <a href="#portal-app" data-open-portal data-i18n="nav.signin">تسجيل الدخول</a>
+  <a href="#request" data-open-request="menu" data-i18n="rq.long"><b>قدّم طلب فتح حساب</b></a>
+  <a href="#track" data-open-track data-i18n="tr.btn">تتبّع طلبك</a>
+  <a href="#complaints" data-i18n="nav.complaints">الشكاوى</a>
+</nav>
+
+<a class="cs-fab" href="https://wa.me/201000000000" target="_blank" rel="noopener" id="csFab">
+  <span class="ic" aria-hidden="true"><svg viewBox="0 0 24 24" fill="#0c1a12"><path d="M12 2a10 10 0 0 0-8.6 15.1L2 22l5-1.3A10 10 0 1 0 12 2zm5.4 14.1c-.23.64-1.33 1.22-1.86 1.3-.5.07-1.1.1-1.77-.11-.41-.13-.94-.3-1.6-.59-2.83-1.22-4.68-4.07-4.82-4.26-.14-.19-1.15-1.53-1.15-2.92s.73-2.07.99-2.35c.26-.28.57-.35.76-.35h.55c.18 0 .41-.03.64.49.23.56.79 1.93.86 2.07.07.14.12.31.02.5-.09.19-.14.3-.28.47-.14.16-.3.37-.42.5-.14.14-.29.29-.12.57.16.28.73 1.2 1.56 1.95 1.08.96 1.98 1.26 2.26 1.4.28.14.44.12.6-.07.17-.19.7-.81.88-1.09.19-.28.37-.23.63-.14.26.1 1.63.77 1.9.91.28.14.47.21.54.32.07.12.07.68-.17 1.3z"/></svg></span>
+  <span data-i18n="fab.label">خدمة العملاء</span>
+</a>
+<button class="to-top dim" id="toTop" type="button" aria-label="أعلى الصفحة" data-i18n-aria="top.label">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+</button>
+
+<div class="rq" id="rqModal" hidden>
+  <div class="rq-backdrop" data-close></div>
+  <div class="rq-dialog" role="dialog" aria-modal="true" aria-labelledby="rqTitle">
+    <button class="rq-x" type="button" data-close aria-label="×">×</button>
+    <div id="rqInner"></div>
+  </div>
+</div>
+<div class="rq" id="cpModal" hidden>
+  <div class="rq-backdrop" data-close></div>
+  <div class="rq-dialog" role="dialog" aria-modal="true" aria-labelledby="cpTitle">
+    <button class="rq-x" type="button" data-close aria-label="×">×</button>
+    <div id="cpInner"></div>
+  </div>
+</div>
+<div class="rq" id="trModal" hidden>
+  <div class="rq-backdrop" data-close></div>
+  <div class="rq-dialog" role="dialog" aria-modal="true" aria-labelledby="trTitle">
+    <button class="rq-x" type="button" data-close aria-label="×">×</button>
+    <div id="trInner"></div>
+  </div>
+</div>
+
+<section class="hero-region">
+  <div class="hero-stage">
+    <div class="robot-wrap" id="robotWrap">
+      <div class="robot-fallback" aria-hidden="true"></div>
+      <div class="robot-floor" aria-hidden="true"></div>
+      <div class="robot-zzz" aria-hidden="true"><i>Z</i><i>z</i><i>z</i></div>
+      <div class="robot-ui">
+        <button class="robot-pause" type="button" data-robot-pause aria-pressed="false"><span class="lp" data-i18n="robot.pause">إيقاف الحركة</span><span class="ln" data-i18n="robot.play">تشغيل الحركة</span></button>
+      </div>
+    </div>
+    <div class="hero-content">
+      <div class="hero-eyebrow" data-i18n="hero.eyebrow"><span class="dot"></span> موثوق من أكثر من <span class="num ltr">1,000</span> وكالة وفريق</div>
+      <h1 class="hero-title"><span class="title-gradient rainbow" id="hook">عملاؤك، شغلهم، ودفعاتهم، في مكان واحد</span></h1>
+      <p class="hero-sub" data-i18n="hero.sub">أضف عميلك في دقيقة، تابع مشاريعه وحملاته الإعلانية لحظة بلحظة، وحصّل دفعاتك في موعدها — كل ذلك من <b>لوحة واحدة</b>.</p>
+      <div class="hero-cta">
+        <a class="btn btn-primary" href="#get-started" data-open-request="hero" data-i18n="hero.cta1">ابدأ مجاناً الآن <span class="arr">←</span></a>
+        <a class="btn btn-ghost" href="#how-it-works" data-i18n="hero.cta2">كيف نعمل؟</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<main class="home-stack">
+
+  <!-- ===== القطاعات ===== -->
+  <section class="section reveal" id="coverage">
+    <header class="sec-head">
+      <div>
+        <span class="eyebrow" data-i18n="cov.eye">قطاعات نخدمها</span>
+        <h2 class="section-title title-gradient" data-i18n="cov.title">يناسب كل مجال شغل</h2>
+      </div>
+      <a class="sec-link" href="#coverage" data-i18n="cov.link">كل القطاعات</a>
+    </header>
+    <div class="card-grid">
+      <a class="svc-card" href="#agencies" data-sec="agencies">
+        <div class="svc-thumb g-coral"><span class="chip num" data-i18n="cov1.chip">+120 وكالة</span>
+          <svg class="art" viewBox="0 0 160 120" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="ag1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff7a59"/><stop offset="1" stop-color="#ffc857"/></linearGradient></defs><circle cx="52" cy="70" r="38" fill="#ff7a59" opacity=".12"/><g transform="translate(34 56) rotate(-14)"><path d="M0 12 L40 -4 V40 L0 28 Z" fill="url(#ag1)" stroke="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /><rect x="-10" y="8" width="14" height="24" rx="5" fill="#ff5fa2" /><rect x="6" y="28" width="10" height="14" rx="4" fill="#c93d7b" /></g><path d="M88 52 q10 14 0 28" fill="none" stroke="#ffc857" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" /><path d="M99 44 q16 22 0 44" fill="none" stroke="#ff7a59" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" opacity=".75"/><path d="M110 36 q22 30 0 60" fill="none" stroke="#ff5fa2" stroke-width="3.4" stroke-linecap="round" stroke-linejoin="round" opacity=".5"/><rect x="112" y="86" width="38" height="26" rx="7" fill="#242838" stroke="#ffffff22"/><rect x="117" y="98" width="6" height="8" rx="2" fill="#22c8ff" /><rect x="126" y="93" width="6" height="13" rx="2" fill="#2fe3a1" /><rect x="135" y="96" width="6" height="10" rx="2" fill="#ffc857" /><rect x="144" y="89" width="6" height="17" rx="2" fill="#a470ff" /><g class="fl"><path d="M26 36 c-6 -8 4 -14 8 -8 c4 -6 14 0 8 8 l-8 9 z" fill="#ff5fa2" stroke="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></g></svg>
+        </div>
+        <div class="svc-meta" data-i18n="cov1.meta"><span class="card-title">وكالات التسويق</span><span class="card-cat">إعلانات وعملاء</span></div>
+      </a>
+      <a class="svc-card" href="#stores" data-sec="stores">
+        <div class="svc-thumb g-cyan"><span class="chip num" data-i18n="cov2.chip">+200 متجر</span>
+          <svg class="art" viewBox="0 0 160 120" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="st1" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#22c8ff"/><stop offset="1" stop-color="#a470ff"/></linearGradient><linearGradient id="st2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffc857"/><stop offset="1" stop-color="#ff7a59"/></linearGradient><linearGradient id="st3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff5fa2"/><stop offset="1" stop-color="#ff7a59"/></linearGradient></defs><rect x="26" y="52" width="108" height="58" rx="4" fill="#242838" stroke="#ffffff22"/><path d="M20 34 h120 l8 20 h-136 z" fill="url(#st1)" stroke="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /><path d="M20.0 34 h8.55 l-1 20 h-8.55 z" fill="#fff" stroke="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity=".92"/><path d="M54.2 34 h8.55 l-1 20 h-8.55 z" fill="#fff" stroke="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity=".92"/><path d="M88.4 34 h8.55 l-1 20 h-8.55 z" fill="#fff" stroke="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity=".92"/><path d="M122.60000000000001 34 h8.55 l-1 20 h-8.55 z" fill="#fff" stroke="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity=".92"/><path d="M20 54 q10 9 20 0 q10 9 20 0 q10 9 20 0 q10 9 20 0 q10 9 20 0 q10 9 20 0 q8 7 16 0" fill="url(#st1)" stroke="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /><rect x="36" y="68" width="46" height="34" rx="4" fill="#0b0d14" stroke="#ffffff22"/><rect x="40" y="72" width="38" height="26" rx="3" fill="#22c8ff" opacity=".12"/><rect x="98" y="68" width="24" height="42" rx="4" fill="url(#st2)" /><circle cx="116" cy="90" r="1.8" fill="#fff" /><g class="fl"><path d="M52 100 v-12 a6 6 0 0 1 12 0 v12 z" fill="#ff7a59" stroke="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /><path d="M54 84 a4 4 0 0 1 8 0" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /><rect x="46" y="96" width="24" height="16" rx="4" fill="url(#st3)" /><path d="M52 96 v-4 a6 6 0 0 1 12 0 v4" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></g></svg>
+        </div>
+        <div class="svc-meta" data-i18n="cov2.meta"><span class="card-title">المتاجر الإلكترونية</span><span class="card-cat">مبيعات وإعلانات</span></div>
+      </a>
+      <a class="svc-card" href="#dev" data-sec="dev">
+        <div class="svc-thumb g-violet"><span class="chip num" data-i18n="cov3.chip">+85 شركة</span>
+          <svg class="art" viewBox="0 0 160 120" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="dv1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#a470ff"/><stop offset="1" stop-color="#22c8ff"/></linearGradient></defs><rect x="14" y="20" width="132" height="90" rx="9" fill="#0b0d14" stroke="#ffffff2a"/><rect x="14" y="20" width="132" height="15" rx="9" fill="#171a26" /><rect x="14" y="28" width="132" height="7" rx="0" fill="#171a26" /><circle cx="25" cy="28" r="2.8" fill="#ff7a59" /><circle cx="34" cy="28" r="2.8" fill="#ffc857" /><circle cx="43" cy="28" r="2.8" fill="#2fe3a1" /><rect x="24" y="44" width="18" height="4" rx="2" fill="#a470ff" /><rect x="46" y="44" width="30" height="4" rx="2" fill="#22c8ff" /><rect x="80" y="44" width="20" height="4" rx="2" fill="#ffffff55" /><rect x="34" y="54" width="28" height="4" rx="2" fill="#ff5fa2" /><rect x="66" y="54" width="40" height="4" rx="2" fill="#2fe3a1" /><rect x="34" y="64" width="20" height="4" rx="2" fill="#ffc857" /><rect x="58" y="64" width="34" height="4" rx="2" fill="#ffffff55" /><rect x="34" y="74" width="46" height="4" rx="2" fill="#22c8ff" /><rect x="24" y="84" width="22" height="4" rx="2" fill="#a470ff" /><rect x="50" y="84" width="26" height="4" rx="2" fill="#ffffff55" /><rect x="80" y="83" width="2.4" height="7" rx="1" fill="#f5f5f7" opacity=".9"/><g class="fl"><rect x="98" y="66" width="50" height="38" rx="10" fill="url(#dv1)" /><path d="M115 77 l-8 8 l8 8" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /><path d="M131 77 l8 8 l-8 8" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /><path d="M126 74 l-6 22" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" /></g></svg>
+        </div>
+        <div class="svc-meta" data-i18n="cov3.meta"><span class="card-title">شركات البرمجة</span><span class="card-cat">مشاريع ودفعات</span></div>
+      </a>
+      <a class="svc-card" href="#studios" data-sec="studios">
+        <div class="svc-thumb g-pink"><span class="chip num" data-i18n="cov4.chip">+60 استوديو</span>
+          <svg class="art" viewBox="0 0 160 120" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="sd1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#a470ff"/><stop offset="1" stop-color="#ff5fa2"/></linearGradient></defs><rect x="16" y="22" width="78" height="88" rx="8" fill="url(#sd1)" stroke="#ffffff30"/><circle cx="46" cy="56" r="17" fill="#fff" opacity=".2"/><path d="M16 100 L46 72 L68 92 L82 80 L94 92 V102 a8 8 0 0 1 -8 8 H24 a8 8 0 0 1 -8 -8 z" fill="#fff" stroke="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity=".28"/><path d="M30 94 C44 52 70 112 92 52" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="1 0"/><line x1="30" y1="94" x2="44" y2="76" stroke="#ffffff80" stroke-width="1" stroke-linecap="round" /><line x1="92" y1="52" x2="80" y2="40" stroke="#ffffff80" stroke-width="1" stroke-linecap="round" /><rect x="26.5" y="90.5" width="7" height="7" rx="1.5" fill="#fff" stroke="#ff5fa2" stroke-width="1.4"/><rect x="88.5" y="48.5" width="7" height="7" rx="1.5" fill="#fff" stroke="#ff5fa2" stroke-width="1.4"/><circle cx="44" cy="76" r="2.4" fill="#ff5fa2" /><circle cx="80" cy="40" r="2.4" fill="#ff5fa2" /><circle cx="112" cy="34" r="11" fill="#ff7a59" /><circle cx="130" cy="46" r="11" fill="#ffc857" /><circle cx="112" cy="58" r="11" fill="#2fe3a1" /><circle cx="130" cy="70" r="11" fill="#22c8ff" /><circle cx="112" cy="82" r="11" fill="#a470ff" /><circle cx="130" cy="94" r="11" fill="#ff5fa2" /><g transform="rotate(30 118 100)"><g class="fl"><rect x="114" y="86" width="7" height="26" rx="3" fill="#fff" /><path d="M114 112 l3.5 7 l3.5 -7 z" fill="#ff5fa2" stroke="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></g></g></svg>
+        </div>
+        <div class="svc-meta" data-i18n="cov4.meta"><span class="card-title">استوديوهات التصميم</span><span class="card-cat">أعمال واعتمادات</span></div>
+      </a>
+      <a class="svc-card" href="#creators" data-sec="creators">
+        <div class="svc-thumb g-pink"><span class="chip" data-i18n="cov5.chip">فرق صغيرة وكبيرة</span>
+          <svg class="art" viewBox="0 0 160 120" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="cr1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff5fa2"/><stop offset="1" stop-color="#a470ff"/></linearGradient><linearGradient id="cr2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff7a59"/><stop offset="1" stop-color="#a470ff"/></linearGradient></defs><circle cx="80" cy="66" r="46" fill="url(#cr1)" opacity=".22"/><circle cx="80" cy="66" r="36" fill="none" stroke="#fff" stroke-width="1" opacity=".18"/><rect x="56" y="16" width="48" height="96" rx="9" fill="#0b0d14" stroke="#ffffff55" stroke-width="1.5"/><rect x="61" y="24" width="38" height="78" rx="5" fill="url(#cr2)" /><circle cx="80" cy="62" r="12" fill="#fff" opacity=".95"/><path d="M77 56 l9 6 l-9 6 z" fill="#ff5fa2" stroke="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /><rect x="66" y="88" width="28" height="3" rx="1.5" fill="#fff" opacity=".8"/><rect x="66" y="88" width="16" height="3" rx="1.5" fill="#ff7a59" /><circle cx="68" cy="31" r="3" fill="#ff7a59" /><rect x="74" y="29.5" width="14" height="3" rx="1.5" fill="#fff" opacity=".8"/><g class="fl"><path d="M122 40 c-7 -9 6 -16 10 -8 c4 -8 17 -1 10 8 l-10 11 z" fill="#ff5fa2" stroke="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></g><g class="fl2"><rect x="18" y="50" width="34" height="18" rx="8" fill="#242838" stroke="#ffffff30"/><circle cx="28" cy="59" r="4" fill="#22c8ff" /><rect x="35" y="56.5" width="12" height="3" rx="1.5" fill="#fff" opacity=".6"/></g><rect x="112" y="80" width="34" height="18" rx="8" fill="#242838" stroke="#ffffff30"/><circle cx="122" cy="89" r="4" fill="#ffc857" /><rect x="129" y="86.5" width="12" height="3" rx="1.5" fill="#fff" opacity=".6"/></svg>
+        </div>
+        <div class="svc-meta" data-i18n="cov5.meta"><span class="card-title">صنّاع المحتوى</span><span class="card-cat">رعايات وحملات</span></div>
+      </a>
+      <a class="svc-card" href="#clinics" data-sec="clinics">
+        <div class="svc-thumb g-mint"><span class="chip num" data-i18n="cov6.chip">+40 مركزاً</span>
+          <svg class="art" viewBox="0 0 160 120" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="cl1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2fe3a1"/><stop offset="1" stop-color="#22c8ff"/></linearGradient><linearGradient id="cl2" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#22c8ff"/><stop offset="1" stop-color="#a470ff"/></linearGradient></defs><rect x="20" y="24" width="62" height="62" rx="16" fill="url(#cl1)" /><rect x="46" y="36" width="10" height="38" rx="3" fill="#fff" /><rect x="32" y="50" width="38" height="10" rx="3" fill="#fff" /><rect x="88" y="22" width="56" height="50" rx="8" fill="#242838" stroke="#ffffff24"/><rect x="88" y="22" width="56" height="13" rx="8" fill="url(#cl2)" /><rect x="88" y="29" width="56" height="6" rx="0" fill="url(#cl2)" /><circle cx="97" cy="46" r="3.2" fill="#ffffff22" /><circle cx="111" cy="46" r="3.2" fill="#ffffff22" /><circle cx="125" cy="46" r="3.2" fill="#ffffff22" /><circle cx="139" cy="46" r="3.2" fill="#ffffff22" /><circle cx="97" cy="56" r="3.2" fill="#ffffff22" /><circle cx="111" cy="56" r="3.2" fill="#ffffff22" /><circle cx="125" cy="56" r="3.2" fill="#ffffff22" /><circle cx="139" cy="56" r="3.2" fill="#ffffff22" /><circle cx="125" cy="56" r="4.6" fill="#2fe3a1" /><path d="M122.6 56 l1.8 1.9 l3.2 -3.6" fill="none" stroke="#0d0f14" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /><rect x="14" y="94" width="132" height="20" rx="8" fill="#181b25" stroke="#ffffff1c"/><path d="M20 104 h22 l5 -9 l8 17 l6 -12 l4 4 h12 l6 -8 l5 8 h34" fill="none" stroke="#2fe3a1" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" /><g class="fl"><path d="M120 90 c-7 -8 5 -15 8 -7 c3 -8 15 -1 8 7 l-8 10 z" fill="#ff5fa2" stroke="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></g></svg>
+        </div>
+        <div class="svc-meta" data-i18n="cov6.meta"><span class="card-title">العيادات والمراكز</span><span class="card-cat">حجوزات وإعلانات</span></div>
+      </a>
+      <a class="svc-card" href="#realestate" data-sec="realestate">
+        <div class="svc-thumb g-violet"><span class="chip num" data-i18n="cov7.chip">+35 شركة</span>
+          <svg class="art" viewBox="0 0 160 120" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="re_a" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a470ff"/><stop offset="1" stop-color="#4f46e5"/></linearGradient><linearGradient id="re_b" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2fe3a1"/><stop offset="1" stop-color="#22c8ff"/></linearGradient></defs><rect x="16" y="56" width="26" height="54" rx="3" fill="#2a2f45" /><rect x="46" y="36" width="30" height="74" rx="3" fill="url(#re_a)" /><rect x="80" y="62" width="24" height="48" rx="3" fill="#2a2f45" /><rect x="51" y="42" width="8" height="7" rx="1.5" fill="#ffc857" /><rect x="64" y="42" width="8" height="7" rx="1.5" fill="#ffc857" /><rect x="51" y="54" width="8" height="7" rx="1.5" fill="#ffffff26" /><rect x="64" y="54" width="8" height="7" rx="1.5" fill="#ffc857" /><rect x="51" y="66" width="8" height="7" rx="1.5" fill="#ffffff26" /><rect x="64" y="66" width="8" height="7" rx="1.5" fill="#ffc857" /><rect x="51" y="78" width="8" height="7" rx="1.5" fill="#ffc857" /><rect x="64" y="78" width="8" height="7" rx="1.5" fill="#ffffff26" /><rect x="51" y="90" width="8" height="7" rx="1.5" fill="#ffc857" /><rect x="64" y="90" width="8" height="7" rx="1.5" fill="#ffffff26" /><rect x="21" y="62" width="6" height="6" rx="1.5" fill="#ffffff26" opacity=".8"/><rect x="31" y="62" width="6" height="6" rx="1.5" fill="#22c8ff" opacity=".8"/><rect x="21" y="74" width="6" height="6" rx="1.5" fill="#22c8ff" opacity=".8"/><rect x="31" y="74" width="6" height="6" rx="1.5" fill="#ffffff26" opacity=".8"/><rect x="21" y="86" width="6" height="6" rx="1.5" fill="#22c8ff" opacity=".8"/><rect x="31" y="86" width="6" height="6" rx="1.5" fill="#22c8ff" opacity=".8"/><rect x="21" y="98" width="6" height="6" rx="1.5" fill="#ffffff26" opacity=".8"/><rect x="31" y="98" width="6" height="6" rx="1.5" fill="#22c8ff" opacity=".8"/><rect x="85" y="68" width="6" height="6" rx="1.5" fill="#ff5fa2" opacity=".8"/><rect x="95" y="68" width="6" height="6" rx="1.5" fill="#ffffff26" opacity=".8"/><rect x="85" y="80" width="6" height="6" rx="1.5" fill="#ff5fa2" opacity=".8"/><rect x="95" y="80" width="6" height="6" rx="1.5" fill="#ffffff26" opacity=".8"/><rect x="85" y="92" width="6" height="6" rx="1.5" fill="#ff5fa2" opacity=".8"/><rect x="95" y="92" width="6" height="6" rx="1.5" fill="#ffffff26" opacity=".8"/><path d="M100 82 L124 62 L148 82 V110 H100 Z" fill="url(#re_b)" stroke="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /><path d="M96 84 L124 60 L152 84" fill="none" stroke="#fff" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" /><rect x="116" y="90" width="16" height="20" rx="3" fill="#0d0f14" opacity=".55"/><circle cx="129" cy="100" r="1.4" fill="#ffc857" /><line x1="12" y1="110.5" x2="150" y2="110.5" stroke="#ffffff2a" stroke-width="1.5" stroke-linecap="round" /><g class="fl"><path d="M128 22 a12 12 0 0 1 12 12 c0 9 -12 20 -12 20 s-12 -11 -12 -20 a12 12 0 0 1 12 -12 z" fill="#ff7a59" stroke="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /><circle cx="128" cy="34" r="4.5" fill="#fff" /></g></svg>
+        </div>
+        <div class="svc-meta" data-i18n="cov7.meta"><span class="card-title">التسويق العقاري</span><span class="card-cat">عملاء وصفقات</span></div>
+      </a>
+      <a class="svc-card" href="#startups" data-sec="startups">
+        <div class="svc-thumb g-amber"><span class="chip" data-i18n="cov8.chip">باقة مخصصة</span>
+          <svg class="art" viewBox="0 0 160 120" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="su1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff7a59"/><stop offset="1" stop-color="#ff5fa2"/></linearGradient></defs><g class="fl"><path d="M80 14 c18 12 22 36 14 58 h-28 c-8 -22 -4 -46 14 -58 z" fill="#f4f5fa" stroke="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /><path d="M80 14 c10 7 16 17 18 28 h-36 c2 -11 8 -21 18 -28 z" fill="url(#su1)" stroke="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /><circle cx="80" cy="46" r="8" fill="#242838" /><circle cx="80" cy="46" r="5" fill="#22c8ff" /><path d="M66 60 l-14 14 l4 12 l14 -10 z" fill="#ff5fa2" stroke="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /><path d="M94 60 l14 14 l-4 12 l-14 -10 z" fill="#ff5fa2" stroke="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /><path d="M72 74 h16 l-8 28 z" fill="#ffc857" stroke="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /><path d="M76 74 h8 l-4 18 z" fill="#ff7a59" stroke="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></g><circle cx="22" cy="30" r="1.6" fill="#fff" opacity=".7"/><circle cx="40" cy="18" r="1.2" fill="#fff" opacity=".7"/><circle cx="130" cy="26" r="1.8" fill="#fff" opacity=".7"/><circle cx="142" cy="54" r="1.2" fill="#fff" opacity=".7"/><circle cx="30" cy="66" r="1.4" fill="#fff" opacity=".7"/><circle cx="120" cy="70" r="1.4" fill="#fff" opacity=".7"/><path d="M18 108 l22 -12 l18 6 l22 -18" fill="none" stroke="#2fe3a1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity=".0"/><rect x="112" y="84" width="10" height="24" rx="2.5" fill="#22c8ff" opacity=".85"/><rect x="126" y="72" width="10" height="36" rx="2.5" fill="#2fe3a1" opacity=".9"/><rect x="140" y="58" width="10" height="50" rx="2.5" fill="#ffc857" opacity=".95"/><rect x="14" y="94" width="10" height="14" rx="2.5" fill="#a470ff" opacity=".7"/><rect x="28" y="100" width="10" height="8" rx="2.5" fill="#ff5fa2" opacity=".7"/></svg>
+        </div>
+        <div class="svc-meta" data-i18n="cov8.meta"><span class="card-title">الشركات الناشئة</span><span class="card-cat">كل ما سبق</span></div>
+      </a>
+    </div>
+  </section>
+
+  <!-- ===== بطاقة متحركة تشير لأسفل ===== -->
+  <div class="cue-wrap">
+    <a class="cue" href="#services" data-i18n-aria="cue.aria" aria-label="كمّل التصفح">
+      <span class="cue-txt"><small data-i18n="cue.s">كمّل التصفح</small><b data-i18n="cue.t">المميزات اللي هتسهّل شغلك</b></span>
+      <span class="cue-arrows" aria-hidden="true"><i></i><i></i><i></i></span>
+    </a>
+  </div>
+
+  <!-- ===== المميزات ===== -->
+  <section class="section reveal" id="services">
+    <header class="sec-head">
+      <div>
+        <span class="eyebrow" data-i18n="svc.eye">وحدات المنصة</span>
+        <h2 class="section-title title-gradient" data-i18n="svc.title">كل شغلك مع عملائك، منظّم</h2>
+      </div>
+      <a class="sec-link" href="#services" data-i18n="svc.link">كل المميزات</a>
+    </header>
+    <div class="card-grid">
+      <a class="svc-card" href="#crm" data-sec="crm">
+        <div class="svc-thumb g-pink"><span class="chip" data-i18n="svc1.chip">ملف كامل لكل عميل</span>
+          <svg class="art" viewBox="0 0 160 120" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="crm1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2b2f45"/><stop offset="1" stop-color="#171a26"/></linearGradient><linearGradient id="crm2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff7a59"/><stop offset="1" stop-color="#ff5fa2"/></linearGradient></defs><g transform="rotate(-9 40 70)"><rect x="14" y="34" width="50" height="62" rx="8" fill="#242838" opacity=".9"/><circle cx="39" cy="52" r="8" fill="#ff5fa2" /><rect x="24" y="66" width="30" height="3" rx="1.5" fill="#f5f5f7" opacity="0.5"/><rect x="24" y="72" width="22" height="3" rx="1.5" fill="#f5f5f7" opacity="0.5"/></g><g transform="rotate(9 122 70)"><rect x="96" y="34" width="50" height="62" rx="8" fill="#242838" opacity=".9"/><circle cx="121" cy="52" r="8" fill="#22c8ff" /><rect x="106" y="66" width="30" height="3" rx="1.5" fill="#f5f5f7" opacity="0.5"/><rect x="106" y="72" width="22" height="3" rx="1.5" fill="#f5f5f7" opacity="0.5"/></g><rect x="40" y="20" width="80" height="92" rx="10" fill="url(#crm1)" stroke="#ffffff30"/><circle cx="80" cy="44" r="14" fill="url(#crm2)" /><circle cx="80" cy="44" r="14" fill="none" /><circle cx="80" cy="40.92" r="5.04" fill="#fff" opacity=".92"/><path d="M71.32 54.92 Q80 42.6 88.68 54.92" fill="#fff" stroke="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity=".92"/><rect x="56" y="64" width="48" height="5" rx="2.5" fill="#f5f5f7" opacity=".9"/><rect x="64" y="73" width="32" height="3.5" rx="1.75" fill="#f5f5f7" opacity=".4"/><rect x="48" y="83" width="20" height="9" rx="4.5" fill="#22c8ff" opacity=".28"/><rect x="72" y="83" width="18" height="9" rx="4.5" fill="#ff5fa2" opacity=".3"/><rect x="94" y="83" width="18" height="9" rx="4.5" fill="#ffc857" opacity=".3"/><circle cx="54" cy="101" r="3.2" fill="#2fe3a1" /><rect x="61" y="99.5" width="38" height="3" rx="1.5" fill="#f5f5f7" opacity=".4"/><g class="fl"><circle cx="122" cy="26" r="9" fill="#2fe3a1" /><path d="M118 26 l3 3 l6 -6" fill="none" stroke="#0d0f14" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /></g></svg>
+        </div>
+        <div class="svc-meta" data-i18n="svc1.meta"><span class="card-title">إدارة بيانات العملاء</span><span class="card-cat">CRM</span></div>
+      </a>
+      <a class="svc-card" href="#projects" data-sec="projects">
+        <div class="svc-thumb g-violet"><span class="chip" data-i18n="svc2.chip">Kanban + مواعيد</span>
+          <svg class="art" viewBox="0 0 160 120" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="pj1" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ff7a59"/><stop offset="1" stop-color="#ffc857"/></linearGradient><linearGradient id="pj2" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#a470ff"/><stop offset="1" stop-color="#ff5fa2"/></linearGradient><linearGradient id="pj3" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#22c8ff"/><stop offset="1" stop-color="#2fe3a1"/></linearGradient><linearGradient id="pj4" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ffc857"/><stop offset="1" stop-color="#ff7a59"/></linearGradient></defs><rect x="12" y="20" width="136" height="92" rx="10" fill="#181b25" stroke="#ffffff22"/><line x1="34" y1="34" x2="34" y2="104" stroke="#ffffff14" stroke-width="1" stroke-linecap="round" /><line x1="66" y1="34" x2="66" y2="104" stroke="#ffffff14" stroke-width="1" stroke-linecap="round" /><line x1="98" y1="34" x2="98" y2="104" stroke="#ffffff14" stroke-width="1" stroke-linecap="round" /><line x1="130" y1="34" x2="130" y2="104" stroke="#ffffff14" stroke-width="1" stroke-linecap="round" /><line x1="20" y1="34" x2="142" y2="34" stroke="#ffffff22" stroke-width="1" stroke-linecap="round" /><rect x="22" y="41" width="56" height="9" rx="4.5" fill="url(#pj1)" /><rect x="48" y="55" width="54" height="9" rx="4.5" fill="url(#pj2)" /><rect x="30" y="69" width="46" height="9" rx="4.5" fill="url(#pj3)" /><rect x="70" y="83" width="62" height="9" rx="4.5" fill="url(#pj4)" /><rect x="40" y="97" width="40" height="9" rx="4.5" fill="url(#pj1)" opacity=".7"/><circle cx="88" cy="46" r="0" fill="none" /><path d="M108 30 l0 -0" /><rect x="104" y="26" width="38" height="8" rx="4" fill="#ffffff10" /><rect x="104" y="26" width="26" height="8" rx="4" fill="#2fe3a1" opacity=".85"/><g class="fl"><circle cx="134" cy="62" r="10" fill="#2fe3a1" /><path d="M129 62 l4 4 l8 -8" fill="none" stroke="#0d0f14" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" /></g><circle cx="24" cy="27" r="3" fill="#ff7a59" /><circle cx="33" cy="27" r="3" fill="#ffc857" /><circle cx="42" cy="27" r="3" fill="#2fe3a1" /></svg>
+        </div>
+        <div class="svc-meta" data-i18n="svc2.meta"><span class="card-title">إدارة المشاريع والمهام</span><span class="card-cat">تشغيل</span></div>
+      </a>
+      <a class="svc-card" href="#payments" data-sec="payments">
+        <div class="svc-thumb g-mint"><span class="chip" data-i18n="svc3.chip">تذكير تلقائي</span>
+          <svg class="art" viewBox="0 0 160 120" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="pa1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff7a59"/><stop offset="1" stop-color="#a470ff"/></linearGradient><linearGradient id="pa2" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#a470ff"/><stop offset="1" stop-color="#22c8ff"/></linearGradient></defs><g transform="rotate(-12 100 86)"><rect x="66" y="58" width="64" height="40" rx="7" fill="url(#pa1)" /><rect x="66" y="67" width="64" height="8" rx="0" fill="#00000040" /><rect x="74" y="84" width="22" height="4" rx="2" fill="#fff" opacity=".7"/><circle cx="118" cy="88" r="6" fill="#ffc857" opacity=".9"/></g><rect x="30" y="14" width="70" height="94" rx="6" fill="#f6f4f1" stroke="#ffffff55"/><rect x="30" y="14" width="70" height="17" rx="6" fill="url(#pa2)" /><rect x="30" y="25" width="70" height="6" rx="0" fill="url(#pa2)" /><rect x="38" y="19" width="22" height="4" rx="2" fill="#fff" opacity=".9"/><rect x="38" y="40" width="40" height="3.2" rx="1.6" fill="#3a3e55" opacity=".55"/><rect x="84" y="40" width="10" height="3.2" rx="1.6" fill="#3a3e55" opacity=".55"/><rect x="38" y="49" width="34" height="3.2" rx="1.6" fill="#3a3e55" opacity=".4"/><rect x="84" y="49" width="10" height="3.2" rx="1.6" fill="#3a3e55" opacity=".4"/><rect x="38" y="58" width="44" height="3.2" rx="1.6" fill="#3a3e55" opacity=".4"/><rect x="84" y="58" width="10" height="3.2" rx="1.6" fill="#3a3e55" opacity=".4"/><line x1="38" y1="69" x2="94" y2="69" stroke="#3a3e55" stroke-width="1" stroke-linecap="round" opacity=".25"/><rect x="38" y="75" width="22" height="5" rx="2.5" fill="#1b1d2b" /><rect x="70" y="74" width="24" height="7" rx="3.5" fill="url(#pa2)" /><g transform="rotate(-14 116 38)"><g class="fl"><circle cx="116" cy="38" r="19" fill="none" stroke="#2fe3a1" stroke-width="2.4"/><circle cx="116" cy="38" r="15" fill="#2fe3a1" opacity=".16"/><path d="M107 38 l6 6 l12 -13" fill="none" stroke="#2fe3a1" stroke-width="3.2" stroke-linecap="round" stroke-linejoin="round" /></g></g><g class="fl2"><circle cx="128" cy="100" r="8" fill="#ffc857" /><circle cx="128" cy="96" r="8" fill="#ffd97a" /><path d="M125 96 h6" fill="none" stroke="#b5851d" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></g></svg>
+        </div>
+        <div class="svc-meta" data-i18n="svc3.meta"><span class="card-title">متابعة الدفعات والفواتير</span><span class="card-cat">مالية</span></div>
+      </a>
+      <a class="svc-card" href="#ads" data-sec="ads">
+        <div class="svc-thumb g-cyan"><span class="chip" data-i18n="svc4.chip">لحظة بلحظة</span>
+          <svg class="art" viewBox="0 0 160 120" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="ad1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#22c8ff"/><stop offset="1" stop-color="#a470ff00"/></linearGradient><linearGradient id="ad2" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#22c8ff"/><stop offset="1" stop-color="#a470ff"/></linearGradient></defs><rect x="12" y="18" width="136" height="94" rx="10" fill="#181b25" stroke="#ffffff22"/><circle cx="24" cy="30" r="4" fill="#1877f2" /><circle cx="35" cy="30" r="4" fill="#ea4335" /><circle cx="35" cy="30" r="2" fill="#ffc857" /><circle cx="46" cy="30" r="4" fill="#ff2d6a" /><circle cx="45" cy="29.4" r="2.2" fill="#22c8ff" /><rect x="98" y="24" width="42" height="13" rx="6.5" fill="#2fe3a1" opacity=".18"/><path d="M104 32 l4 -4 l3 3 l6 -6" fill="none" stroke="#2fe3a1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /><rect x="121" y="28" width="14" height="4.5" rx="2.2" fill="#2fe3a1" opacity=".9"/><line x1="20" y1="56" x2="140" y2="56" stroke="#ffffff10" stroke-width="1" stroke-linecap="round" /><line x1="20" y1="72" x2="140" y2="72" stroke="#ffffff10" stroke-width="1" stroke-linecap="round" /><line x1="20" y1="88" x2="140" y2="88" stroke="#ffffff10" stroke-width="1" stroke-linecap="round" /><path d="M20 100 L38 90 L54 94 L72 74 L90 80 L108 58 L124 62 L140 44 L140 104 L20 104 Z" fill="url(#ad1)" stroke="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity=".55"/><path d="M20 100 L38 90 L54 94 L72 74 L90 80 L108 58 L124 62 L140 44" fill="none" stroke="url(#ad2)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /><g class="fl"><circle cx="140" cy="44" r="6" fill="#fff" /><circle cx="140" cy="44" r="10" fill="#22c8ff" opacity=".25"/></g><g transform="translate(116 84) rotate(-18)"><path d="M0 0 l16 -6 v18 l-16 -6 z" fill="#ff7a59" stroke="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /><rect x="-6" y="-1" width="7" height="8" rx="2" fill="#ff5fa2" /><path d="M20 -2 q5 5 0 10" fill="none" stroke="#ffc857" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></g></svg>
+        </div>
+        <div class="svc-meta" data-i18n="svc4.meta"><span class="card-title">مراقبة الحملات الإعلانية</span><span class="card-cat">تسويق</span></div>
+      </a>
+      <a class="svc-card" href="#forms" data-sec="forms">
+        <div class="svc-thumb g-violet"><span class="chip" data-i18n="svc5.chip">رابط واحد</span>
+          <svg class="art" viewBox="0 0 160 120" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="fo1" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#a470ff"/><stop offset="1" stop-color="#ff5fa2"/></linearGradient></defs><rect x="28" y="14" width="104" height="98" rx="10" fill="#181b25" stroke="#ffffff26"/><rect x="38" y="22" width="40" height="5" rx="2.5" fill="#f5f5f7" opacity=".85"/><rect x="38" y="33" width="24" height="3" rx="1.5" fill="#f5f5f7" opacity=".35"/><rect x="38" y="39" width="84" height="13" rx="5" fill="#0b0d14" stroke="#22c8ff" stroke-width="1.4"/><rect x="43" y="44" width="34" height="3.4" rx="1.7" fill="#22c8ff" opacity=".85"/><rect x="80" y="43" width="1.6" height="6" rx="0.8" fill="#f5f5f7" /><rect x="38" y="57" width="24" height="3" rx="1.5" fill="#f5f5f7" opacity=".35"/><rect x="38" y="63" width="84" height="13" rx="5" fill="#0b0d14" stroke="#ffffff2a" stroke-width="1"/><rect x="43" y="68" width="46" height="3.4" rx="1.7" fill="#f5f5f7" opacity=".4"/><path d="M108 67 l4 4 l4 -4" fill="none" stroke="#f5f5f7" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" opacity=".6"/><rect x="38" y="81" width="10" height="10" rx="3" fill="#2fe3a1" /><path d="M40.5 86 l2.2 2.4 l4 -4.6" fill="none" stroke="#0d0f14" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /><rect x="53" y="83.5" width="40" height="3.6" rx="1.8" fill="#f5f5f7" opacity=".45"/><rect x="38" y="95" width="84" height="12" rx="6" fill="url(#fo1)" /><rect x="66" y="99.5" width="28" height="3.4" rx="1.7" fill="#fff" opacity=".95"/><g class="fl"><circle cx="132" cy="98" r="11" fill="url(#fo1)" /><path d="M127 99 a5 5 0 0 1 5 -5 h3 M137 97 a5 5 0 0 1 -5 5 h-3 M130 98 h5" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></g></svg>
+        </div>
+        <div class="svc-meta" data-i18n="svc5.meta"><span class="card-title">نماذج جمع بيانات العملاء</span><span class="card-cat">مبيعات</span></div>
+      </a>
+      <a class="svc-card" href="#reports" data-sec="reports">
+        <div class="svc-thumb g-amber"><span class="chip" data-i18n="svc6.chip">يومي وأسبوعي</span>
+          <svg class="art" viewBox="0 0 160 120" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="re1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffc857"/><stop offset="1" stop-color="#ff7a59"/></linearGradient><linearGradient id="re2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#22c8ff"/><stop offset="1" stop-color="#a470ff"/></linearGradient><linearGradient id="re3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#2fe3a1"/><stop offset="1" stop-color="#22c8ff"/></linearGradient></defs><rect x="12" y="18" width="136" height="94" rx="10" fill="#181b25" stroke="#ffffff22"/><rect x="20" y="26" width="30" height="10" rx="5" fill="#22c8ff" opacity=".22"/><rect x="54" y="26" width="30" height="10" rx="5" fill="#ff5fa2" opacity=".22"/><rect x="24" y="29.5" width="14" height="3" rx="1.5" fill="#22c8ff" /><rect x="58" y="29.5" width="14" height="3" rx="1.5" fill="#ff5fa2" /><rect x="22" y="84" width="9" height="20" rx="3" fill="url(#re1)" /><rect x="35" y="70" width="9" height="34" rx="3" fill="url(#re2)" /><rect x="48" y="78" width="9" height="26" rx="3" fill="url(#re3)" /><rect x="61" y="56" width="9" height="48" rx="3" fill="url(#re1)" /><rect x="74" y="66" width="9" height="38" rx="3" fill="url(#re2)" /><rect x="87" y="46" width="9" height="58" rx="3" fill="url(#re3)" /><line x1="18" y1="104.5" x2="100" y2="104.5" stroke="#ffffff22" stroke-width="1" stroke-linecap="round" /><circle cx="124" cy="70" r="17" fill="none" stroke="#ffffff14" stroke-width="9"/><circle cx="124" cy="70" r="17" fill="none" stroke="#2fe3a1" stroke-width="9" stroke-dasharray="46 107" transform="rotate(-90 124 70)"/><circle cx="124" cy="70" r="17" fill="none" stroke="#a470ff" stroke-width="9" stroke-dasharray="30 107" stroke-dashoffset="-50" transform="rotate(-90 124 70)"/><circle cx="124" cy="70" r="17" fill="none" stroke="#ffc857" stroke-width="9" stroke-dasharray="18 107" stroke-dashoffset="-84" transform="rotate(-90 124 70)"/><rect x="112" y="94" width="24" height="4" rx="2" fill="#f5f5f7" opacity=".4"/></svg>
+        </div>
+        <div class="svc-meta" data-i18n="svc6.meta"><span class="card-title">التقارير والتحليلات</span><span class="card-cat">تحليلات</span></div>
+      </a>
+      <a class="svc-card" href="#alerts" data-sec="alerts">
+        <div class="svc-thumb g-coral"><span class="chip" data-i18n="svc7.chip">واتساب + إيميل</span>
+          <svg class="art" viewBox="0 0 160 120" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="al1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffc857"/><stop offset="1" stop-color="#ff7a59"/></linearGradient></defs><g class="fl"><circle cx="48" cy="66" r="32" fill="url(#al1)" opacity=".16"/><circle cx="48" cy="66" r="24" fill="url(#al1)" opacity=".22"/><path d="M48 40 c-14 0 -20 10 -20 22 c0 14 -6 17 -8 20 h56 c-2 -3 -8 -6 -8 -20 c0 -12 -6 -22 -20 -22 z" fill="url(#al1)" stroke="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /><circle cx="48" cy="90" r="5.5" fill="#ffc857" /><circle cx="65" cy="44" r="6.5" fill="#ff7a59" /><circle cx="65" cy="44" r="2.2" fill="#fff" /></g><rect x="84" y="24" width="66" height="22" rx="8" fill="#242838" stroke="#ffffff22"/><circle cx="95" cy="35" r="6.5" fill="#25d366" /><path d="M92.5 35 l2.2 2.2 l4 -4.4" fill="none" stroke="#0d0f14" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /><rect x="105" y="30" width="34" height="3.6" rx="1.8" fill="#f5f5f7" opacity=".75"/><rect x="105" y="37.5" width="22" height="3" rx="1.5" fill="#f5f5f7" opacity=".35"/><rect x="90" y="52" width="66" height="22" rx="8" fill="#242838" stroke="#ffffff22"/><circle cx="101" cy="63" r="6.5" fill="#a470ff" /><path d="M97.5 61 l3.5 3 l3.5 -3 M97.5 61 h7 v5.5 h-7 z" fill="none" stroke="#fff" stroke-width="1.1" stroke-linecap="round" stroke-linejoin="round" /><rect x="111" y="58" width="34" height="3.6" rx="1.8" fill="#f5f5f7" opacity=".75"/><rect x="111" y="65.5" width="22" height="3" rx="1.5" fill="#f5f5f7" opacity=".35"/><rect x="84" y="80" width="66" height="22" rx="8" fill="#242838" stroke="#ffffff22"/><circle cx="95" cy="91" r="6.5" fill="#ffc857" /><path d="M95 87 v5 M95 94.5 v.1" fill="none" stroke="#0d0f14" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /><rect x="105" y="86" width="34" height="3.6" rx="1.8" fill="#f5f5f7" opacity=".75"/><rect x="105" y="93.5" width="22" height="3" rx="1.5" fill="#f5f5f7" opacity=".35"/></svg>
+        </div>
+        <div class="svc-meta" data-i18n="svc7.meta"><span class="card-title">إشعارات وتنبيهات ذكية</span><span class="card-cat">أتمتة</span></div>
+      </a>
+      <a class="svc-card" href="#archive" data-sec="archive">
+        <div class="svc-thumb g-violet"><span class="chip" data-i18n="svc8.chip">موثّق</span>
+          <svg class="art" viewBox="0 0 160 120" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="ar1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#a470ff"/><stop offset="1" stop-color="#6a5cff"/></linearGradient><linearGradient id="ar2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#22c8ff"/><stop offset="1" stop-color="#a470ff"/></linearGradient><linearGradient id="ar3" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#2fe3a1"/><stop offset="1" stop-color="#22c8ff"/></linearGradient></defs><g transform="rotate(-8 60 50)"><rect x="34" y="22" width="52" height="54" rx="5" fill="#f4f3f1" /><rect x="41" y="32" width="34" height="3" rx="1.5" fill="#3a3e55" opacity="0.45"/><rect x="41" y="40" width="26" height="3" rx="1.5" fill="#3a3e55" opacity="0.45"/><rect x="41" y="48" width="30" height="3" rx="1.5" fill="#3a3e55" opacity="0.45"/><rect x="41" y="56" width="20" height="3" rx="1.5" fill="#3a3e55" opacity="0.45"/></g><g transform="rotate(7 100 50)"><rect x="78" y="20" width="50" height="54" rx="5" fill="#e9eefb" /><rect x="85" y="30" width="30" height="3" rx="1.5" fill="#3a3e55" opacity="0.45"/><rect x="85" y="38" width="36" height="3" rx="1.5" fill="#3a3e55" opacity="0.45"/><rect x="85" y="46" width="22" height="3" rx="1.5" fill="#3a3e55" opacity="0.45"/></g><path d="M18 46 a7 7 0 0 1 7 -7 h30 l9 9 h71 a7 7 0 0 1 7 7 v50 a7 7 0 0 1 -7 7 h-110 a7 7 0 0 1 -7 -7 z" fill="url(#ar1)" stroke="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /><path d="M18 62 h124 v39 a7 7 0 0 1 -7 7 h-110 a7 7 0 0 1 -7 -7 z" fill="url(#ar2)" stroke="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity=".95"/><g class="fl"><circle cx="122" cy="92" r="15" fill="#0d0f14" opacity=".35"/><circle cx="122" cy="90" r="14" fill="url(#ar3)" /><path d="M122 80 l9 3.5 v7 c0 5 -4 9 -9 11 c-5 -2 -9 -6 -9 -11 v-7 z" fill="#fff" stroke="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity=".95"/><path d="M117.5 91 l3 3 l6 -6.5" fill="none" stroke="#2fe3a1" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" /></g><rect x="28" y="78" width="38" height="4.5" rx="2.2" fill="#fff" opacity=".55"/><rect x="28" y="87" width="26" height="3.5" rx="1.7" fill="#fff" opacity=".3"/></svg>
+        </div>
+        <div class="svc-meta" data-i18n="svc8.meta"><span class="card-title">أرشيف الملفات والعقود</span><span class="card-cat">مستندات</span></div>
+      </a>
+    </div>
+    <div class="shelf-foot"><a class="sec-link" href="#services" data-i18n="svc.foot">استعرض كل المميزات ←</a></div>
+  </section>
+
+  <hr class="hp-rule">
+
+  <!-- ===== أرقام تتكلم ===== -->
+  <section class="section reveal" id="numbers">
+    <header class="sec-head" style="justify-content:center;text-align:center">
+      <div style="align-items:center;margin-inline:auto">
+        <span class="eyebrow" data-i18n="num.eye">قبل ما تسأل</span>
+        <h2 class="section-title title-gradient" data-i18n="num.title">أرقام تتكلم عنّا</h2>
+      </div>
+    </header>
+    <div class="tp-grid">
+      <div class="glyph-card">
+        <h3 class="glyph-title" data-i18n="g1.t">دفعات محصّلة في موعدها</h3>
+        <p class="glyph-sub" data-i18n="g1.s">متوسط آخر <b class="num">90</b> يوماً عبر فرق TaskUp</p>
+        <div class="bignum num">96%</div>
+        <div class="meters" data-i18n="g1.m">
+          <div class="meter"><span>مشاريع تتسلّم في موعدها</span><span class="bar"><i style="width:94%"></i></span><span class="val num">94%</span></div>
+          <div class="meter"><span>دفعات في موعدها</span><span class="bar"><i style="width:96%"></i></span><span class="val num">96%</span></div>
+          <div class="meter"><span>رضا أصحاب الأعمال</span><span class="bar"><i style="width:98%"></i></span><span class="val num">4.9/5</span></div>
+        </div>
+      </div>
+      <div class="glyph-card">
+        <h3 class="glyph-title" data-i18n="g2.t">فواتير ودفعات بدون ملاحقة</h3>
+        <p class="glyph-sub" data-i18n="g2.s">فلوسك توصلك في موعدها، <b>بدون مكالمات محرجة ولا مفاجآت</b></p>
+        <div class="chips" data-i18n="g2.c">
+          <span><b class="ok">✓</b> فاتورة PDF باسم شركتك</span>
+          <span><b class="ok">✓</b> تذكير تلقائي للعميل</span>
+          <span><b class="ok">✓</b> دفعات مجزّأة على مراحل</span>
+          <span><b class="ok">✓</b> كشف حساب لكل عميل</span>
+          <span><b class="ok">✓</b> تنبيه عند التأخير</span>
+          <span><b class="ok">✓</b> تنبيه لحظي عند الدفع</span>
+          <span><b class="ok">✓</b> تتبع لكل جنيه</span>
+        </div>
+      </div>
+      <div class="glyph-card">
+        <h3 class="glyph-title" data-i18n="g3.t">واجهة لكل طرف</h3>
+        <p class="glyph-sub" data-i18n="g3.s">نفس اللحظة، نفس البيانات — <b>لك ولفريقك ولعميلك</b></p>
+        <div class="apps" data-i18n="g3.a">
+          <div class="app-tile"><b>لوحة المدير</b><small>كل العملاء والمشاريع والأرقام</small></div>
+          <div class="app-tile"><b>مساحة الفريق</b><small>مهام اليوم ومواعيد التسليم</small></div>
+          <div class="app-tile"><b>بوابة العميل</b><small>يتابع مشروعه ودفعاته برابط واحد</small></div>
+        </div>
+      </div>
+      <div class="glyph-card">
+        <h3 class="glyph-title" data-i18n="g4.t">لوحة تحكم متكاملة</h3>
+        <p class="glyph-sub" data-i18n="g4.s">كل العمليات في مكان واحد، <b>بصلاحيات دقيقة لفريقك</b></p>
+        <div class="tree" data-i18n="g4.tr">
+          <b>TaskUp /</b>
+          <span class="lvl">العملاء <span class="cnt">ملف · نشاط · ملاحظات</span>
+            <span class="lvl">نموذج جمع بيانات · استيراد Excel</span>
+          </span>
+          <span class="lvl">المشاريع والمهام <span class="cnt num">Kanban · مواعيد</span></span>
+          <span class="lvl">الدفعات والفواتير <span class="cnt">تذكيرات تلقائية</span></span>
+          <span class="lvl">الحملات الإعلانية <span class="cnt num">Meta · Google · TikTok</span></span>
+          <span class="lvl">التقارير والتحليلات</span>
+          <span class="lvl">فريق العمل <span class="cnt">صلاحيات</span></span>
+        </div>
+      </div>
+      <div class="glyph-card">
+        <h3 class="glyph-title" data-i18n="g5.t">مربوط بكل حساباتك</h3>
+        <p class="glyph-sub" data-i18n="g5.s">اربط أدواتك الحالية وتابع كل شيء <b>من لوحة واحدة</b></p>
+        <div class="chips" data-i18n="g5.c">
+          <span class="num">Meta Ads</span><span class="num">Google Ads</span><span class="num">TikTok Ads</span>
+          <span class="num">WhatsApp</span><span class="num">Gmail</span><span class="num">Google Drive</span>
+          <span>ملف Excel / CSV</span><span class="num">REST API</span><span>+ أي منصة أخرى</span>
+        </div>
+      </div>
+      <div class="glyph-card">
+        <h3 class="glyph-title" data-i18n="g6.t">جرّب بنفسك</h3>
+        <p class="glyph-sub" data-i18n="g6.s">افتح أي عميل: صفحته تعرض <b>كل شيء</b> — بياناته، مشاريعه، دفعاته، وأداء إعلاناته بالتفصيل.</p>
+        <div class="chips" style="margin-top:auto">
+          <a class="btn btn-ghost btn-sm" href="#portal-app" data-open-portal="demo" style="border-radius:999px" data-i18n="g6.b">شوف حساباً تجريبياً</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="hp-rule">
+
+
+  <!-- ===== أدوات ===== -->
+  <section class="section reveal" id="tools">
+    <header class="sec-head">
+      <div>
+        <span class="eyebrow" data-i18n="tools.eye">أدوات مدمجة</span>
+        <h2 class="section-title title-gradient" data-i18n="tools.title">أدوات تسهّل يوم شغلك</h2>
+      </div>
+      <a class="sec-link" href="#tools" data-i18n="tools.link">كل الأدوات</a>
+    </header>
+    <div class="marquee" id="marquee">
+      <div class="marquee-track" id="marqueeTrack">
+        <div class="tool-card" data-sec="t-invoices"><div class="tool-thumb g-amber"><svg class="art" viewBox="0 0 160 120" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="iv1" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ffc857"/><stop offset="1" stop-color="#ff7a59"/></linearGradient></defs><rect x="12" y="20" width="44" height="92" rx="8" fill="#181b25" stroke="#ffffff24"/><rect x="18" y="28" width="32" height="3.2" rx="1.6" fill="#f5f5f7" opacity=".5"/><rect x="18" y="34" width="32" height="10" rx="4" fill="#0b0d14" stroke="#ffffff2a"/><rect x="18" y="50" width="32" height="3.2" rx="1.6" fill="#f5f5f7" opacity=".5"/><rect x="18" y="56" width="32" height="10" rx="4" fill="#0b0d14" stroke="#ffc857" stroke-width="1.2"/><rect x="18" y="72" width="32" height="3.2" rx="1.6" fill="#f5f5f7" opacity=".5"/><rect x="18" y="78" width="32" height="10" rx="4" fill="#0b0d14" stroke="#ffffff2a"/><rect x="18" y="95" width="32" height="11" rx="5.5" fill="url(#iv1)" /><path d="M31 100.5 h6 M34 97.5 v6" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /><rect x="64" y="14" width="84" height="98" rx="6" fill="#f6f4f1" /><rect x="72" y="22" width="28" height="6" rx="3" fill="url(#iv1)" /><rect x="120" y="22" width="20" height="4" rx="2" fill="#3a3e55" opacity=".4"/><rect x="72" y="38" width="44" height="3.4" rx="1.7" fill="#3a3e55" opacity=".5"/><rect x="124" y="38" width="16" height="3.4" rx="1.7" fill="#3a3e55" opacity=".5"/><rect x="72" y="49" width="36" height="3.4" rx="1.7" fill="#3a3e55" opacity=".5"/><rect x="124" y="49" width="16" height="3.4" rx="1.7" fill="#3a3e55" opacity=".5"/><rect x="72" y="60" width="44" height="3.4" rx="1.7" fill="#3a3e55" opacity=".5"/><rect x="124" y="60" width="16" height="3.4" rx="1.7" fill="#3a3e55" opacity=".5"/><rect x="72" y="71" width="36" height="3.4" rx="1.7" fill="#3a3e55" opacity=".5"/><rect x="124" y="71" width="16" height="3.4" rx="1.7" fill="#3a3e55" opacity=".5"/><line x1="72" y1="84" x2="140" y2="84" stroke="#3a3e55" stroke-width="1" stroke-linecap="round" opacity=".3"/><rect x="98" y="90" width="42" height="14" rx="7" fill="#1b1d2b" /><rect x="103" y="95" width="14" height="4" rx="2" fill="#ffc857" /><rect x="121" y="95" width="14" height="4" rx="2" fill="#fff" opacity=".8"/></svg></div><div class="tool-meta" data-i18n="tool1.meta"><span class="card-title">منشئ الفواتير</span><span class="card-cat">مالية</span></div></div>
+        <div class="tool-card" data-sec="t-intake"><div class="tool-thumb g-cyan"><svg class="art" viewBox="0 0 160 120" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="ik1" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#22c8ff"/><stop offset="1" stop-color="#a470ff"/></linearGradient></defs><circle cx="36" cy="28" r="7" fill="#2fe3a1" /><path d="M32.5 28 l2.6 2.8 l4.6 -5.2" fill="none" stroke="#0d0f14" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" /><line x1="44" y1="28" x2="64" y2="28" stroke="#2fe3a1" stroke-width="2.4" stroke-linecap="round" /><circle cx="72" cy="28" r="7" fill="#22c8ff" /><circle cx="72" cy="28" r="2.6" fill="#fff" /><line x1="80" y1="28" x2="100" y2="28" stroke="#ffffff30" stroke-width="2.4" stroke-linecap="round" /><circle cx="108" cy="28" r="7" fill="#ffffff24" /><circle cx="108" cy="28" r="2.4" fill="#ffffff80" /><rect x="24" y="44" width="112" height="66" rx="10" fill="#181b25" stroke="#ffffff26"/><circle cx="46" cy="64" r="9" fill="#a470ff" /><circle cx="46" cy="62.02" r="3.2399999999999998" fill="#fff" opacity=".92"/><path d="M40.42 71.02 Q46 63.1 51.58 71.02" fill="#fff" stroke="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity=".92"/><rect x="62" y="58" width="50" height="4.5" rx="2.2" fill="#f5f5f7" opacity=".8"/><rect x="62" y="67" width="34" height="3.4" rx="1.7" fill="#f5f5f7" opacity=".35"/><rect x="34" y="80" width="92" height="11" rx="5" fill="#0b0d14" stroke="#22c8ff" stroke-width="1.2"/><rect x="39" y="84" width="38" height="3.2" rx="1.6" fill="#22c8ff" opacity=".8"/><rect x="34" y="95" width="52" height="11" rx="5.5" fill="url(#ik1)" /><rect x="44" y="99.5" width="32" height="3" rx="1.5" fill="#fff" opacity=".95"/><g class="fl"><path d="M104 100 l24 -4 l-4 24 l-6 -10 z" fill="#fff" stroke="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></g></svg></div><div class="tool-meta" data-i18n="tool2.meta"><span class="card-title">نموذج بيانات العميل</span><span class="card-cat">مبيعات</span></div></div>
+        <div class="tool-card" data-sec="t-adsreport"><div class="tool-thumb g-violet"><svg class="art" viewBox="0 0 160 120" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="ar_1" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#22c8ff"/><stop offset="1" stop-color="#a470ff"/></linearGradient><linearGradient id="ar_2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#a470ff"/><stop offset="1" stop-color="#a470ff00"/></linearGradient></defs><rect x="14" y="18" width="132" height="96" rx="9" fill="#f6f4f1" /><rect x="14" y="18" width="132" height="20" rx="9" fill="url(#ar_1)" /><rect x="14" y="30" width="132" height="8" rx="0" fill="url(#ar_1)" /><rect x="22" y="25" width="38" height="5" rx="2.5" fill="#fff" opacity=".95"/><rect x="112" y="24" width="26" height="7" rx="3.5" fill="#fff" opacity=".35"/><rect x="22" y="46" width="36" height="24" rx="6" fill="#22c8ff" opacity=".18"/><rect x="64" y="46" width="36" height="24" rx="6" fill="#a470ff" opacity=".18"/><rect x="106" y="46" width="32" height="24" rx="6" fill="#2fe3a1" opacity=".22"/><rect x="27" y="52" width="14" height="4" rx="2" fill="#22c8ff" /><rect x="27" y="60" width="24" height="5" rx="2.5" fill="#1b1d2b" /><rect x="69" y="52" width="14" height="4" rx="2" fill="#a470ff" /><rect x="69" y="60" width="24" height="5" rx="2.5" fill="#1b1d2b" /><rect x="111" y="52" width="14" height="4" rx="2" fill="#2fe3a1" /><rect x="111" y="60" width="18" height="5" rx="2.5" fill="#1b1d2b" /><path d="M22 100 L40 90 L58 94 L76 80 L94 84 L112 72 L138 78" fill="none" stroke="url(#ar_1)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" /><path d="M22 100 L40 90 L58 94 L76 80 L94 84 L112 72 L138 78 V106 H22 z" fill="url(#ar_2)" stroke="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity=".4"/><g transform="translate(116 86) rotate(-20)"><g class="fl"><path d="M0 0 l26 -8 l-10 18 l-3 -7 z" fill="#22c8ff" stroke="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /><path d="M13 3 l13 -11" fill="none" stroke="#fff" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" /></g></g></svg></div><div class="tool-meta" data-i18n="tool3.meta"><span class="card-title">تقرير إعلانات يومي</span><span class="card-cat">تسويق</span></div></div>
+        <div class="tool-card" data-sec="t-kanban"><div class="tool-thumb g-pink"><svg class="art" viewBox="0 0 160 120" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="kb1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff5fa2"/><stop offset="1" stop-color="#a470ff"/></linearGradient></defs><rect x="10" y="20" width="140" height="92" rx="9" fill="#181b25" stroke="#ffffff22"/><rect x="16" y="28" width="30" height="78" rx="6" fill="#ffffff08" /><rect x="20" y="32" width="18" height="4" rx="2" fill="#ff7a59" /><rect x="50" y="28" width="30" height="78" rx="6" fill="#ffffff08" /><rect x="54" y="32" width="18" height="4" rx="2" fill="#ffc857" /><rect x="84" y="28" width="30" height="78" rx="6" fill="#ffffff08" /><rect x="88" y="32" width="18" height="4" rx="2" fill="#22c8ff" /><rect x="118" y="28" width="30" height="78" rx="6" fill="#ffffff08" /><rect x="122" y="32" width="18" height="4" rx="2" fill="#2fe3a1" /><rect x="20" y="42" width="22" height="14" rx="4" fill="#242838" /><rect x="20" y="60" width="22" height="18" rx="4" fill="#242838" /><rect x="20" y="82" width="22" height="14" rx="4" fill="#242838" /><rect x="54" y="42" width="22" height="20" rx="4" fill="#242838" /><rect x="54" y="66" width="22" height="14" rx="4" fill="#242838" /><rect x="88" y="42" width="22" height="14" rx="4" fill="#242838" /><rect x="88" y="60" width="22" height="22" rx="4" fill="#242838" /><rect x="122" y="42" width="22" height="14" rx="4" fill="#242838" /><rect x="122" y="60" width="22" height="14" rx="4" fill="#242838" /><rect x="24" y="47" width="12" height="2.6" rx="1.3" fill="#f5f5f7" opacity=".45"/><rect x="24" y="66" width="12" height="2.6" rx="1.3" fill="#f5f5f7" opacity=".45"/><rect x="24" y="87" width="12" height="2.6" rx="1.3" fill="#f5f5f7" opacity=".45"/><rect x="58" y="48" width="12" height="2.6" rx="1.3" fill="#f5f5f7" opacity=".45"/><rect x="58" y="71" width="12" height="2.6" rx="1.3" fill="#f5f5f7" opacity=".45"/><rect x="92" y="47" width="12" height="2.6" rx="1.3" fill="#f5f5f7" opacity=".45"/><rect x="92" y="66" width="12" height="2.6" rx="1.3" fill="#f5f5f7" opacity=".45"/><rect x="126" y="47" width="12" height="2.6" rx="1.3" fill="#f5f5f7" opacity=".45"/><rect x="126" y="66" width="12" height="2.6" rx="1.3" fill="#f5f5f7" opacity=".45"/><circle cx="38" cy="51" r="2.4" fill="#2fe3a1" /><circle cx="38" cy="74" r="2.4" fill="#a470ff" /><circle cx="72" cy="56" r="2.4" fill="#ff5fa2" /><circle cx="106" cy="51" r="2.4" fill="#ffc857" /><circle cx="140" cy="51" r="2.4" fill="#22c8ff" /><circle cx="140" cy="69" r="2.4" fill="#2fe3a1" /><g transform="rotate(8 108 78)"><g class="fl"><rect x="92" y="72" width="32" height="20" rx="5" fill="url(#kb1)" stroke="#fff" stroke-opacity=".4"/><rect x="97" y="78" width="18" height="3" rx="1.5" fill="#fff" opacity=".95"/><circle cx="116" cy="86" r="3" fill="#fff" /></g></g><path d="M118 92 l0 14 l4 -4 l4 8 l3 -1.5 l-4 -8 l6 0 z" fill="#fff" stroke="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" stroke="#0d0f14" stroke-width="1"/></svg></div><div class="tool-meta" data-i18n="tool4.meta"><span class="card-title">لوحة Kanban للمشاريع</span><span class="card-cat">تشغيل</span></div></div>
+        <div class="tool-card" data-sec="t-reminders"><div class="tool-thumb g-coral"><svg class="art" viewBox="0 0 160 120" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="rm1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffc857"/><stop offset="1" stop-color="#ff7a59"/></linearGradient><linearGradient id="rm2" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffc857"/><stop offset="1" stop-color="#ff7a59"/></linearGradient></defs><g class="fl"><circle cx="66" cy="68" r="40" fill="url(#rm1)" opacity=".18"/><circle cx="66" cy="68" r="32" fill="#242838" stroke="#ffffff30" stroke-width="2"/><path d="M66 68 L66 44 A24 24 0 0 1 86 56 Z" fill="#ffc857" stroke="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity=".9"/><path d="M66 68 L86 56 A24 24 0 0 1 82 88 Z" fill="#ff7a59" stroke="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity=".85"/><circle cx="66" cy="68" r="24" fill="none" stroke="#ffffff22"/><line x1="66" y1="68" x2="66" y2="50" stroke="#fff" stroke-width="2.6" stroke-linecap="round" /><line x1="66" y1="68" x2="78" y2="74" stroke="#fff" stroke-width="2.6" stroke-linecap="round" /><circle cx="66" cy="68" r="3" fill="#fff" /><rect x="60" y="26" width="12" height="6" rx="2" fill="#ffffff66" /><line x1="66" y1="32" x2="66" y2="36" stroke="#ffffff66" stroke-width="2" stroke-linecap="round" /></g><g class="fl2"><path d="M128 30 c-9 0 -13 7 -13 15 c0 9 -4 11 -5 13 h36 c-1 -2 -5 -4 -5 -13 c0 -8 -4 -15 -13 -15 z" fill="url(#rm2)" stroke="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /><circle cx="128" cy="63" r="4" fill="#ffc857" /><circle cx="141" cy="30" r="5" fill="#ff7a59" /></g><rect x="100" y="78" width="50" height="22" rx="8" fill="#242838" stroke="#ffffff26"/><circle cx="111" cy="89" r="5.5" fill="#2fe3a1" /><path d="M108.4 89 l2 2 l3.8 -4.2" fill="none" stroke="#0d0f14" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /><rect x="120" y="85" width="24" height="3.4" rx="1.7" fill="#f5f5f7" opacity=".7"/><rect x="120" y="92" width="16" height="3" rx="1.5" fill="#f5f5f7" opacity=".32"/><g class="fl"><circle cx="30" cy="100" r="9" fill="#ffc857" /><circle cx="30" cy="96.5" r="9" fill="#ffd97a" /><path d="M27 96.5 h6" fill="none" stroke="#b5851d" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" /></g></svg></div><div class="tool-meta" data-i18n="tool5.meta"><span class="card-title">تذكير دفعات تلقائي</span><span class="card-cat">أتمتة</span></div></div>
+        <div class="tool-card" data-open-portal style="cursor:pointer"><div class="tool-thumb g-violet"><svg class="art" viewBox="0 0 160 120" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="pt1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#a470ff"/><stop offset="1" stop-color="#ff5fa2"/></linearGradient><linearGradient id="pt2" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#22c8ff"/><stop offset="1" stop-color="#2fe3a1"/></linearGradient></defs><rect x="12" y="18" width="136" height="94" rx="9" fill="#181b25" stroke="#ffffff2a"/><rect x="12" y="18" width="136" height="15" rx="9" fill="#202436" /><rect x="12" y="26" width="136" height="7" rx="0" fill="#202436" /><circle cx="23" cy="25.5" r="2.6" fill="#ff7a59" /><circle cx="31" cy="25.5" r="2.6" fill="#ffc857" /><circle cx="39" cy="25.5" r="2.6" fill="#2fe3a1" /><rect x="50" y="22" width="70" height="7" rx="3.5" fill="#0b0d14" /><rect x="18" y="39" width="32" height="67" rx="6" fill="#ffffff0a" /><circle cx="34" cy="53" r="9" fill="url(#pt1)" /><circle cx="34" cy="51" r="3.2" fill="#fff" /><path d="M27 60 q7 -8 14 0" fill="#fff" stroke="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /><rect x="23" y="69" width="22" height="3.4" rx="1.7" fill="#f5f5f7" opacity=".7"/><rect x="23" y="77" width="22" height="3.4" rx="1.7" fill="#a470ff" /><rect x="23" y="85" width="22" height="3.4" rx="1.7" fill="#f5f5f7" opacity=".3"/><rect x="23" y="93" width="22" height="3.4" rx="1.7" fill="#f5f5f7" opacity=".3"/><circle cx="86" cy="62" r="17" fill="none" stroke="#ffffff16" stroke-width="7"/><circle cx="86" cy="62" r="17" fill="none" stroke="url(#pt2)" stroke-width="7" stroke-linecap="round" stroke-dasharray="77 107" transform="rotate(-90 86 62)"/><rect x="78" y="59" width="16" height="6" rx="3" fill="#fff" opacity=".9"/><rect x="112" y="44" width="30" height="4" rx="2" fill="#22c8ff" /><rect x="112" y="52" width="24" height="3.4" rx="1.7" fill="#f5f5f7" opacity=".4"/><rect x="112" y="64" width="30" height="4" rx="2" fill="#ff5fa2" /><rect x="112" y="72" width="18" height="3.4" rx="1.7" fill="#f5f5f7" opacity=".4"/><rect x="58" y="86" width="84" height="17" rx="7" fill="#ffffff10" /><circle cx="68" cy="94.5" r="5" fill="#2fe3a1" /><path d="M65.8 94.5 l1.8 1.8 l3.4 -3.8" fill="none" stroke="#0d0f14" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /><rect x="78" y="91" width="34" height="3.4" rx="1.7" fill="#f5f5f7" opacity=".7"/><rect x="118" y="90" width="18" height="9" rx="4.5" fill="#2fe3a1" opacity=".25"/></svg></div><div class="tool-meta" data-i18n="tool6.meta"><span class="card-title">بوابة العميل</span><span class="card-cat">تجربة العميل</span></div></div>
+        <div class="tool-card" data-sec="t-contracts"><div class="tool-thumb g-cyan"><svg class="art" viewBox="0 0 160 120" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><defs><linearGradient id="ct1" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#22c8ff"/><stop offset="1" stop-color="#a470ff"/></linearGradient><linearGradient id="ct2" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ff5fa2"/><stop offset="1" stop-color="#a470ff"/></linearGradient></defs><path d="M14 40 a6 6 0 0 1 6 -6 h28 l8 8 h72 a6 6 0 0 1 6 6 v56 a6 6 0 0 1 -6 6 h-108 a6 6 0 0 1 -6 -6 z" fill="url(#ct1)" stroke="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity=".7"/><g transform="rotate(-4 76 66)"><rect x="36" y="22" width="76" height="88" rx="5" fill="#f6f4f1" stroke="#ffffff55"/><rect x="44" y="30" width="32" height="5" rx="2.5" fill="#1b1d2b" opacity=".8"/><rect x="44" y="42" width="58" height="3" rx="1.5" fill="#3a3e55" opacity="0.4"/><rect x="44" y="49" width="52" height="3" rx="1.5" fill="#3a3e55" opacity="0.4"/><rect x="44" y="56" width="56" height="3" rx="1.5" fill="#3a3e55" opacity="0.4"/><rect x="44" y="63" width="36" height="3" rx="1.5" fill="#3a3e55" opacity="0.4"/><path d="M46 92 q6 -12 10 -2 q4 8 8 -4 q4 -9 8 2 q4 8 9 -2" fill="none" stroke="#a470ff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" /><line x1="44" y1="98" x2="102" y2="98" stroke="#3a3e55" stroke-width="1" stroke-linecap="round" opacity=".35"/></g><g class="fl"><circle cx="122" cy="88" r="16" fill="url(#ct2)" /><circle cx="122" cy="88" r="11.5" fill="none" stroke="#fff" stroke-opacity=".6" stroke-width="1.2"/><path d="M122 80 l2.4 5 l5.4 .6 l-4 3.7 l1.1 5.4 l-4.9 -2.8 l-4.9 2.8 l1.1 -5.4 l-4 -3.7 l5.4 -.6 z" fill="#fff" stroke="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /><path d="M114 102 l-3 10 l7 -4 z M130 102 l3 10 l-7 -4 z" fill="#ff5fa2" stroke="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></g><g transform="translate(126 30) rotate(35)"><rect x="0" y="0" width="6" height="26" rx="2.5" fill="#ffc857" /><path d="M0 26 l3 7 l3 -7 z" fill="#fff" stroke="none" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" /></g></svg></div><div class="tool-meta" data-i18n="tool7.meta"><span class="card-title">أرشيف العقود والملفات</span><span class="card-cat">مستندات</span></div></div>
+        <div class="tool-card" data-sec="t-api"><div class="tool-thumb g-mint"><svg class="art" viewBox="0 0 160 120" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><rect x="12" y="20" width="100" height="90" rx="8" fill="#0b0d14" stroke="#ffffff2a"/><rect x="12" y="20" width="100" height="14" rx="8" fill="#171a26" /><rect x="12" y="28" width="100" height="6" rx="0" fill="#171a26" /><circle cx="22" cy="27" r="2.6" fill="#ff7a59" /><circle cx="30" cy="27" r="2.6" fill="#ffc857" /><circle cx="38" cy="27" r="2.6" fill="#2fe3a1" /><path d="M20 46 h6" fill="none" stroke="#2fe3a1" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" /><rect x="30" y="44" width="16" height="4" rx="2" fill="#22c8ff" /><rect x="50" y="44" width="28" height="4" rx="2" fill="#ffffff55" /><rect x="26" y="54" width="20" height="4" rx="2" fill="#a470ff" /><path d="M48 56 h4" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" opacity=".5"/><rect x="56" y="54" width="34" height="4" rx="2" fill="#ffc857" /><rect x="26" y="64" width="26" height="4" rx="2" fill="#a470ff" /><rect x="56" y="64" width="22" height="4" rx="2" fill="#ff5fa2" /><rect x="26" y="74" width="18" height="4" rx="2" fill="#a470ff" /><rect x="48" y="74" width="38" height="4" rx="2" fill="#2fe3a1" /><rect x="20" y="88" width="34" height="12" rx="6" fill="#2fe3a1" opacity=".2"/><rect x="26" y="92.5" width="22" height="3.2" rx="1.6" fill="#2fe3a1" /><line x1="112" y1="50" x2="128" y2="48" stroke="#ffffff30" stroke-width="1.4" stroke-linecap="round" /><line x1="112" y1="74" x2="128" y2="68" stroke="#ffffff30" stroke-width="1.4" stroke-linecap="round" /><line x1="112" y1="98" x2="128" y2="88" stroke="#ffffff30" stroke-width="1.4" stroke-linecap="round" /><line x1="112" y1="66" x2="128" y2="66" stroke="#ffffff40" stroke-width="1.4" stroke-linecap="round" /><g class="fl"><circle cx="138" cy="38" r="10" fill="#a470ff" /><path d="M133 38 h10 M138 33 v10" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" /></g><circle cx="138" cy="66" r="10" fill="#22c8ff" /><path d="M133 66 l3.5 3.5 l7 -7.5" fill="none" stroke="#0d0f14" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" /><g class="fl2"><circle cx="138" cy="94" r="10" fill="#ffc857" /><path d="M133 94 h10" fill="none" stroke="#0d0f14" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" /></g></svg></div><div class="tool-meta" data-i18n="tool8.meta"><span class="card-title">API للمطورين</span><span class="card-cat">تكامل</span></div></div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="hp-rule">
+
+  <!-- ===== كيف نعمل ===== -->
+  <section class="section reveal" id="how-it-works">
+    <header class="sec-head" style="justify-content:center;text-align:center">
+      <div style="align-items:center;margin-inline:auto">
+        <span class="eyebrow" data-i18n="hiw.eye">كيف نعمل</span>
+        <h2 class="section-title title-gradient" data-i18n="hiw.title">من أول عميل لآخر دفعة في أربع خطوات</h2>
+        <p style="color:var(--text-secondary);margin:0" data-i18n="hiw.sub">كل اللي محتاجه عشان تنظم شغل عملائك وتقبض في موعدك، بدون صداع</p>
+      </div>
+    </header>
+    <div class="hiw-rail">
+      <div class="hiw-step">
+        <span class="hiw-no num">1</span>
+        <h3 data-i18n="hiw1.t">أنشئ مساحة شغلك</h3>
+        <p data-i18n="hiw1.p">حساب في دقائق: <b>بياناتك، فريقك، وهوية شركتك</b> — وجاهز تبدأ.</p>
+        <div class="chips" data-i18n="hiw1.c"><span>بدون بطاقة ائتمان</span><span>إعداد في 5 دقائق</span></div>
+      </div>
+      <div class="hiw-step">
+        <span class="hiw-no num">2</span>
+        <h3 data-i18n="hiw2.t">أضف عملاءك</h3>
+        <p data-i18n="hiw2.p">ملف لكل عميل: بياناته ومشاريعه وعقوده — أو <b>اجمعها بنموذج برابط واحد</b>.</p>
+        <div class="chips" data-i18n="hiw2.c"><span>استيراد Excel</span><span>نموذج جمع بيانات</span></div>
+      </div>
+      <div class="hiw-step">
+        <span class="hiw-no num">3</span>
+        <h3 data-i18n="hiw3.t">تابع الشغل والإعلانات</h3>
+        <p data-i18n="hiw3.p">مهام فريقك وحملات عملائك في <b>لوحة واحدة</b>، مع تنبيهات لحظية لأي جديد.</p>
+        <div class="chips" data-i18n="hiw3.c"><span class="num">Kanban</span><span>تقارير يومية</span><span>تنبيهات</span></div>
+      </div>
+      <div class="hiw-step">
+        <span class="hiw-no num">4</span>
+        <h3 data-i18n="hiw4.t">حصّل دفعاتك</h3>
+        <p data-i18n="hiw4.p">فواتير وتذكيرات تلقائية، والعميل يدفع ويشوف <b>كشف حسابه من بوابته</b>.</p>
+        <div class="chips" data-i18n="hiw4.c"><span>فاتورة PDF</span><span>تذكير تلقائي</span><span>كشف حساب</span></div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="hp-rule">
+
+  <!-- ===== مراقبة الإعلانات ===== -->
+  <section class="section reveal" id="integration">
+    <div class="split">
+      <div class="split-copy">
+        <span class="eyebrow" data-i18n="int.eye">مراقبة الإعلانات</span>
+        <h2 class="section-title title-gradient" data-i18n="int.title">حملات عملائك،<br>تحت عينك</h2>
+        <p data-i18n="int.p">اربط حسابات Meta وGoogle وTikTok مرة واحدة، و<b>أرقام الأداء تتحدّث تلقائياً</b> — الصرف والنتائج والتكلفة، لحظة بلحظة.</p>
+        <ul class="feature-list" data-i18n="int.l">
+          <li><span class="tick">✓</span> ربط مباشر مع Meta وGoogle وTikTok Ads</li>
+          <li><span class="tick">✓</span> تنبيه فوري لو الأداء نزل أو الميزانية خلصت</li>
+          <li><span class="tick">✓</span> تقرير يومي يتبعت للعميل باسم شركتك تلقائياً</li>
+        </ul>
+        <a class="btn btn-ghost" href="#ads" data-sec="ads" data-i18n="int.b">اعرف أكثر عن مراقبة الإعلانات</a>
+      </div>
+      <div class="mock">
+        <div class="mock-bar"><i></i><i></i><i></i><span class="num ltr">ads → reports</span></div>
+        <div class="mock-body" data-i18n="int.m">
+          <div class="mock-row"><span class="id num">CMP-2381</span><span class="who">متجر نور · Meta</span><span class="pill p-good num">ROAS 4.2x</span><span class="mock-amount">1,250 ج.م/يوم</span></div>
+          <div class="mock-row"><span class="id num">CMP-2384</span><span class="who">عيادة سما · Google</span><span class="pill p-warm">الميزانية قربت تخلص</span><span class="mock-amount">840 ج.م/يوم</span></div>
+          <div class="mock-row"><span class="id num">CMP-2390</span><span class="who">مطعم بيتزا رو · TikTok</span><span class="pill p-peri">قيد المراجعة</span><span class="mock-amount">2,100 ج.م/يوم</span></div>
+          <div class="mock-row"><span class="id num">CMP-2391</span><span class="who">أكاديمية ليرن · Meta</span><span class="pill p-good">نشطة</span><span class="mock-amount">560 ج.م/يوم</span></div>
+          <div class="mock-row"><span class="id num">CMP-2395</span><span class="who">عقارات المدينة · Google</span><span class="pill p-warm">تحتاج تحسيناً</span><span class="mock-amount">1,780 ج.م/يوم</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="hp-rule">
+
+  <!-- ===== بوابة العميل ===== -->
+  <section class="section reveal" id="portal">
+    <div class="split">
+      <div class="split-copy">
+        <span class="eyebrow" data-i18n="por.eye">بوابة العميل</span>
+        <h2 class="section-title title-gradient" data-i18n="por.title">عميلك يشوف شغله،<br>بنفسه</h2>
+        <p data-i18n="por.p">كل عميل له بوابة باسم شركتك: <b>يتابع تقدم مشروعه، يعتمد الأعمال، ويشوف فواتيره ويدفع</b> — من غير ما يسألك.</p>
+        <div class="chips" data-i18n="por.c">
+          <span>متابعة المشروع</span><span>اعتماد الأعمال</span><span>الفواتير والدفع</span>
+          <span>تقارير الإعلانات</span><span>رسائل ودعم</span>
+        </div>
+        <a class="btn btn-primary" href="#portal-app" data-open-portal data-i18n="por.b">جرّب البوابة <span class="arr">←</span></a>
+      </div>
+      <div class="mock">
+        <div class="mock-bar"><i></i><i></i><i></i><span data-i18n="por.bar">بوابة العميل — نظرة اليوم</span></div>
+        <div class="mock-body" data-i18n="por.m">
+          <div class="apps" style="margin:0">
+            <div class="app-tile"><small>إنجاز المشروع</small><b class="num" style="font-size:1.3rem">72%</b></div>
+            <div class="app-tile"><small>فواتير مدفوعة</small><b class="num" style="font-size:1.3rem">8/10</b></div>
+            <div class="app-tile"><small>حملات نشطة</small><b class="num" style="font-size:1.3rem;color:var(--good)">3</b></div>
+          </div>
+          <div class="mock-row"><span class="id num">فاتورة #381</span><span class="who">الدفعة الثالثة · اليوم</span><span class="pill p-good">مدفوعة</span><span class="mock-amount">52,300 ج.م</span></div>
+          <div class="mock-row"><span class="id num">تسليم #94</span><span class="who">مراجعة الهوية البصرية</span><span class="pill p-warm">في انتظار اعتمادك</span><span class="mock-amount">—</span></div>
+          <div class="mock-row"><span class="id num">طلب #12</span><span class="who">تعديل صفحة الهبوط</span><span class="pill p-peri">قيد التنفيذ</span><span class="mock-amount">—</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <hr class="hp-rule">
+
+  <!-- ===== شكاوى العملاء ===== -->
+  <section class="section reveal" id="complaints">
+    <header class="sec-head" style="justify-content:center;text-align:center">
+      <div style="align-items:center;margin-inline:auto">
+        <span class="eyebrow" data-i18n="cps.eye">شكاوى العملاء</span>
+        <h2 class="section-title title-gradient" data-i18n="cps.title">عندك شكوى؟ احنا بنسمعك</h2>
+        <p style="color:var(--text-secondary);margin:0;max-width:40rem" data-i18n="cps.sub">اكتب مشكلتك بالتفصيل وهتاخد رقم شكوى تتابعها بيه. كل شكوى بتروح لمدير مسؤول، ومبتتقفلش غير لما تتحل.</p>
+      </div>
+    </header>
+    <div class="cp-wrap">
+      <div class="cp-cats">
+        <button type="button" class="cp-cat" data-open-complaint="late" style="--rgb:255,122,89;--c1:#ffb08a;--c2:#ff5f6d"><span class="cp-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="13" r="8"/><path d="M12 8v5l3 2M9 2h6"/></svg></span><b data-i18n="cps.c1">تأخير في التسليم</b><small data-i18n="cps.c1d">المشروع أو التسليم اتأخر عن الميعاد</small></button>
+        <button type="button" class="cp-cat" data-open-complaint="quality" style="--rgb:164,112,255;--c1:#cdb8ff;--c2:#8a63ff"><span class="cp-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l2.6 5.4 5.9.8-4.3 4.1 1 5.9L12 16.4 6.8 19.2l1-5.9L3.5 9.2l5.9-.8z"/></svg></span><b data-i18n="cps.c2">جودة الشغل</b><small data-i18n="cps.c2d">الشغل مش زي ما اتفقنا</small></button>
+        <button type="button" class="cp-cat" data-open-complaint="billing" style="--rgb:255,200,87;--c1:#ffe08a;--c2:#ff9f1c"><span class="cp-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 3h12v18l-3-2-3 2-3-2-3 2z"/><path d="M9 8h6M9 12h6"/></svg></span><b data-i18n="cps.c3">الفواتير والدفعات</b><small data-i18n="cps.c3d">فاتورة غلط أو دفعة مش مظبوطة</small></button>
+        <button type="button" class="cp-cat" data-open-complaint="ads" style="--rgb:34,200,255;--c1:#9be8ff;--c2:#22a8e0"><span class="cp-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l13-6v14L3 13z"/><path d="M8 13.5V18a2 2 0 0 0 4 0v-2.5"/></svg></span><b data-i18n="cps.c4">الإعلانات والنتائج</b><small data-i18n="cps.c4d">النتايج مش زي المتوقع</small></button>
+        <button type="button" class="cp-cat" data-open-complaint="comm" style="--rgb:255,95,162;--c1:#ff9ccb;--c2:#e0408a"><span class="cp-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 10h8"/></svg></span><b data-i18n="cps.c5">التواصل مع الفريق</b><small data-i18n="cps.c5d">محدش بيرد أو الرد بيتأخر</small></button>
+        <button type="button" class="cp-cat" data-open-complaint="other" style="--rgb:47,227,161;--c1:#9bf3cf;--c2:#1fb982"><span class="cp-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 .9-1 1.7M12 17h.01"/></svg></span><b data-i18n="cps.c6">حاجة تانية</b><small data-i18n="cps.c6d">أي حاجة تضايقك</small></button>
+      </div>
+      <aside class="glyph-card cp-side">
+        <h3 class="glyph-title" data-i18n="cps.side.t">بنرد عليك بسرعة</h3>
+        <p class="glyph-sub" data-i18n="cps.side.s">وقت الرد المستهدف بيختلف حسب باقتك، وعملاء VIP ليهم الأولوية.</p>
+        <ul class="cp-sla">
+          <li style="--rgb:255,200,87;--c1:#ffe08a;--c2:#ff9f1c"><span class="tk-plan"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M3 8l4.5 4L12 5l4.5 7L21 8l-2 11H5z"/><rect x="5" y="20" width="14" height="2" rx="1"/></svg><span data-i18n="cps.sla.g">الذهبية VIP</span></span><b data-i18n="cps.sla.gt">خلال ساعتين</b></li>
+          <li style="--rgb:190,205,230;--c1:#eef3fb;--c2:#9fb1cc"><span class="tk-plan"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2l2.9 6.3 6.9.8-5.1 4.7 1.4 6.8L12 17.3 5.9 20.6l1.4-6.8L2.2 9.1l6.9-.8z"/></svg><span data-i18n="cps.sla.s">الفضية</span></span><b data-i18n="cps.sla.st">خلال 24 ساعة</b></li>
+          <li style="--rgb:232,160,106;--c1:#f0b07a;--c2:#b9693a"><span class="tk-plan"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="9" r="6"/><path d="M8 14l-2 8 6-3 6 3-2-8z"/></svg><span data-i18n="cps.sla.b">البرونزية</span></span><b data-i18n="cps.sla.bt">خلال 48 ساعة</b></li>
+        </ul>
+        <div class="cp-cta"><button type="button" class="btn btn-primary" data-open-complaint data-i18n="cps.btn">قدّم شكوى</button><button type="button" class="btn btn-ghost" data-open-track data-i18n="cps.trk">تتبّع شكوى</button></div>
+      </aside>
+    </div>
+    <ol class="cp-flow" style="--c1:#a9ecff;--c2:#a470ff">
+      <li><span data-i18n="cps.f1"><b>اكتب شكواك</b> بالتفصيل واختار نوعها.</span></li>
+      <li><span data-i18n="cps.f2"><b>خد رقم شكوى</b> بلون باقتك علشان نوصلك أسرع.</span></li>
+      <li><span data-i18n="cps.f3"><b>تابعها</b> من أي قسم لحد ما تتحل.</span></li>
+    </ol>
+  </section>
+
+  <!-- ===== قسم تفصيلي (يُبنى لاحقاً بطاقة بطاقة) ===== -->
+  <section class="section detail-view" id="detail" hidden>
+    <div class="home-cta-stage">
+      <div class="home-cta-content">
+        <span class="eyebrow" data-i18n="detail.cat">قسم قيد البناء</span>
+        <h2 class="section-title title-gradient" id="detailTitle"></h2>
+        <p data-i18n="detail.p">القسم ده لسه فاضي — هنبنيه مع بعض، قسم قسم وبطاقة بطاقة.</p>
+        <div class="hero-cta" style="margin-top:.5rem">
+          <a class="btn btn-primary" href="#get-started" data-open-request="section" data-i18n="rq.long">قدّم طلب فتح حساب</a>
+          <a class="btn btn-ghost" href="#track" data-open-track data-i18n="tr.btn">تتبّع طلبك</a>
+          <a class="btn btn-ghost" href="#services" id="detailBack" data-i18n="detail.back">رجوع</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== CTA ===== -->
+  <section class="section reveal" id="get-started">
+    <div class="home-cta-stage">
+      <div class="home-cta-content">
+        <h2 class="section-title title-gradient" style="font-size:clamp(1.8rem,4.4vw,3rem)" data-i18n="cta.t">كل شغل عملائك، في مكان واحد</h2>
+        <p data-i18n="cta.p">انضم لأسرع منصة نمواً لإدارة العملاء والمشاريع والمدفوعات.</p>
+        <div class="hero-cta" style="margin-top:1rem">
+          <a class="btn btn-primary" href="#get-started" data-open-request="cta" data-i18n="cta.b1">ابدأ مجاناً <span class="arr">←</span></a>
+          <a class="btn btn-ghost" href="#contact" data-i18n="cta.b2">كلّم فريق المبيعات</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== FAQ ===== -->
+  <section class="section reveal" id="faq">
+    <div class="faq-head">
+      <span class="eyebrow">FAQ</span>
+      <h2 class="section-title title-gradient" data-i18n="faq.t">الأسئلة الشائعة</h2>
+    </div>
+    <div class="faq-panel">
+      <details class="faq-item" open>
+        <summary data-i18n="faq1.q">هل في نسخة مجانية أجرب بها؟ <span class="plus">+</span></summary>
+        <div class="body" data-i18n="faq1.a">نعم — باقة مجانية حتى <span class="num">3</span> عملاء بكل الوحدات الأساسية، بدون بطاقة ائتمان. ولما شغلك يكبر، ترقّي باقتك في أي وقت من غير ما تخسر أي بيانات.</div>
+      </details>
+      <details class="faq-item">
+        <summary data-i18n="faq2.q">كيف أجمع بيانات عملائي؟ <span class="plus">+</span></summary>
+        <div class="body" data-i18n="faq2.a">نموذج جاهز برابط واحد تبعته للعميل: يملأ بياناته ومتطلبات مشروعه، وتتحول تلقائياً لملف عميل كامل في لوحتك. وعملاءك الحاليين تستوردهم من ملف Excel في دقيقة.</div>
+      </details>
+      <details class="faq-item">
+        <summary data-i18n="faq3.q">هل يشوف العميل كل حاجة في حسابي؟ <span class="plus">+</span></summary>
+        <div class="body" data-i18n="faq3.a">لا — أنت المتحكم. تحدد بالضبط ما يظهر في بوابة كل عميل: تقدم المشروع، الفواتير، وتقارير الإعلانات. أما شغل فريقك الداخلي وملاحظاتك وأسعارك فتظل خاصة بك تماماً.</div>
+      </details>
+      <details class="faq-item">
+        <summary data-i18n="faq4.q">كيف تراقب المنصة إعلانات عملائي؟ <span class="plus">+</span></summary>
+        <div class="body" data-i18n="faq4.a">تربط حسابات Meta وGoogle وTikTok Ads مرة واحدة، والمنصة تسحب الأرقام تلقائياً: الصرف والنتائج وتكلفة التحويل — مع تنبيه فوري لأي مشكلة، وتقرير يومي يتبعت للعميل باسم شركتك.</div>
+      </details>
+      <details class="faq-item">
+        <summary data-i18n="faq5.q">ماذا عن الدفعات والفواتير؟ <span class="plus">+</span></summary>
+        <div class="body" data-i18n="faq5.a">تنشئ فاتورة PDF باسم شركتك، تقسّم الدفعات على مراحل المشروع، والتذكيرات تتبعت للعميل تلقائياً — ويصلك تنبيه لحظة ما يدفع، مع كشف حساب كامل لكل عميل.</div>
+      </details>
+      <details class="faq-item">
+        <summary data-i18n="faq6.q">هل بياناتي وبيانات عملائي آمنة؟ <span class="plus">+</span></summary>
+        <div class="body" data-i18n="faq6.a">نعم — تشفير كامل للبيانات أثناء النقل والتخزين، نسخ احتياطي يومي، وصلاحيات دقيقة لكل عضو في فريقك: كل واحد يشوف اللي يخصه فقط، وسجل كامل لكل العمليات.</div>
+      </details>
+    </div>
+  </section>
+
+</main>
+
+<!-- ===== Footer ===== -->
+<footer class="site-footer" id="contact">
+  <div class="sf-panel">
+    <div class="sf-top">
+      <div class="sf-brand">
+        <a class="wordmark" href="#" style="font-size:1.5rem"><b>task</b><span>up</span></a>
+        <p class="tagline" data-i18n="f.tag">بيانات عملائك، شغلهم، ودفعاتهم —<br>كلها في مكان واحد، مع TaskUp.</p>
+        <h2 class="subscribe-title" data-i18n="f.st">جديدنا يوصلك أول بأول</h2>
+        <p class="tagline" style="font-size:.82rem" data-i18n="f.sp">انضم لنشرة أصحاب الأعمال — مميزات جديدة ونصائح في إدارة العملاء، مرة في الأسبوع.</p>
+        <form class="subscribe" id="subscribeForm">
+          <input type="email" id="subscribeEmail" placeholder="بريدك الإلكتروني" aria-label="البريد الإلكتروني" required>
+          <button class="btn btn-primary btn-sm" type="submit" data-i18n="f.sb">اشترك</button>
+        </form>
+        <p class="subscribe-note" id="subscribeNote" data-i18n="f.sn">بالاشتراك، أنت توافق على استلام نشرتنا الأسبوعية.</p>
+      </div>
+      <div class="sf-links">
+        <nav class="sf-col" aria-label="المنصة" data-i18n="f.c1">
+          <h4>المنصة</h4>
+          <a href="#services">إدارة العملاء</a>
+          <a href="#services">المشاريع والمهام</a>
+          <a href="#services">الدفعات والفواتير</a>
+          <a href="#integration">مراقبة الإعلانات</a>
+          <a href="#portal-app" data-open-portal>بوابة العميل</a>
+          <a href="#numbers">التكاملات</a>
+        </nav>
+        <nav class="sf-col" aria-label="الشركة" data-i18n="f.c2">
+          <h4>الشركة</h4>
+          <a href="#numbers">من نحن</a>
+          <a href="#complaints">الشكاوى</a>
+          <a href="#get-started">الأسعار</a>
+          <a href="#get-started">الوظائف</a>
+          <a href="#faq">سياسة الخصوصية</a>
+          <a href="#faq">شروط الاستخدام</a>
+        </nav>
+        <nav class="sf-col" aria-label="تابعنا" data-i18n="f.c3">
+          <h4>تابعنا</h4>
+          <a href="#contact">فيسبوك</a>
+          <a href="#contact">إنستجرام</a>
+          <a href="#contact">لينكد إن</a>
+          <a href="#contact" class="num ltr">X</a>
+        </nav>
+        <nav class="sf-col" aria-label="تواصل" data-i18n="f.c4">
+          <h4>تواصل</h4>
+          <span class="num ltr">sales@taskup.app</span>
+          <span class="num ltr">support@taskup.app</span>
+          <span class="num ltr">+20 10 0000 0000</span>
+          <span>الأحد–الخميس، 9ص–6م</span>
+        </nav>
+      </div>
+    </div>
+    <div class="sf-base">
+      <span>© <span class="num">2026</span> taskup</span>
+      <span data-i18n="f.made">صُنع بحب لأصحاب الأعمال والوكالات</span>
+    </div>
+    <div class="sf-wordmark" aria-hidden="true">taskup</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  "use strict";
+  var reduced = false;
+  try { reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches; } catch(e){}
+
+  /* ===== English dictionary (Arabic captured from DOM) ===== */
+  var EN = {
+    "promo.tag":"Launch offer",
+    "promo.text":"<strong>First 30 days free</strong> on all plans",
+    "nav.features":"Features","nav.numbers":"Our numbers","nav.sectors":"Industries",
+    "nav.how":"How it works","nav.portal":"Client portal","nav.faq":"FAQ","nav.faq2":"FAQ",
+    "nav.try":'Try it free<span class="badge-new">New</span>',
+    "nav.signin":"Sign in","nav.start":"Start free","nav.start2":"<b>Start free now</b>",
+    "menu.label":"Menu","fab.label":"Customer service",
+    "hero.eyebrow":'<span class="dot"></span> Trusted by <span class="num ltr">1,000+</span> agencies and teams',
+    "hero.sub":'Add a client in a minute, follow their projects and ad campaigns in real time, and collect your payments on schedule — all from <b>one dashboard</b>.',
+    "hero.cta1":'Start free now <span class="arr">→</span>',"hero.cta2":"How it works?",
+    "svc.eye":"Platform modules","svc.title":"All your client work, organized","svc.link":"All features","svc.foot":"Browse all features →",
+    "svc1.chip":"Full profile per client","svc1.meta":'<span class="card-title">Client data management</span><span class="card-cat">CRM</span>',
+    "svc2.chip":"Kanban + deadlines","svc2.meta":'<span class="card-title">Projects & tasks</span><span class="card-cat">Operations</span>',
+    "svc3.chip":"Auto reminders","svc3.meta":'<span class="card-title">Payments & invoices</span><span class="card-cat">Finance</span>',
+    "svc4.chip":"Real-time","svc4.meta":'<span class="card-title">Ad campaign monitoring</span><span class="card-cat">Marketing</span>',
+    "svc5.chip":"One link","svc5.meta":'<span class="card-title">Client intake forms</span><span class="card-cat">Sales</span>',
+    "svc6.chip":"Daily & weekly","svc6.meta":'<span class="card-title">Reports & analytics</span><span class="card-cat">Analytics</span>',
+    "svc7.chip":"WhatsApp + email","svc7.meta":'<span class="card-title">Smart notifications</span><span class="card-cat">Automation</span>',
+    "svc8.chip":"Documented","svc8.meta":'<span class="card-title">Files & contracts archive</span><span class="card-cat">Documents</span>',
+    "num.eye":"Before you ask","num.title":"Numbers that speak for us",
+    "g1.t":"Payments collected on time","g1.s":'Average of the last <b class="num">90</b> days across TaskUp teams',
+    "g1.m":'<div class="meter"><span>Projects delivered on time</span><span class="bar"><i style="width:94%"></i></span><span class="val num">94%</span></div><div class="meter"><span>Payments on schedule</span><span class="bar"><i style="width:96%"></i></span><span class="val num">96%</span></div><div class="meter"><span>Owner satisfaction</span><span class="bar"><i style="width:98%"></i></span><span class="val num">4.9/5</span></div>',
+    "g2.t":"Invoices & payments, no chasing","g2.s":'Your money arrives on time, <b>no awkward calls, no surprises</b>',
+    "g2.c":'<span><b class="ok">✓</b> Branded PDF invoices</span><span><b class="ok">✓</b> Auto client reminders</span><span><b class="ok">✓</b> Milestone payments</span><span><b class="ok">✓</b> Statement per client</span><span><b class="ok">✓</b> Overdue alerts</span><span><b class="ok">✓</b> Instant payment alert</span><span><b class="ok">✓</b> Every pound tracked</span>',
+    "g3.t":"An interface for everyone","g3.s":'Same moment, same data — <b>for you, your team and your client</b>',
+    "g3.a":'<div class="app-tile"><b>Owner dashboard</b><small>All clients, projects and numbers</small></div><div class="app-tile"><b>Team space</b><small>Today’s tasks and deadlines</small></div><div class="app-tile"><b>Client portal</b><small>Tracks their project and payments via one link</small></div>',
+    "g4.t":"One complete dashboard","g4.s":'Every operation in one place, <b>with fine-grained team permissions</b>',
+    "g4.tr":'<b>TaskUp /</b><span class="lvl">Clients <span class="cnt">profile · activity · notes</span><span class="lvl">Intake form · Excel import</span></span><span class="lvl">Projects & tasks <span class="cnt num">Kanban · deadlines</span></span><span class="lvl">Payments & invoices <span class="cnt">auto reminders</span></span><span class="lvl">Ad campaigns <span class="cnt num">Meta · Google · TikTok</span></span><span class="lvl">Reports & analytics</span><span class="lvl">Team <span class="cnt">permissions</span></span>',
+    "g5.t":"Connected to all your accounts","g5.s":'Plug in your existing tools and track everything <b>from one place</b>',
+    "g5.c":'<span class="num">Meta Ads</span><span class="num">Google Ads</span><span class="num">TikTok Ads</span><span class="num">WhatsApp</span><span class="num">Gmail</span><span class="num">Google Drive</span><span>Excel / CSV file</span><span class="num">REST API</span><span>+ any other platform</span>',
+    "g6.t":"See for yourself","g6.s":'Open any client: their page shows <b>everything</b> — data, projects, payments and ad performance in detail.',
+    "g6.b":"View a demo account",
+    "cov.eye":"Industries we serve","cov.title":"Fits every line of work","cov.link":"All industries",
+    "cov1.chip":"120+ agencies","cov1.meta":'<span class="card-title">Marketing agencies</span><span class="card-cat">Ads & clients</span>',
+    "cov2.chip":"200+ stores","cov2.meta":'<span class="card-title">E-commerce stores</span><span class="card-cat">Sales & ads</span>',
+    "cov3.chip":"85+ companies","cov3.meta":'<span class="card-title">Software companies</span><span class="card-cat">Projects & payments</span>',
+    "cov4.chip":"60+ studios","cov4.meta":'<span class="card-title">Design studios</span><span class="card-cat">Deliverables & approvals</span>',
+    "cov5.chip":"Teams of all sizes","cov5.meta":'<span class="card-title">Content creators</span><span class="card-cat">Sponsorships & campaigns</span>',
+    "cov6.chip":"40+ centers","cov6.meta":'<span class="card-title">Clinics & centers</span><span class="card-cat">Bookings & ads</span>',
+    "cov7.chip":"35+ companies","cov7.meta":'<span class="card-title">Real-estate marketing</span><span class="card-cat">Leads & deals</span>',
+    "cov8.chip":"Custom plan","cov8.meta":'<span class="card-title">Startups</span><span class="card-cat">All of the above</span>',
+    "tools.eye":"Built-in tools","tools.title":"Tools that ease your workday","tools.link":"All tools",
+    "tool1.meta":'<span class="card-title">Invoice builder</span><span class="card-cat">Finance</span>',
+    "tool2.meta":'<span class="card-title">Client intake form</span><span class="card-cat">Sales</span>',
+    "tool3.meta":'<span class="card-title">Daily ads report</span><span class="card-cat">Marketing</span>',
+    "tool4.meta":'<span class="card-title">Projects Kanban board</span><span class="card-cat">Operations</span>',
+    "tool5.meta":'<span class="card-title">Automatic payment reminders</span><span class="card-cat">Automation</span>',
+    "tool6.meta":'<span class="card-title">Client portal</span><span class="card-cat">Client experience</span>',
+    "tool7.meta":'<span class="card-title">Contracts & files archive</span><span class="card-cat">Documents</span>',
+    "tool8.meta":'<span class="card-title">Developer API</span><span class="card-cat">Integrations</span>',
+    "hiw.eye":"How it works","hiw.title":"From first client to final payment in four steps",
+    "hiw.sub":"Everything you need to organize client work and get paid on time, headache-free",
+    "hiw1.t":"Create your workspace","hiw1.p":'An account in minutes: <b>your details, your team, your brand</b> — ready to go.',
+    "hiw1.c":"<span>No credit card</span><span>5-minute setup</span>",
+    "hiw2.t":"Add your clients","hiw2.p":'A profile per client: data, projects and contracts — or <b>collect it with a one-link form</b>.',
+    "hiw2.c":"<span>Excel import</span><span>Intake form</span>",
+    "hiw3.t":"Track work & ads","hiw3.p":'Your team’s tasks and your clients’ campaigns in <b>one board</b>, with instant alerts.',
+    "hiw3.c":'<span class="num">Kanban</span><span>Daily reports</span><span>Alerts</span>',
+    "hiw4.t":"Collect your payments","hiw4.p":'Automatic invoices and reminders — the client pays and sees <b>their statement in their portal</b>.',
+    "hiw4.c":"<span>PDF invoice</span><span>Auto reminder</span><span>Statement</span>",
+    "int.eye":"Ad monitoring","int.title":"Your clients’ campaigns,<br>under your eye",
+    "int.p":'Connect Meta, Google and TikTok once, and <b>performance numbers update automatically</b> — spend, results and cost, in real time.',
+    "int.l":'<li><span class="tick">✓</span> Direct link to Meta, Google and TikTok Ads</li><li><span class="tick">✓</span> Instant alert when performance drops or budget runs out</li><li><span class="tick">✓</span> Daily branded report sent to the client automatically</li>',
+    "int.b":"More about ad monitoring",
+    "int.m":'<div class="mock-row"><span class="id num">CMP-2381</span><span class="who">Noor Store · Meta</span><span class="pill p-good num">ROAS 4.2x</span><span class="mock-amount">EGP 1,250/day</span></div><div class="mock-row"><span class="id num">CMP-2384</span><span class="who">Sama Clinic · Google</span><span class="pill p-warm">Budget nearly spent</span><span class="mock-amount">EGP 840/day</span></div><div class="mock-row"><span class="id num">CMP-2390</span><span class="who">Pizza Ro · TikTok</span><span class="pill p-peri">Under review</span><span class="mock-amount">EGP 2,100/day</span></div><div class="mock-row"><span class="id num">CMP-2391</span><span class="who">Learn Academy · Meta</span><span class="pill p-good">Active</span><span class="mock-amount">EGP 560/day</span></div><div class="mock-row"><span class="id num">CMP-2395</span><span class="who">City Realty · Google</span><span class="pill p-warm">Needs optimization</span><span class="mock-amount">EGP 1,780/day</span></div>',
+    "por.eye":"Client portal","por.title":"Your client sees their work,<br>on their own",
+    "por.p":'Every client gets a portal under your brand: <b>they track project progress, approve deliverables, view invoices and pay</b> — without asking you.',
+    "por.c":"<span>Project tracking</span><span>Approvals</span><span>Invoices & payment</span><span>Ad reports</span><span>Messages & support</span>",
+    "por.b":'Try the portal <span class="arr">→</span>',"por.bar":"Client portal — today at a glance",
+    "por.m":'<div class="apps" style="margin:0"><div class="app-tile"><small>Project progress</small><b class="num" style="font-size:1.3rem">72%</b></div><div class="app-tile"><small>Invoices paid</small><b class="num" style="font-size:1.3rem">8/10</b></div><div class="app-tile"><small>Active campaigns</small><b class="num" style="font-size:1.3rem;color:var(--good)">3</b></div></div><div class="mock-row"><span class="id num">Invoice #381</span><span class="who">Third milestone · today</span><span class="pill p-good">Paid</span><span class="mock-amount">EGP 52,300</span></div><div class="mock-row"><span class="id num">Delivery #94</span><span class="who">Brand identity review</span><span class="pill p-warm">Awaiting your approval</span><span class="mock-amount">—</span></div><div class="mock-row"><span class="id num">Request #12</span><span class="who">Landing page tweaks</span><span class="pill p-peri">In progress</span><span class="mock-amount">—</span></div>',
+    "detail.cat":"Section under construction","detail.p":"This section is still empty — we’ll build it together, section by section, card by card.","detail.back":"Back",
+    "cta.t":"All your client work, in one place","cta.p":"Join the fastest-growing platform for clients, projects and payments.",
+    "cta.b1":'Start free <span class="arr">→</span>',"cta.b2":"Talk to sales",
+    "faq.t":"Frequently asked questions",
+    "faq1.q":'Is there a free plan to try? <span class="plus">+</span>',
+    "faq1.a":'Yes — a free plan for up to <span class="num">3</span> clients with all core modules, no credit card. When your business grows, upgrade anytime without losing any data.',
+    "faq2.q":'How do I collect my clients’ data? <span class="plus">+</span>',
+    "faq2.a":'A ready-made form with one link you send to the client: they fill in their details and project requirements, and it becomes a complete client profile in your dashboard. Existing clients import from Excel in a minute.',
+    "faq3.q":'Does the client see everything in my account? <span class="plus">+</span>',
+    "faq3.a":'No — you are in control. You decide exactly what appears in each client’s portal: progress, invoices and ad reports. Your team’s internal work, notes and pricing stay fully private.',
+    "faq4.q":'How does it monitor my clients’ ads? <span class="plus">+</span>',
+    "faq4.a":'Connect Meta, Google and TikTok Ads once — the platform pulls the numbers automatically: spend, results and cost per conversion, with instant alerts for problems and a daily branded report sent to the client.',
+    "faq5.q":'What about payments and invoices? <span class="plus">+</span>',
+    "faq5.a":'Create branded PDF invoices, split payments across project milestones, and reminders go out automatically — with an instant alert the moment the client pays, plus a full statement per client.',
+    "faq6.q":'Is my data and my clients’ data safe? <span class="plus">+</span>',
+    "faq6.a":'Yes — full encryption in transit and at rest, daily backups, and fine-grained permissions for every team member: each person sees only what concerns them, with a full audit log.',
+    "f.tag":"Your clients’ data, work and payments —<br>all in one place, with TaskUp.",
+    "f.st":"Fresh updates, first","f.sp":"Join the business-owners digest — new features and client-management tips, once a week.",
+    "f.sb":"Subscribe","f.sn":"By subscribing you agree to receive our weekly digest.",
+    "f.c1":'<h4>Platform</h4><a href="#services">Client management</a><a href="#services">Projects & tasks</a><a href="#services">Payments & invoices</a><a href="#integration">Ad monitoring</a><a href="#portal">Client portal</a><a href="#numbers">Integrations</a>',
+    "f.c2":'<h4>Company</h4><a href="#numbers">About us</a><a href="#complaints">Complaints</a><a href="#get-started">Pricing</a><a href="#get-started">Careers</a><a href="#faq">Privacy policy</a><a href="#faq">Terms of use</a>',
+    "f.c3":'<h4>Follow us</h4><a href="#contact">Facebook</a><a href="#contact">Instagram</a><a href="#contact">LinkedIn</a><a href="#contact" class="num ltr">X</a>',
+    "f.c4":'<h4>Contact</h4><span class="num ltr">sales@taskup.app</span><span class="num ltr">support@taskup.app</span><span class="num ltr">+20 10 0000 0000</span><span>Sun–Thu, 9am–6pm</span>',
+    "f.made":"Made with love for business owners and agencies",
+    "ph.email":"Your email","sub.ok":"Subscribed — your first digest arrives next Friday.",
+    "robot.hint":"Drag to rotate · move your mouse close and see what he does",
+    "robot.pause":"Pause motion","robot.play":"Enable motion",
+    "robot.aria":"Interactive 3D robot. Drag to rotate. Arrow keys turn. Home resets.",
+    "top.label":"Back to top","nav.login":"Sign in","rq.long":"Request an account","rq.short":"Apply","tr.btn":"Track your request","nav.complaints":"Complaints","cps.eye":"Customer complaints","cps.title":"Have a complaint? We're listening","cps.sub":"Describe the problem in detail and you'll get a complaint number to follow it with. Every complaint goes to a responsible manager and isn't closed until it's resolved.","cps.c1":"Late delivery","cps.c1d":"The project or delivery missed its date","cps.c2":"Quality of work","cps.c2d":"The work isn't what we agreed","cps.c3":"Invoices and payments","cps.c3d":"A wrong invoice or a payment that doesn't add up","cps.c4":"Ads and results","cps.c4d":"Results aren't what you expected","cps.c5":"Communication","cps.c5d":"Nobody answers, or answers come late","cps.c6":"Something else","cps.c6d":"Anything that bothers you","cps.side.t":"We respond fast","cps.side.s":"Target response time depends on your plan, and VIP customers come first.","cps.sla.g":"Gold VIP","cps.sla.gt":"Within 2 hours","cps.sla.s":"Silver","cps.sla.st":"Within 24 hours","cps.sla.b":"Bronze","cps.sla.bt":"Within 48 hours","cps.btn":"Submit a complaint","cps.trk":"Track a complaint","cps.f1":"<b>Write your complaint</b> in detail and pick its type.","cps.f2":"<b>Get a complaint number</b> in your plan's colour so we reach you faster.","cps.f3":"<b>Follow it</b> from any section until it's resolved.","cue.s":"Keep browsing","cue.t":"The features that will make your work easier","cue.aria":"Keep browsing: features",};
+  var AR = { "ph.email":"", "sub.ok":"تم التسجيل — أول نشرة توصلك الجمعة القادمة.",
+    "robot.aria":"روبوت ثلاثي الأبعاد تفاعلي. اسحب لتدويره، مفاتيح الأسهم تدير الرأس، وHome للعودة.",
+    "top.label":"أعلى الصفحة","cue.aria":"كمّل التصفح: المميزات",};
+  document.querySelectorAll("[data-i18n]").forEach(function(el){
+    var k = el.getAttribute("data-i18n");
+    if (!(k in AR)) AR[k] = el.innerHTML;
+  });
+  var emailInput = document.getElementById("subscribeEmail");
+  if (emailInput) AR["ph.email"] = emailInput.placeholder;
+
+  var HOOKS_AR = [
+    "عملاؤك، شغلهم، ودفعاتهم، في مكان واحد",
+    "بطّل ملاحقة الدفعات… خلّي الفلوس تيجي لحد عندك",
+    "كل مشروع، كل دفعة، كل إعلان — تحت عينك",
+    "شغل منظم، عملاء مبسوطين، وفلوس في موعدها",
+    "من أول «أهلاً» لآخر فاتورة — TaskUp معاك"
+  ];
+  var HOOKS_EN = [
+    "Your clients, their work, their payments — in one place",
+    "Stop chasing payments… let the money come to you",
+    "Every project, every payment, every ad — under your eye",
+    "Organized work, happy clients, money on time",
+    "From the first “hello” to the last invoice — TaskUp has you"
+  ];
+
+  var lang = "ar";
+  try { lang = localStorage.getItem("taskup-lang") || "ar"; } catch(e){}
+  var hooks = HOOKS_AR, hookI = 0;
+  var hookEl = document.getElementById("hook");
+
+  function setLang(l){
+    lang = l;
+    var dict = l === "en" ? EN : AR;
+    document.querySelectorAll("[data-i18n]").forEach(function(el){
+      var k = el.getAttribute("data-i18n");
+      if (dict[k] != null) el.innerHTML = dict[k];
+    });
+    if (emailInput && dict["ph.email"]) emailInput.placeholder = dict["ph.email"];
+    document.querySelectorAll("[data-i18n-ph]").forEach(function(el){
+      var pk = el.getAttribute("data-i18n-ph");
+      if (dict[pk] != null) el.placeholder = dict[pk];
+    });
+    document.querySelectorAll("[data-i18n-aria]").forEach(function(el){
+      var ak = el.getAttribute("data-i18n-aria");
+      if (dict[ak] != null) el.setAttribute("aria-label", dict[ak]);
+    });
+    var roots = [document.documentElement, document.getElementById("pageRoot")];
+    roots.forEach(function(n){
+      if (n) { n.setAttribute("dir", l === "en" ? "ltr" : "rtl"); n.setAttribute("lang", l === "en" ? "en" : "ar"); }
+    });
+    document.querySelectorAll(".lang-btn").forEach(function(b){ b.textContent = l === "en" ? "عربي" : "EN"; });
+    hooks = l === "en" ? HOOKS_EN : HOOKS_AR;
+    hookI = 0;
+    if (hookEl) hookEl.textContent = hooks[0];
+    try { localStorage.setItem("taskup-lang", l); } catch(e){}
+    setPromoH();
+    document.dispatchEvent(new CustomEvent("taskup:lang", { detail: { lang: l } }));
+  }
+  window.taskupI18n = function(k){ return (lang === "en" ? EN : AR)[k]; };
+  window.taskupLang = function(){ return lang; };
+  document.querySelectorAll(".lang-btn").forEach(function(b){
+    b.addEventListener("click", function(){ setLang(lang === "en" ? "ar" : "en"); });
+  });
+  if (lang === "en") setLang("en");
+
+  /* rotating hero hooks */
+  if (hookEl && !reduced) {
+    setInterval(function(){
+      hookEl.classList.add("out");
+      setTimeout(function(){
+        hookI = (hookI + 1) % hooks.length;
+        hookEl.textContent = hooks[hookI];
+        hookEl.classList.remove("out");
+      }, 460);
+    }, 4200);
+  }
+
+  /* promo height → header offset */
+  var promo = document.getElementById("promo");
+  function setPromoH(){
+    var h = promo ? promo.offsetHeight : 0;
+    document.documentElement.style.setProperty("--promo-h", h + "px");
+  }
+  setPromoH();
+  window.addEventListener("resize", setPromoH);
+
+  /* countdown to end of month */
+  var cd = document.getElementById("countdown");
+  function tick(){
+    if (!cd) return;
+    var now = new Date();
+    var end = new Date(now.getFullYear(), now.getMonth() + 1, 1);
+    var s = Math.max(0, Math.floor((end - now) / 1000));
+    var d = Math.floor(s / 86400), h = Math.floor(s % 86400 / 3600), m = Math.floor(s % 3600 / 60);
+    cd.textContent = d + "d " + h + "h " + m + "m";
+  }
+  tick();
+  setPromoH();
+  if (window.ResizeObserver && promo) new ResizeObserver(setPromoH).observe(promo);
+  setInterval(tick, 30000);
+
+  /* header tint + top progress (glow + hue shift) + side rail */
+  var fill = document.getElementById("progress");
+  var header = document.getElementById("header");
+  var sideRail = document.getElementById("sideRail");
+  var sideFill = document.getElementById("sideFill");
+  var glowT = null;
+  function onScroll(){
+    var doc = document.documentElement;
+    var max = doc.scrollHeight - doc.clientHeight;
+    var p = max > 0 ? doc.scrollTop / max : 0;
+    if (fill) {
+      fill.style.width = p * 100 + "%";
+      fill.style.filter = "hue-rotate(" + Math.round(doc.scrollTop / 3) % 360 + "deg) brightness(1.3)";
+    }
+    if (sideFill) sideFill.style.height = p * 100 + "%";
+    if (sideRail) {
+      sideRail.classList.add("glow");
+      clearTimeout(glowT);
+      glowT = setTimeout(function(){ sideRail.classList.remove("glow"); }, 260);
+    }
+    if (header) header.style.setProperty("--hdr", Math.min(1, doc.scrollTop / 200) * .85 + .12);
+    var tt = document.getElementById("toTop");
+    if (tt) tt.classList.toggle("dim", doc.scrollTop < 240);
+  }
+  onScroll();
+  window.addEventListener("scroll", onScroll, { passive: true });
+
+  function fastScroll(y){
+    var start = window.pageYOffset, dist = y - start;
+    if (reduced || Math.abs(dist) < 4) { window.scrollTo({ top: y, behavior: "instant" }); return; }
+    var t0 = performance.now(), dur = Math.min(650, 280 + Math.abs(dist) * .05);
+    (function step(now){
+      var k = Math.min(1, (now - t0) / dur), e = 1 - Math.pow(1 - k, 3);
+      window.scrollTo({ top: start + dist * e, behavior: "instant" });
+      if (k < 1) requestAnimationFrame(step);
+    })(t0);
+  }
+
+  /* logo click → back to top */
+  document.querySelectorAll(".wordmark").forEach(function(a){
+    a.addEventListener("click", function(e){
+      e.preventDefault();
+      fastScroll(0);
+    });
+  });
+
+  /* back to top */
+  var toTopBtn = document.getElementById("toTop");
+  if (toTopBtn) toTopBtn.addEventListener("click", function(){
+    fastScroll(0);
+  });
+
+  /* mobile menu (hamburger with label) */
+  var btn = document.getElementById("menuBtn"), nav = document.getElementById("mobileNav");
+  if (btn && nav) {
+    btn.addEventListener("click", function(){
+      var open = nav.hidden;
+      nav.hidden = !open;
+      btn.classList.toggle("open", open);
+      btn.setAttribute("aria-expanded", String(open));
+    });
+    nav.addEventListener("click", function(e){
+      if (e.target.closest("a")) { nav.hidden = true; btn.classList.remove("open"); btn.setAttribute("aria-expanded","false"); }
+    });
+  }
+
+  /* marquee: duplicate track for a seamless loop */
+  var track = document.getElementById("marqueeTrack");
+  if (track && !reduced) track.innerHTML += track.innerHTML;
+
+  /* card → its own (empty, to be built) section */
+  var detail = document.getElementById("detail");
+  function openDetail(key, title){
+    if (!detail) return;
+    detail.hidden = false;
+    var t = document.getElementById("detailTitle");
+    if (t) t.textContent = title || "";
+    try { location.hash = key; } catch(e){}
+    fastScroll(detail.getBoundingClientRect().top + window.pageYOffset - 110);
+  }
+  document.addEventListener("click", function(e){
+    var card = e.target.closest("[data-sec]");
+    if (!card) return;
+    e.preventDefault();
+    var tEl = card.querySelector(".card-title");
+    openDetail(card.getAttribute("data-sec"), tEl ? tEl.textContent : card.textContent.trim());
+  });
+  var back = document.getElementById("detailBack");
+  if (back) back.addEventListener("click", function(){ detail.hidden = true; });
+  try {
+    var h = (location.hash || "").replace("#","");
+    if (h) {
+      var target = document.querySelector('[data-sec="' + h + '"]');
+      if (target) {
+        var tEl = target.querySelector(".card-title");
+        openDetail(h, tEl ? tEl.textContent : "");
+      }
+    }
+  } catch(e){}
+
+  /* reveal on scroll (visible at rest if JS/observer unavailable) */
+  if (!reduced && "IntersectionObserver" in window) {
+    var els = document.querySelectorAll(".reveal");
+    els.forEach(function(el){ el.classList.add("pre"); });
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if (en.isIntersecting) { en.target.classList.remove("pre"); io.unobserve(en.target); }
+      });
+    }, { rootMargin: "0px 0px -8% 0px" });
+    els.forEach(function(el){ io.observe(el); });
+  }
+
+  /* subscribe (demo) */
+  var form = document.getElementById("subscribeForm"), note = document.getElementById("subscribeNote");
+  if (form) form.addEventListener("submit", function(e){
+    e.preventDefault();
+    var dict = lang === "en" ? EN : AR;
+    if (note) { note.textContent = dict["sub.ok"]; note.style.color = "var(--good)"; }
+    form.reset();
+  });
+})();
+</script>
+
+<script src="portal.js"></script>
+<script>
+(function(){
+  var host = document.getElementById("robotWrap");
+  if (!host) return;
+  import("./robot/hero-robot.js").then(function(m){ m.mountRobot(host); }).catch(function(){ host.classList.add("no-webgl"); });
+})();
+</script>
+</body>
+</html>
